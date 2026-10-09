@@ -1,0 +1,22 @@
+.motion-marquee { position: relative; min-width: 0; max-width: 100%; }
+.motion-marquee__window { overflow: hidden; mask-image: linear-gradient(90deg,transparent,#1E1E1E 5%,#1E1E1E 95%,transparent); }
+.motion-marquee__track { display: flex; width: max-content; animation: brand-marquee var(--marquee-duration,35s) linear infinite; }
+.motion-marquee__group { display: flex; align-items: center; flex-shrink: 0; min-width: 100vw; }
+.motion-marquee:hover .motion-marquee__track, .motion-marquee:focus-within .motion-marquee__track { animation-play-state: paused !important; }
+.motion-marquee__control { display: block; margin: 12px auto; border: 1.5px solid currentColor; border-radius: 999px; padding: 8px 16px; font-size: .75rem; min-height: 40px; }
+.motion-floating__loop { animation: brand-float var(--float-duration,8s) ease-in-out infinite alternate; }
+.motion-floating__loop[data-rotate="false"] { animation-name: brand-float-still; }
+.motion-rotator { display: inline-grid; position: relative; vertical-align: baseline; }
+.motion-rotator__sizer { visibility: hidden; display: grid; }
+.motion-rotator__sizer > span { grid-area: 1 / 1; }
+.motion-rotator__words { position: absolute; inset: 0; overflow: hidden; }
+.motion-rotator__words > span { display: block; }
+@keyframes brand-marquee { to { transform: translateX(-50%); } }
+@keyframes brand-float { from { transform: translateY(-14px) rotate(-4deg); } to { transform: translateY(14px) rotate(4deg); } }
+@keyframes brand-float-still { from { transform: translateY(-14px); } to { transform: translateY(14px); } }
+@media (prefers-reduced-motion: reduce) {
+  .motion-floating__loop, .motion-marquee__track { animation: none !important; transform: none !important; }
+  .motion-marquee__group + .motion-marquee__group { display: none; }
+  .motion-marquee__group { min-width: 0; flex-wrap: wrap; }
+  .motion-marquee__track { width: 100%; }
+}

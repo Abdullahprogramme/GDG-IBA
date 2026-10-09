@@ -1,0 +1,14 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/shared/PageHero.astro';
+import { ContactInfo } from '../components/contact/ContactInfo';
+import { ContactForm } from '../components/contact/ContactForm';
+import MapEmbed from '../components/contact/MapEmbed.astro';
+import { ContactFAQ } from '../components/contact/ContactFAQ';
+import ContactCTA from '../components/contact/ContactCTA.astro';
+import { Reveal } from '../components/motion';
+import { site } from '../data/site';
+import { contactFaqs } from '../data/contact';
+import '../components/contact/contact.css';
+---
+<PageLayout title="Contact | GDG on Campus IBA" description="Get in touch with GDG on Campus IBA. Ask a question, share a speaker idea, explore a partnership, or find out how to join the community." theme="yellow"><PageHero slot="hero" title="Say Hello" emphasis="Hello" theme="yellow" label="Good things start with a hello" subtitle="Bring a question. Share an idea. Let’s see what we can build together." shapes={['brace','arrow','slashes']}/><section id="contact-message" class="contact-section" aria-label="Get in touch"><div class="site-container contact-columns"><Reveal client:load direction="left"><ContactInfo client:load details={site.contact} socials={site.socials} communityUrl={site.communityUrl}/></Reveal><Reveal client:load direction="right"><ContactForm client:load accessKey={import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY} email={site.contact.email}/></Reveal></div></section><MapEmbed url={site.contact.mapEmbedUrl} address={site.contact.address}/><section id="contact-questions" class="contact-section" aria-labelledby="contact-faq-title"><div class="site-container"><p class="contact-kicker">03 / A few things to know</p><h2 id="contact-faq-title" class="contact-heading">Good <strong>questions.</strong></h2><ContactFAQ client:visible faqs={contactFaqs}/></div></section><ContactCTA/></PageLayout>

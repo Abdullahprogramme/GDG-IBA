@@ -1,0 +1,3 @@
+import type { ShapeProps } from './ShapeSvg';
+import { themes } from './themes';
+export function Camera({theme='yellow',width=140,height=140,...props}:ShapeProps){return <svg {...props} width={width} height={height} viewBox="0 0 140 140" fill="none" aria-hidden="true"><path d="M14 42a12 12 0 0 1 12-12h22l8-14h28l8 14h22a12 12 0 0 1 12 12v68a12 12 0 0 1-12 12H26a12 12 0 0 1-12-12Z" fill={themes[theme].pastel} stroke="#1e1e1e" strokeWidth="2"/><circle cx="70" cy="76" r="29" fill={themes[theme].halftone} stroke="#1e1e1e" strokeWidth="2"/><circle cx="70" cy="76" r="18" stroke="#1e1e1e" strokeWidth="2"/><path d="M104 45h10M28 45h10" stroke="#1e1e1e" strokeWidth="2" strokeLinecap="round"/></svg>}

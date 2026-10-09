@@ -1,0 +1,9 @@
+---
+import { Quote, Arrow } from "../shapes";
+import { Reveal } from "../motion";
+import { site } from "../../data/site";
+const contactAvailable=site.nav.some(item=>item.href==="/contact"&&item.available);
+---
+<section id="events-contact" class="events-section events-contact" aria-labelledby="events-contact-title"><div class="site-container">
+ <Reveal client:visible><div class="events-contact-card"><div><p class="events-kicker">06 / Share what you know</p><h2 id="events-contact-title" class="events-heading">Want to host<br/>or <strong>speak?</strong></h2><p>Have a practical idea, a topic to explore or a story that could help someone get started? Let's make room for it.</p><a class="brand-button" href={contactAvailable?"/contact":"/#join"}>{contactAvailable?"Talk to us":"Find our community"}<span aria-hidden="true">↗</span></a>{!contactAvailable&&<p class="event-action-note">The contact page is coming soon. Our community section has the latest joining details.</p>}</div><div class="events-contact-shapes" aria-hidden="true"><Quote theme="pink" width={100} height={100} variant="outline"/><Arrow theme="yellow" width={120} height={100}/></div></div></Reveal>
+</div></section>

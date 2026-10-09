@@ -1,0 +1,21 @@
+---
+import { Chevrons, Asterisk, Globe, Quote } from "../shapes";
+import { Reveal } from "../motion";
+import { site } from "../../data/site";
+const eventsAvailable = site.nav.some(item => item.href === "/events" && item.available);
+const offerings = [
+ { title: "Workshops", category: "workshop", icon: Chevrons, theme: "blue", description: "Learn a tool, try a technique and put a new skill into practice, one step at a time." },
+ { title: "Hackathons", category: "hackathon", icon: Asterisk, theme: "pink", description: "Bring an idea, find your teammates and explore what you can make together." },
+ { title: "Study Jams", category: "study-jam", icon: Globe, theme: "green", description: "Work through a topic with peers. Ask questions, compare notes and keep each other going." },
+ { title: "Speaker Sessions", category: "talk", icon: Quote, theme: "yellow", description: "Hear practical perspectives, discover new paths and start a conversation with people who build." },
+] as const;
+---
+<section id="what-we-do" class="story-section story-offerings" aria-labelledby="offerings-title"><div class="site-container">
+ <p class="story-kicker">04 / Learning in motion</p><h2 id="offerings-title" class="story-heading">Find your way to <strong>build.</strong></h2>
+ <p class="story-intro">Different formats. The same invitation: show up curious and leave with something to try.</p>
+ <div class="offerings-grid">{offerings.map(({title, category, icon: Icon, theme, description}, index) => <Reveal client:visible delay={index * .06}><article class="offering-card" data-theme={theme}>
+  <div class="offering-icon"><Icon theme={theme} width={56} height={56}/><span class="story-kicker">0{index + 1}</span></div>
+  <h3>{title}</h3><p>{description}</p><a href={eventsAvailable ? `/events?category=${category}` : "/#events"}>Explore {title.toLowerCase()} <span aria-hidden="true">&nearr;</span></a>
+ </article></Reveal>)}</div>
+ {!eventsAvailable && <p class="offerings-note">Explore our event previews. Category filters will be available with the full events page.</p>}
+</div></section>

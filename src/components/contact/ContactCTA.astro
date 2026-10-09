@@ -1,0 +1,7 @@
+---
+import { NotchCard, CodeHeart, Arrow } from '../shapes';
+import { Reveal } from '../motion';
+import { JoinButton } from '../home/JoinButton';
+import { site } from '../../data/site';
+---
+<section id="contact-join" class="contact-section contact-join" aria-labelledby="contact-join-title"><div class="site-container"><Reveal client:visible><NotchCard client:visible type="tab" label="Your next chapter" theme="green" className="contact-join-card" initialHeight={600} style={{minHeight:0}}><div class="contact-join-layout"><div><p class="contact-kicker">04 / Learn. Build. Belong.</p><h2 id="contact-join-title" class="contact-heading">There’s room<br/>for <strong>you.</strong></h2><p>Show up curious. Meet your people. Build something together.</p><JoinButton client:visible url={site.communityUrl}/></div><div class="contact-join-shapes" aria-hidden="true"><CodeHeart theme="green" width={140} height={120}/><Arrow theme="yellow" width={100} height={90}/></div></div></NotchCard></Reveal></div></section>

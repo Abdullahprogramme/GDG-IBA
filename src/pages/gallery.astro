@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/shared/PageHero.astro';
+import { MasonryGallery } from '../components/gallery/MasonryGallery';
+import { galleryPhotos } from '../lib/gallery';
+import { prepareGalleryImage } from '../lib/gallery-images';
+import '../components/gallery/gallery.css';
+const events=await getCollection('events');
+const records=(await getCollection('gallery')).map(({id,data})=>({id,...data,date:data.date.toISOString(),eventTitle:events.find(e=>e.data.slug===data.event&&e.data.sample===data.sample)?.data.title}));
+const photos=await Promise.all(galleryPhotos(records).map(prepareGalleryImage));
+---
+<PageLayout title="Gallery | GDG on Campus IBA" description="Snapshots from GDG on Campus IBA: browse workshop, hackathon, team and campus albums, and explore the moments we share." theme="yellow"><PageHero slot="hero" title="Snapshots" emphasis="Snapshots" theme="yellow" label="Moments that stay with us" subtitle="Between the big ideas and the small wins, there is a story worth remembering." shapes={['camera','asterisk','triple-circle']}/><section id="gallery-browse" class="gallery-section" aria-labelledby="gallery-browse-title"><div class="site-container"><p class="gallery-kicker">01 / A little look around</p><h2 id="gallery-browse-title">Our moments.<br/><strong>Shared memories.</strong></h2><p class="gallery-intro">Explore the conversations, projects and people that make our community.</p>{photos.some(p=>p.sample)&&<p class="gallery-sample-notice"><span class="gallery-sample-badge">SAMPLE</span>Original illustrations show the layout. These are not photographs of chapter events.</p>}<MasonryGallery client:visible photos={photos}/></div></section></PageLayout>
+
+<script>
+// Shared photo/album links bring the lazy island into view before opening it.
+document.addEventListener('astro:page-load', () => {
+  if (location.pathname.replace(/\/$/, '') !== '/gallery') return;
+  const params = new URLSearchParams(location.search);
+  if (params.has('photo') || params.has('album')) {
+    document.querySelector('.gallery-browser')?.scrollIntoView({block: 'center', behavior: 'instant'});
+  }
+});
+</script>

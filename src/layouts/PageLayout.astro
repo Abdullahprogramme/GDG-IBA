@@ -1,0 +1,14 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import { Navbar } from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer.astro";
+import type { ThemeName } from "../components/shapes/themes";
+interface Props { title?: string; description?: string; image?: string; robots?: string; theme?: ThemeName; structuredData?: unknown[] }
+const { theme = "yellow", ...meta } = Astro.props;
+---
+<BaseLayout {...meta}>
+  <Navbar client:load pathname={Astro.url.pathname} theme={theme} />
+  <main id="main-content" tabindex="-1"><slot name="hero" /><slot /></main>
+  <Footer />
+</BaseLayout>
+<style>main{min-height:65vh;outline:none}</style>

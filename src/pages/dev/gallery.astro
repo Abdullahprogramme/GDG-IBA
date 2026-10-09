@@ -1,0 +1,10 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { MasonryGallery } from '../../components/gallery/MasonryGallery';
+import { prepareGalleryImage } from '../../lib/gallery-images';
+import type { GalleryRecord } from '../../lib/gallery';
+import '../../components/gallery/gallery.css';
+const albums=['Workshops','Hackathons','Talks','Team','Campus'];
+const photos=await Promise.all(Array.from({length:30},(_,index):GalleryRecord=>({id:`fixture-${index+1}`,src:index===0?'/src/assets/gallery/review-brand.png':index%3===0?'/images/sample-avatar-blue.svg':index%2?'/images/community-study.svg':'/images/sample-cloud.svg',alt:`Development fixture illustration ${index+1}; not a chapter photograph`,album:albums[index%5],eventTitle:`Fixture session ${index+1}`,date:new Date(Date.UTC(2025,0,30-index)).toISOString(),caption:`Fixture snapshot ${index+1}`,sample:true,width:index%3===0?240:800,height:index%3===0?240:600})).map(prepareGalleryImage));
+---
+<PageLayout title="Gallery development fixtures" description="Development-only gallery review" robots="noindex,nofollow" theme="yellow"><section class="gallery-section" style="padding-top:160px"><div class="site-container"><h1>Gallery development fixtures</h1><p>All thirty records are artificial test illustrations. The brand raster tests AVIF/WebP processing.</p><MasonryGallery client:load photos={photos}/><div id="fixture-gallery-empty" style="margin-top:60px"><MasonryGallery photos={[]} idPrefix="empty-gallery"/></div></div></section></PageLayout>

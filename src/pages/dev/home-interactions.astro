@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { CommunityCard } from "../../components/home/CommunityCard";
+import { SocialTile } from "../../components/home/SocialTile";
+import { TeamCard } from "../../components/team/TeamCard";
+import { EventCard } from "../../components/events/EventCard";
+import { CrewRows } from "../../components/home/CrewRows";
+import { EventsPreview } from "../../components/home/EventsPreview";
+import { VoicesCarousel } from "../../components/home/VoicesCarousel";
+import { GalleryStrip } from "../../components/home/GalleryStrip";
+import { Marquee } from "../../components/motion";
+import type { TeamProfile, EventPreview } from "../../lib/home";
+import "../../components/home/home.css";
+const person: TeamProfile = { id: "test-profile", name: "Sample interaction profile", role: "Sample role", department: "Test fixture", photo: "/images/sample-avatar-blue.svg", isLead: false, isCoLead: false, order: 0, sample: true, links: { linkedin: "https://example.com/profile", email: "sample@example.com" } };
+const event: EventPreview = { id: "test-event", slug: "test-event", title: "Sample interaction event", date: "2027-01-15T09:00:00Z", category: "workshop", status: "upcoming", cover: "/images/community-study.svg", summary: "Test fixture, not a real event.", tags: ["Sample"], sample: true, registerUrl: "https://example.com/event" };
+---
+<BaseLayout title="Home interaction fixtures" robots="noindex, nofollow">
+ <main id="main-content" class="site-container fixture-page">
+  <h1>Home interaction review</h1><p>Test fixtures use example.com. None are real chapter links or records.</p>
+  <section id="test-join"><CommunityCard client:load url="https://example.com/community"/></section>
+  <section id="test-socials"><SocialTile client:load link={{ platform: "instagram", label: "Sample Instagram fixture", href: "https://example.com/social" }}/><SocialTile client:load link={{ platform: "facebook", label: "Invalid fixture", href: "javascript:alert(1)" }}/></section>
+  <section id="test-team"><TeamCard client:load person={person}/></section>
+  <section id="test-event"><EventCard client:load event={event}/></section>
+  <section id="test-track"><Marquee client:load label="Interactive team fixture" interactive><TeamCard person={person}/></Marquee></section>
+  <section id="test-empty"><CrewRows client:load people={[]}/><EventsPreview client:load events={[]} photos={[]}/><VoicesCarousel client:load speakers={[]}/><GalleryStrip client:load photos={[]}/></section>
+ </main>
+</BaseLayout>
+<style>.fixture-page{padding-block:100px}.fixture-page>h1{font-size:36px}.fixture-page>section{padding-block:40px}#test-event{max-width:420px}#test-socials{max-width:400px}#test-empty{display:grid;gap:20px}</style>

@@ -1,0 +1,9 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/shared/PageHero.astro';
+---
+<PageLayout title="Foundation review | GDG on Campus IBA" robots="noindex, nofollow" theme="blue">
+ <PageHero slot="hero" theme="blue" title="Build our community" emphasis="community" label="Foundation review" subtitle="Reusable page hero, responsive navigation, and footer. This is a development review page, not chapter content."/>
+ <section class="site-container review-body"><h2>Phase 1 foundation</h2><p>Review the reusable components at each viewport and with reduced motion enabled.</p><nav aria-label="Component reviews"><a href="/dev/motion">Motion primitives &rarr;</a><a href="/dev/shared">Shared components &rarr;</a><a href="/dev/content">Sample collections &rarr;</a><a href="/dev/shapes">Brand shapes &rarr;</a></nav></section>
+</PageLayout>
+<style>.review-body{padding-block:80px;min-height:60vh}.review-body h2{font-size:36px}.review-body nav{display:grid;gap:20px;margin-top:32px}</style>

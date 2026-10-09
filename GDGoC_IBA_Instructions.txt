@@ -1,0 +1,2516 @@
+================================================================================
+        GDG ON CAMPUS — INSTITUTE OF BUSINESS ADMINISTRATION (IBA)
+                      WEBSITE — PROJECT INSTRUCTIONS
+================================================================================
+
+Tech Stack: Astro JS · TypeScript · Tailwind CSS v4 · shadcn/ui · Motion
+            (motion.dev) · Lenis · Embla Carousel · Lucide Icons
+
+Reference site (layout + motion inspiration): https://www.gdgocdsu.com/
+Brand source of truth: "Google Developer Groups On Campus Brand Guidelines"
+(the brand kit PDF supplied with this project)
+
+################################################################################
+## Project Description
+################################################################################
+
+This is the official website of Google Developer Groups on Campus — Institute
+of Business Administration (IBA), Karachi. It promotes the chapter, its events,
+speakers, team and story, and lets students join the community.
+
+The site follows the Google Developer Groups (GDG) on Campus visual language:
+a playful, outlined, geometric style. Every piece of artwork is built from the
+brand's own shape family — pills, circles in a row of three, slanted double
+slashes "//", asterisks, globes, people-arches, arrows, braces { }, quote
+marks and notched "tab" cards — drawn with a thin near-black outline and filled
+with the four Google colours in their halftone and pastel tints.
+
+Compared with the reference chapter site (gdgocdsu.com), this build keeps the
+same information architecture (home with embedded sections + separate inner
+pages) but is more animated and more colourful: every section has its own
+colour theme (Blue / Green / Yellow / Red), floating brand shapes drift and
+react to the cursor, marquees never stop, and page-to-page navigation uses
+smooth view transitions.
+
+The site is static-first (Astro) with React "islands" only where interaction
+is needed (shadcn/ui components, carousels, filters, forms, animation-heavy
+pieces). All animation is driven by Motion (motion.dev) plus CSS keyframes for
+simple infinite loops. Smooth scrolling comes from Lenis.
+
+Design pillars:
+  1. Brand-faithful     — only brand colours, brand fonts, brand shape language.
+  2. Vivid but ordered  — big colour fields, but one theme colour per section.
+  3. Alive              — floating shapes, marquees, hover reactions, reveals.
+  4. Fast and accessible — static HTML first, respects prefers-reduced-motion.
+
+################################################################################
+## Naming & Brand Messaging Rules (from the brand kit — MUST be followed)
+################################################################################
+
+  Official full name (use in header, footer, meta, legal line):
+      Google Developer Groups on Campus Institute of Business Administration
+  Short form (use in running copy, buttons, titles):
+      GDG on Campus IBA
+
+  - Always say "Google Developer Group on Campus" / "GDG on Campus".
+    NEVER use the bare umbrella term "GDG" for this chapter.
+  - Organizer titles: "GDG on Campus Organizer", "GDG on Campus Lead",
+    "GDG on Campus Co-Lead" (never "GDG Lead").
+  - Hashtag everywhere on social: #GDGOnCampus
+  - Logo lockup text: "Google Developer Group" with the university name
+    "Institute of Business Administration" in the accent line below / beside it.
+  - Do not stretch, recolour, rotate or add effects to the GDG logo mark.
+    Use the official horizontal lockup (preferred) or stacked lockup (small
+    spaces). Dark version on #1E1E1E, light version on #F0F0F0 / pastels.
+
+################################################################################
+## Tech Stack
+################################################################################
+
+------------------------------------------------------------------------
+Core Framework
+------------------------------------------------------------------------
+
+  - Astro (latest stable) — static output, islands architecture
+  - TypeScript — strict mode
+  - @astrojs/react — islands for shadcn/ui and animated components
+  - Astro Content Collections (Zod schemas) — events, team, speakers,
+    gallery, story milestones, partners
+  - Astro <ClientRouter /> (View Transitions) — animated page navigation
+  - @astrojs/sitemap, astro-seo (or manual meta in BaseLayout)
+  - Astro <Image> / astro:assets — WebP/AVIF, responsive sizes, lazy loading
+
+------------------------------------------------------------------------
+Styling
+------------------------------------------------------------------------
+
+  - Tailwind CSS v4 (via @tailwindcss/vite) — tokens declared in @theme in
+    src/styles/globals.css (no tailwind.config.ts needed)
+  - shadcn/ui (React) — Button, Sheet (mobile menu), Dialog (gallery
+    lightbox / speaker modal), Tabs (Events filter), Accordion (FAQ),
+    Carousel (Embla), Badge, Input, Textarea, Label, Select, Sonner (toasts),
+    Tooltip, Skeleton, ScrollArea, HoverCard
+    * Every shadcn component is RE-SKINNED to the brand (see Design System):
+      pill radii, 2px #1E1E1E outline, pastel fills, Google Sans.
+  - class-variance-authority, clsx, tailwind-merge (shadcn defaults)
+  - tw-animate-css (shadcn's animation helpers for Tailwind v4)
+  - No CSS-in-JS, no CSS modules, no extra UI kits
+
+------------------------------------------------------------------------
+Animation & Interaction
+------------------------------------------------------------------------
+
+  - Motion (motion.dev) — entrance reveals, scroll-linked effects, hover /
+    tap gestures, layout animations, drag, springs, stagger
+      import { motion, useScroll, useTransform, useSpring, useInView,
+               animate, stagger, AnimatePresence } from 'motion/react'
+      (and `animate, scroll, inView` from 'motion' in vanilla Astro scripts)
+  - Lenis — smooth scrolling (synced with Motion's scroll via requestAnimationFrame)
+  - CSS keyframes — infinite loops only (marquee, float, spin, wiggle)
+  - Embla Carousel (via shadcn Carousel) + embla-carousel-autoplay
+  - Optional: Lottie (lottie-react / @lottiefiles/dotlottie-react) for 1–2
+    small decorative loops (confetti, sparkle). Keep under 100KB each.
+  - Optional 3D: ONE Spline scene (or pre-rendered 3D PNG/WebP sprites) in the
+    hero, lazy-loaded. Prefer pre-rendered 3D sprites for speed (see Resources).
+
+------------------------------------------------------------------------
+Icons & Graphics
+------------------------------------------------------------------------
+
+  - lucide-react (UI icons, shadcn default)
+  - react-icons / simple-icons (social + tech logos: Instagram, Facebook,
+    LinkedIn, X, TikTok, Discord, YouTube, Android, Flutter, Firebase, etc.)
+  - Custom SVG shape library built by us (src/components/shapes/*) — the
+    brand artwork: Pill, TripleCircle, Slashes, Asterisk, Globe, People,
+    Arrow, Brace, Quote, NotchCard, Chevrons (the <> logo mark), Pin, Hash.
+
+------------------------------------------------------------------------
+Forms / Contact
+------------------------------------------------------------------------
+
+  - Contact form: EmailJS (free tier) OR Web3Forms (free) — pick one, keys in .env
+  - react-hook-form + zod + @hookform/resolvers (shadcn Form pattern)
+  - Honeypot field + client-side validation
+  - Sonner toast for success / error
+
+------------------------------------------------------------------------
+Gallery
+------------------------------------------------------------------------
+
+  - CSS columns / CSS grid masonry layout (no library)
+  - shadcn Dialog as lightbox, with Motion layoutId shared-element transition
+  - Optional: yet-another-react-lightbox (only if Dialog proves limiting)
+
+------------------------------------------------------------------------
+Tooling / Quality
+------------------------------------------------------------------------
+
+  - ESLint + Prettier (+ prettier-plugin-astro, prettier-plugin-tailwindcss)
+  - @astrojs/check (type check .astro files)
+  - Lighthouse CI (manual run is fine) — targets: Perf ≥ 90, A11y ≥ 95
+  - Hosting: Vercel or Netlify (static)
+
+------------------------------------------------------------------------
+Packages To AVOID (keep the bundle lean)
+------------------------------------------------------------------------
+
+  - framer-motion (use `motion`), GSAP, react-spring, AOS, react-scroll
+  - Bootstrap, MUI, Chakra, Ant Design
+  - Swiper / Slick (Embla covers it)
+  - Three.js directly (use Spline export or pre-rendered sprites)
+
+################################################################################
+## Site Map & Page Architecture
+################################################################################
+
+  Pattern (same as the reference site): the HOME page contains previews of
+  every major area. Each preview has a button that opens the full inner page.
+  "About" lives ONLY on the home page (#about) and links out to "Our Story".
+
+  Route          Page              Display name (nav)   Where it lives
+  -----------    ---------------   ------------------   --------------------------
+  /              Home              Home                 Full page
+  /#about        About             About                SECTION on Home
+  /events        Events            Events               Separate page
+  /speakers      Speakers          Speakers             Separate page
+  /team          Team              Team                 Separate page
+  /gallery       Gallery           Gallery              Separate page
+  /our-story     Our Story         Our Story            Separate page
+  /contact       Contact           Contact              Separate page
+  /404           Not found         —                    Friendly branded 404
+
+  Home page preview sections → inner page they open:
+      Hero            → /#about (scroll) and Join (external, GDG community page)
+      About           → /our-story        ("Explore" button)
+      Meet the Crew   → /team             ("Meet Everyone")
+      Events          → /events           ("View All Events")
+      Voices          → /speakers         ("All Speakers")
+      Gallery strip   → /gallery          ("View Gallery")
+      Community CTA   → /contact and external socials
+
+  Section display names (renamed vs. the reference site):
+      Hero tagline         : "Learn. Build. Belong."
+      About                : "Who We Are"
+      Team                 : "The Crew"        (page title: "Meet The Crew")
+      Events               : "Moments In Motion" (page title: "Events")
+      Speakers             : "Voices On Stage"   (page title: "Speakers")
+      Gallery              : "Snapshots"         (page title: "Gallery")
+      Partners             : "Powered By Friends"
+      Our Story            : "Our Journey"       (page title: "Our Story")
+      Contact              : "Say Hello"         (page title: "Contact")
+
+  External links (store ALL in src/data/site.ts — single source of truth):
+      Join (Google Developer Group community page, hosted on Bevy:
+            gdg.community.dev/<chapter-slug>/)   → PLACEHOLDER until the chapter
+            page URL is confirmed
+      Instagram  → https://www.instagram.com/<handle>/            (placeholder)
+      Facebook   → https://www.facebook.com/<page>/               (placeholder)
+      LinkedIn   → https://www.linkedin.com/company/<slug>/       (placeholder)
+      X / Twitter, TikTok, YouTube, Discord → optional, only if the chapter has them
+      Email      → chapter email                                   (placeholder)
+      Address    → IBA campus address                              (confirm with IBA)
+      Phone      → optional                                        (confirm)
+    All socials open in a new tab with rel="noopener noreferrer".
+    The "Join" button is the PRIMARY CTA everywhere (nav, hero, CTA band,
+    footer). The GDG community (Bevy) page is where members actually register.
+
+################################################################################
+## Colour Palette & Design System
+################################################################################
+
+------------------------------------------------------------------------
+Design Philosophy
+------------------------------------------------------------------------
+
+  Bold outlines, big flat colour fields, friendly rounded forms. Think Google
+  I/O stationery: pastel backgrounds, saturated shapes, black line-art.
+  Solid colours do the heavy lifting; GRADIENTS are allowed but follow strict
+  rules (see "Gradient Rules"). Every section picks ONE theme colour and uses
+  that theme's pastel / halftone / core tints. Never mix more than one theme
+  in a single section, except in the Google-4-colour accents (logo mark,
+  progress dots, confetti, marquee chips).
+
+  VERIFIED AGAINST THE BRAND KIT PDF (all 58 pages read). What the kit's own
+  templates (banners, social, announcements, signage, badges, certificates,
+  swag) consistently show, and what this site copies:
+    1. ONE flat PASTEL field per layout (blue / green / yellow / pink-red).
+    2. A WHITE, thin-outlined, rounded "notched" content card sitting on it.
+    3. Saturated HALFTONE shapes for the big friendly objects, CORE colour
+       for the denser / secondary shapes and name pills, BLACK 02 line-art
+       for the globe, people, arrows, asterisk, scallops.
+    4. Google Sans Regular headlines with ONE Bold word; Google Sans Mono for
+       small "code-style" data.
+    5. Every template exists in the SAME FOUR colourways, always in the
+       order Blue → Green → Yellow → Pink/Red. The site themes follow suit.
+    6. The logo is TINTED to the layout's colourway (not always 4-colour).
+  The full pattern inventory is in "Brand Pattern Library" (P1–P13) below.
+
+------------------------------------------------------------------------
+Core Brand Colours (from brand kit — exact values)
+------------------------------------------------------------------------
+
+  --blue-500        : #4285F4   Core Blue
+  --green-500       : #34A853   Core Green
+  --yellow-600      : #F9AB00   Core Yellow
+  --red-500         : #EA4335   Core Red
+
+  RGB HALFTONES (bright, used for big shapes and hovers)
+  --halftone-blue   : #57CAFF
+  --halftone-green  : #5CDB6D
+  --halftone-yellow : #FFD427
+  --halftone-red    : #FF7DAF   (pink)
+
+  PASTELS (section backgrounds, cards, chips)
+  --pastel-blue     : #C3ECF6
+  --pastel-green    : #CCF6C5
+  --pastel-yellow   : #FFE7A5
+  --pastel-red      : #F8D8D8
+
+  GRAYSCALE
+  --off-white       : #F0F0F0   Default page background / light surfaces
+  --black-02        : #1E1E1E   Text, outlines, dark surfaces (NEVER pure #000)
+  White (#FFFFFF) is allowed ONLY inside notched cards / inputs (as in the
+  brand kit templates, where content sits on a white tab).
+
+  Print-only (CMYK / Pantone) values in the brand kit are NOT used on the web.
+  (Kit note: "We started from the core color and went towards more pastel
+  colors, without losing the brightness and saturation." — so pastel,
+  halftone and core of one hue are ONE family; never mix families inside a
+  single shape group.)
+
+------------------------------------------------------------------------
+Colour Roles & Pairing Rules (read from the kit's template pages)
+------------------------------------------------------------------------
+
+  ROLE                                   TOKEN USED
+  -------------------------------------  ---------------------------------
+  Page / layout background (default)     off-white #F0F0F0
+  Themed layout background               pastel of the theme (flat, no
+                                         gradient behind the notch card)
+  Notched content card fill              #FFFFFF with 1.5px #1E1E1E outline
+  Large friendly shapes (circles,        HALFTONE of the theme
+   slashes, pin, merged circles)
+  Dense / secondary shapes (bracket,     CORE of the theme
+   big pill, donut arc, hash, block
+   arrow, name pill)
+  Line-art (globe, people arches,        #1E1E1E, 1.5px, no fill
+   asterisk, arrows, scallops, braces)
+  Outlined-only slashes / shapes         #1E1E1E 1.5px, transparent fill
+                                         (used as the "quiet" counterpart
+                                         of the filled version)
+  Text on pastel / white / off-white     #1E1E1E
+  Text on dark surface                   #F0F0F0 (kit also uses a bright blue
+                                         for ONE highlighted phrase)
+  Text on a CORE-colour fill             #1E1E1E (the kit's Blue 500 divider
+                                         pages use black type). White only
+                                         for bold text >= 24px on red/blue.
+  Links in body copy                     #4285F4 Bold + underline
+  Role pills (badges)                    Attendee = blue, Staff = yellow,
+                                         Speaker = red, All-access = green
+                                         (core fill, 1.5px outline)
+  Key highlight on dark                  #57CAFF (halftone blue — accessible
+                                         stand-in for the kit's light blue)
+
+  PAIRING MATRIX (which tints may sit together in ONE layout)
+      BLUE  : #C3ECF6 bg + #57CAFF shapes + #4285F4 dense shapes
+      GREEN : #CCF6C5 bg + #5CDB6D shapes + #34A853 dense shapes
+      YELLOW: #FFE7A5 bg + #FFD427 shapes + #F9AB00 dense shapes
+      PINK  : #F8D8D8 bg + #FF7DAF shapes + #EA4335 dense shapes
+  Cross-family accents are only allowed in (a) the Google 4-dot row,
+  (b) the certificate-style "confetti" blocks, (c) the marquee chips.
+  Yellow theme additionally pairs pastel-yellow slashes with a core-yellow
+  donut arc (see the kit cover) — that tone-on-tone layering is the signature
+  of the YELLOW theme.
+
+------------------------------------------------------------------------
+Section Themes (one per section)
+------------------------------------------------------------------------
+
+  Theme      Background(pastel)  Big shapes(halftone)  Accent(core)  Text
+  --------   ------------------  --------------------  ------------  --------
+  BLUE       #C3ECF6             #57CAFF               #4285F4       #1E1E1E
+  GREEN      #CCF6C5             #5CDB6D               #34A853       #1E1E1E
+  YELLOW     #FFE7A5             #FFD427               #F9AB00       #1E1E1E
+  RED/PINK   #F8D8D8             #FF7DAF               #EA4335       #1E1E1E
+
+  Implement as CSS custom properties switched by a data attribute:
+      <section data-theme="blue">  → sets --t-bg, --t-shape, --t-accent
+  Tailwind usage: bg-[var(--t-bg)], text-[var(--t-accent)], etc. (or register
+  `t-bg`, `t-shape`, `t-accent` in @theme inline).
+
+  Default theme rotation down the Home page (keeps colour vivid + balanced):
+      Hero → YELLOW   |  Marquee strip → GOOGLE-4 chips on #1E1E1E
+      About → BLUE    |  Stats → GREEN   |  Crew → RED/PINK
+      Events → YELLOW |  Voices → BLUE   |  Gallery → GREEN
+      Partners → off-white #F0F0F0  |  Community CTA → RED/PINK
+      Footer → #1E1E1E (dark) with Google-4 accents
+
+  Inner pages use one theme for their hero banner and alternate the rest:
+      /events BLUE · /speakers RED · /team GREEN · /gallery YELLOW ·
+      /our-story BLUE→GREEN→YELLOW→RED (one per milestone) · /contact YELLOW
+
+------------------------------------------------------------------------
+Theme Kit — the 4 colourways, exactly as the brand kit builds them
+------------------------------------------------------------------------
+
+  Always expose the themes in this order: blue, green, yellow, pink.
+
+  Token             BLUE      GREEN     YELLOW    PINK
+  ----------------  --------  --------  --------  --------
+  --t-bg  (pastel)  #C3ECF6   #CCF6C5   #FFE7A5   #F8D8D8
+  --t-shape (half)  #57CAFF   #5CDB6D   #FFD427   #FF7DAF
+  --t-accent (core) #4285F4   #34A853   #F9AB00   #EA4335
+  --t-logo-a        #4285F4   #34A853   #F9AB00   #EA4335   (back pill)
+  --t-logo-b        #57CAFF   #5CDB6D   #FFD427   #FF7DAF   (front pill)
+  Mono ink (always) #1E1E1E on every theme.
+
+  Logo tint rule (kit): on a themed background the chevron mark is drawn in
+  TWO tints of that theme (core + halftone) with a thin black outline, and
+  the chapter-name line under "Google Developer Group" uses the theme's core
+  colour. On off-white or dark backgrounds use the full 4-colour mark
+  (red / blue / green / yellow). On the dark surface remove the black
+  outline from the mark (the kit's dark lockup has none) and set the chapter
+  name in halftone blue #57CAFF.
+
+  Monochrome mode (kit T-shirt / single-colour bottle): every shape solid
+  #1E1E1E or outline-only #1E1E1E, no colour. Use for print.css, the
+  "stamp" watermark and the 404 line-art.
+
+------------------------------------------------------------------------
+Gradient Rules (the reference site mixes solid + gradient fills)
+------------------------------------------------------------------------
+
+  Gradients are used for atmosphere only, never for text or icon outlines.
+  Allowed gradient recipes (all use brand tints):
+    G-SUNRISE   linear-gradient(135deg, #FFE7A5 0%, #FFD427 55%, #F9AB00 100%)
+    G-SKY       linear-gradient(135deg, #C3ECF6 0%, #57CAFF 60%, #4285F4 100%)
+    G-MEADOW    linear-gradient(135deg, #CCF6C5 0%, #5CDB6D 60%, #34A853 100%)
+    G-BLOSSOM   linear-gradient(135deg, #F8D8D8 0%, #FF7DAF 60%, #EA4335 100%)
+    G-GOOGLE    conic/linear sweep through #4285F4 → #EA4335 → #F9AB00 → #34A853
+                (ONLY for thin 4px accent lines and the hero blob glow)
+  Where gradients are used:
+    - Hero background blob (blurred radial gradient, opacity 0.5)
+    - Big hero/CTA shapes (a gradient fill INSIDE a 2px #1E1E1E outline)
+    - Text highlight underline on one headline word per page
+    - Hover state of primary buttons (solid → gradient shift)
+  Where gradients are NEVER used: body copy backgrounds, form fields, footer
+  text, the GDG logo, outlines, small icons.
+  Keep gradients to ≤ 2 per viewport so the solid flat look still dominates.
+
+------------------------------------------------------------------------
+Typography (from brand kit)
+------------------------------------------------------------------------
+
+  Primary   : "Google Sans"       — weights 400 (Regular) and 700 (Bold)
+                                    (use Medium 500 if available)
+              Titles/large sentences: mix Bold + Regular IN THE SAME HEADLINE
+              (e.g. "Chapter **Title** Goes Here." with one bold word) so it
+              never feels heavy. Paragraphs: Regular.
+  Secondary : "Google Sans Mono"  — weights 400 / 700
+              "code-style writing": short lines, labels, speaker/team role
+              tags, dates, section numbers, small data.
+
+  HOW TO GET THE FONTS
+    1. Download from the brand kit (the Typography page has Download buttons)
+       — this is the official, licensed route for GDG chapters.
+    2. Convert to .woff2 (e.g. using https://cloudconvert.com or `fonttools`)
+       and place in public/fonts/ : GoogleSans-Regular.woff2,
+       GoogleSans-Bold.woff2, GoogleSansMono-Regular.woff2,
+       GoogleSansMono-Bold.woff2
+    3. Declare with @font-face (font-display: swap) and preload the two most
+       used files in BaseLayout.astro.
+    4. FALLBACKS (if brand-kit files are unavailable): Google Fonts now offers
+       "Google Sans Flex" / "Google Sans Code" (verify availability on
+       fonts.google.com). Otherwise use the closest free pair:
+         Sans: "Outfit" or "Figtree"  (geometric, similar to Google Sans)
+         Mono: "Roboto Mono" or "JetBrains Mono"
+       Load via @fontsource (e.g. @fontsource/outfit) — self-hosted, no CDN.
+
+  Font stacks:
+      --font-sans : 'Google Sans', 'Figtree', 'Outfit', system-ui, sans-serif
+      --font-mono : 'Google Sans Mono', 'Roboto Mono', ui-monospace, monospace
+
+  Scale (use clamp() for fluid headings):
+      Hero H1         : clamp(3rem, 9vw, 8rem)   Bold+Regular mix, leading-[0.95]
+      Page H1         : clamp(2.5rem, 7vw, 6rem)
+      Section H2      : clamp(2rem, 5vw, 3.75rem)
+      Card title      : 1.5rem (24px) Bold
+      Lead paragraph  : 1.25rem (20px) Regular
+      Body            : 1rem (16px) Regular, leading-relaxed
+      Mono label      : 0.75–0.875rem, uppercase, tracking-widest
+  Text colour is #1E1E1E on pastel/off-white; #F0F0F0 on #1E1E1E.
+
+  KIT TYPE PATTERNS (copy these exactly)
+    - STACKED BOLD/REGULAR TITLE: first line(s) Bold, last line(s) Regular,
+      same size ("**Brand Messaging**" over "On Campus"). Use for every
+      SectionHeading: <h2><b>Meet</b><br/>The Crew</h2>.
+    - BOLD WORD INSIDE REGULAR SENTENCE: "Chapter **Title** Goes Here."
+      Exactly ONE bold word per headline. Never two.
+    - BIG NUMBER + TITLE DIVIDER: a thin-weight number "01." left and a
+      Regular 6xl title right (kit section covers). Used for numbered
+      sections ("01 / Who We Are") — number in Google Sans Mono on web.
+    - LEFT-RAIL LAYOUT: small bold label + 12–14px intro in a narrow left
+      column (~22%), wide content on the right (kit Typography pages).
+    - THREE-COLUMN TEXT: bold run-in subhead + short paragraph, 3 equal
+      columns (kit Brand Messaging page) → used in About pillars and Our
+      Story values.
+    - TINY BREADCRUMB HEADER: 11–12px line across the top of a page
+      ("Google Developer Groups On Campus   ·   Events   ·   Upcoming") —
+      reuse as the mono label / breadcrumb in PageHero.
+    - Mono is for: dates, times, role tags, speaker/talent names on promo
+      pills, stats captions, section numbers. Never for paragraphs.
+    - Paragraph rule from the kit: "For paragraphs with smaller type point,
+      use the Regular variable." Bold is for titles and emphasis only.
+
+------------------------------------------------------------------------
+Shape & Line Language
+------------------------------------------------------------------------
+
+  - Outline weights (scaled from the kit): 1.5px on notch cards, photo
+    frames and line-art icons; 2px on filled shapes and pills; 3px only on
+    hero-scale shapes (> 240px). Stroke colour always #1E1E1E. Use
+    vector-effect: non-scaling-stroke so weights stay constant when SVGs
+    are resized.
+  - Radius scale (shadcn --radius overridden to 1.5rem):
+        pill        : rounded-full (buttons, chips, tags, inputs)
+        card        : rounded-3xl (24px)
+        notch card  : special "tab" shape (see below)
+        image       : rounded-2xl; featured images use the notched crop
+  - NOTCHED CARD ("tab card") — the signature brand container: a rounded
+    rectangle with one rounded cut-out in a top corner, creating a "tab" that
+    carries a label (e.g. "Event", "Upcoming", "Agenda"). Build as an SVG
+    clip-path/mask component <NotchCard notch="top-left|top-right|bottom-right">
+    with the 1.5px outline following the notch path. White fill by default.
+    FULL GEOMETRY of the two notch types is in Pattern Library P2.
+  - Row of three circles (people / signal motif), double slash "//", 8-point
+    asterisk, globe (3 lines + ellipse), three arched "people" shoulders,
+    long arrow with curved head, braces { } and quote marks are the standard
+    decorative vocabulary. All are in src/components/shapes/.
+  - Hard offset shadow for lifted cards on hover: 4px 4px 0 #1E1E1E (no blur).
+    Soft blurred shadows are NOT used.
+
+------------------------------------------------------------------------
+Spacing & Layout
+------------------------------------------------------------------------
+
+  Page max-width      : max-w-[1280px] centred (hero + marquees go full-bleed)
+  Section padding     : py-24 px-6 (desktop) / py-16 px-4 (mobile)
+  Grid gaps           : gap-4 (tight) / gap-6 (default) / gap-10 (loose)
+  Breakpoints         : sm 640 · md 768 · lg 1024 · xl 1280 (Tailwind defaults)
+  Section transitions : alternate a wavy / scalloped SVG divider (the
+                        "arches" motif) between differently themed sections —
+                        no hard horizontal seams where possible.
+
+------------------------------------------------------------------------
+Buttons (shadcn Button re-skinned)
+------------------------------------------------------------------------
+
+  Primary   : pill, bg #1E1E1E, text #F0F0F0, 2px #1E1E1E border, px-7 py-3.
+              Hover: bg switches to theme accent, text #1E1E1E, arrow icon
+              slides 4px right. Tap: scale 0.97.
+  Colour    : pill, bg theme --t-shape (halftone), text #1E1E1E, 2px outline,
+              hard shadow 3px 3px 0 #1E1E1E; hover shadow grows to 5px/5px
+              and button translates (-2px,-2px).
+  Ghost     : pill, transparent, 2px #1E1E1E outline; hover fills pastel.
+  Icon btn  : 44×44 circle, 2px outline.
+  Focus ring: 3px #4285F4 ring + 2px offset, ALWAYS visible for keyboard users.
+
+################################################################################
+## Brand Pattern Library (read directly from the GDG on Campus brand-kit PDF)
+################################################################################
+
+  Everything below is what the kit's 40+ templates actually do. Build these
+  as reusable components first (Order of Work step 4) and every page then
+  becomes assembly.
+
+------------------------------------------------------------------------
+P1. Shape vocabulary (name → look → where the kit uses it → component)
+------------------------------------------------------------------------
+
+  SLASHES "//"        Two slanted parallelograms. Filled (halftone) or
+                      outline-only (#1E1E1E). Cover, banners, signage,
+                      certificates. → <Slashes variant="filled|outline">
+  TRIPLE CIRCLE       Three equal circles in a row, halftone fill + 1.5px
+                      outline. The kit's most common "people/community"
+                      signal. → <TripleCircle layout="row|stack">
+  MERGED CIRCLES      Three overlapping circles fused into one outlined
+                      "caterpillar" blob (cover, rectangle sticker,
+                      meterboard). Variant: vertical outline-only stack
+                      (venue template). → <TripleCircle merged>
+  PEOPLE ARCHES       Row of 3–4 open arches (shoulders) under the circles.
+                      Line-art only. → <People count={3|4}>
+  SCALLOPS            Row of arches "︵︵︵" or inverted "︶︶︶". Used as
+                      section divider, lanyard filler, banner decoration.
+                      → <Scallop dir="up|down" count>
+  GLOBE               Circle + vertical ellipse + 2 horizontal lines, thin
+                      line-art. Appears on ~80% of templates. → <Globe>
+  ASTERISK            8-point asterisk, line-art. → <Asterisk>
+  ARROWS              (a) long thin line arrow with curved open head,
+                      pointing left or right (outline); (b) BLOCK ARROW:
+                      chunky filled arrow (core/halftone + outline),
+                      up / left / right. → <Arrow variant="line|block"
+                      dir>
+  BRACES              (a) thin "{ }" curly braces framing "On Campus";
+                      (b) chunky FILLED bracket "]" with a stepped inner
+                      notch (core colour); (c) coiled "scallop braces" that
+                      hug a paragraph on both sides (announcement V2).
+                      → <Brace variant="thin|block|coil">
+  HASH "#"            Chunky rounded hash, filled core + outline (agenda,
+                      certificate; ties to #GDGOnCampus). → <Hash>
+  QUOTES              Open ‘‘ and close ’’ marks, outline or filled core
+                      (speaker promo, slides, badges). → <Quote>
+  COMMA / SEMICOLON   Filled comma under a dot (avatar template, activity
+                      V2). → <Comma>
+  PIN                 Location pin, halftone fill, circle hole (venue). →
+                      <Pin>
+  DONUT ARC           Thick half-ring "C" in core colour (cover). →
+                      <DonutArc>
+  LINES "="           Two or three short parallel strokes. → <Lines>
+  BARS                Two stacked rounded rectangles (Twitter banner). →
+                      <Bars>
+  CODE HEART "<3"     Chevron + 3 glyph (blog, photo frames). → <CodeHeart>
+  TOGGLE              Pill switch with the logo mark in the knob (Instagram
+                      sticker) → use for the dark/light or "Join" toggle
+                      micro-interaction.
+  THE MARK            Two chevrons "< >" made of 4 capsules (red top-left,
+                      blue bottom-left, green top-right, yellow
+                      bottom-right). → <Chevrons theme>
+  FOUR DOTS           Red · Yellow · Green · Blue circles in a row (the
+                      full-colour water bottle). → footer + loaders.
+
+  Rules: never stretch shapes non-uniformly, never rotate the globe,
+  never put two block shapes of the same colour touching, and keep ONE
+  hero-scale shape per viewport (the rest are small accents).
+
+------------------------------------------------------------------------
+P2. Notch card geometry (the brand's signature container)
+------------------------------------------------------------------------
+
+  Two types. Both: white fill, 1.5px #1E1E1E outline, outer radius ≈ 28px
+  (≈ 2.8% of the card's short side, clamp 20–32px), INNER (concave) joins
+  rounded with the same radius so the outline is one continuous path.
+
+  TYPE A — LABEL TAB (event / upcoming / venue / agenda / badge role)
+    A small rounded rectangle "tab" rises from the TOP-LEFT of the main
+    card and shares its outline. Tab holds a short label in Google Sans
+    Regular ("Event", "Upcoming", "Venue", "Agenda"). The empty space to
+    the right of the tab is filled with a long line-arrow (←) or logo.
+    Role pills (Attendee / Staff / Speaker / All Access) are the mirrored
+    case: a coloured pill tab at the BOTTOM-LEFT of the card.
+    → <NotchCard type="tab" tabPosition="top-left|bottom-left"
+       label="Event" />
+
+  TYPE B — STEP CUT-OUT (social, signage, one-sheet, 16:9, photo frames)
+    One or two rectangular STEPS are cut from corners, leaving an L-shaped
+    card:
+      • top-right step  → holds the asterisk box / globe / arrow
+      • bottom-right step → holds the logo lockup (very common)
+      • top-left step   → holds the row of three circles (1:1 and 4:5)
+    The step size is about 28–35% of card width × 12–18% of height.
+    → <NotchCard type="step" notches={["top-right","bottom-right"]} />
+
+  Implementation: generate the path in JS from (w, h, r, notches) and render
+  as an SVG <path> with fill white + stroke; place content with CSS grid
+  areas and clip with the same path (clipPath: url(#id)). Use
+  ResizeObserver so the path redraws responsively. Keep the content
+  padding at 8–10% of width.
+
+  Layout recipe ("the template"): pastel background → NotchCard filling
+  ~75% → decorative shapes in the free notch spaces → logo bottom-right.
+  Used for: Hero feature card, EventCard, SpeakerCard, About card,
+  Story milestone, CTA band, Contact panel.
+
+------------------------------------------------------------------------
+P3. Photo frames & avatars
+------------------------------------------------------------------------
+
+  PHOTO FRAME (kit "Photo Frames", landing/Twitter/LinkedIn banners):
+    Photo cropped inside a rounded rectangle (radius ≈ 24px) with ONE or two
+    stepped corners, 1.5px #1E1E1E outline. The stepped corner holds the
+    chevron mark (top-left) or a line icon (asterisk / <3 / ← / globe,
+    bottom-right). The frame colour is the theme pastel; a 12–16px pastel
+    border surrounds the photo. Each team/speaker/gallery image uses a
+    DIFFERENT icon in the corner and rotates through the 4 themes.
+    → <PhotoFrame theme icon="asterisk|code-heart|arrow|globe"
+       logoCorner="top-left" />
+    The gallery hover (G4) reveals the same frame.
+
+  AVATAR (kit "Avatar Template"): circular photo, 1px outline, with three
+    coloured corner overlays on the circle edge:
+      – top-left: theme-halftone tab holding a tiny globe + a pastel comma
+      – right-middle: two stacked core-colour dots
+      – bottom: white pill holding the chevron mark, bottom-right tab in pastel
+    → <AvatarFrame theme src />  Use for Team cards and the hero's "Join
+    N+ members" avatar stack.
+
+  PHOTOGRAPHY STYLE (from the kit's samples): real, candid, natural-colour
+  photos — crowds at talks, people at laptops, portraits against softly
+  blurred backgrounds. No heavy filters, no duotone, no stock-looking
+  handshakes. Keep faces centred; crop to the frame's notch.
+
+------------------------------------------------------------------------
+P4. Pills & tags
+------------------------------------------------------------------------
+
+  TIME PILL     fully rounded, halftone fill, 1.5px outline, bold small text
+                ("7:35PM–8:10PM") — Mono on web.
+  NAME PILL     wide pill: core fill with name (Regular) + company line (Mono
+                small) — speaker promo. Co-branded variant: two pills side by
+                side — name in CORE, company in HALFTONE.
+  LABEL TAB     white rounded tab (type A notch).
+  ROLE PILL     Attendee (blue) · Staff (yellow) · Speaker (red) · All Access
+                (green) — core fill; used for Team roles & Speaker tags.
+  DOWNLOAD /    kit buttons are blue pills with an underlined white label and
+  CTA PILL      a 1px darker outline → on web: bg #4285F4, text #1E1E1E Bold,
+                underline on hover, 2px outline (keeps contrast).
+
+------------------------------------------------------------------------
+P5. Logo usage (kit "Logos" pages)
+------------------------------------------------------------------------
+
+  - Two lockups: HORIZONTAL (preferred) and STACKED (only when space is
+    limited). Each in LIGHT-surface and DARK-surface versions.
+  - Lockup text: "Google Developer Group" (Google Sans Regular, black / white)
+    + chapter name line below in blue: "Institute of Business Administration".
+    (Kit rule: use the exact words "Google Developer Group" in the logo; use
+    "GDG on Campus [Name]" in running copy — never bare "GDG".)
+  - Light surface: 4-colour mark with black outline, chapter name #4285F4.
+    Dark surface: no outline on mark, chapter name #57CAFF.
+  - Themed surface: tinted mark + core-colour chapter name (see Theme Kit).
+  - Clear space = height of one capsule on all sides. Minimum width 120px
+    horizontal / 72px stacked. Never recolour outside the tints above,
+    never add shadows, never animate the logo itself except the nav hover
+    "wiggle" (chevrons only).
+  - Favicon / avatar: the mark alone.
+  - Profile-badge idiom (kit "Developer Profile Badges"): mark on top, one
+    line-art icon below — Speaker = quotes, Member = three circles + arches,
+    Organizer = globe. Re-use these three on Speaker / Crew / Team cards.
+
+------------------------------------------------------------------------
+P6. Pattern collage ("YouTube banner" mosaic)
+------------------------------------------------------------------------
+
+  The kit's densest piece: a 3-row bento of shapes on one pastel field, each
+  colourway identical in structure:
+    Row 1: tall pill · scallops over a wide stepped block (core) · globe
+    Row 2: brace with two stacked circles · asterisk · slashes · short pill ·
+           lines "=" · tall pill with braces
+    Row 3: big rounded core blob · wide stepped halftone block · long arrow ·
+           people arches
+  Build <PatternMosaic theme /> (CSS grid, 12 cols × 3 rows, gap 12px,
+  each cell holds one shape) and use it for: Hero backdrop (low opacity /
+  parallax), CTA band, 404 page, Footer top strip, loading screen. Animate
+  by staggering the cells in (scale 0.6 → 1, spring) and letting 3–4 cells
+  "breathe" (±3% scale loop).
+
+------------------------------------------------------------------------
+P7. Lanyard strip → the site's marquee
+------------------------------------------------------------------------
+
+  The kit's lanyard is a continuous horizontal band repeating:
+  [logo] · asterisk · arrow→ · globe · scallops-down · asterisk · arrow→ ·
+  globe · scallops-up. Use exactly this sequence as the line-art marquee
+  (H2 variant B, footer strip, nav-underline). White band, 1.5px outline top
+  and bottom, #1E1E1E icons.
+
+------------------------------------------------------------------------
+P8. Numbered section divider ("01. Brand Messaging")
+------------------------------------------------------------------------
+
+  Full-bleed Blue 500 (#4285F4) section with black type: a light-weight
+  number ("01.") on the left, a large Regular title on the right, tiny
+  breadcrumb header at the top. Use it as the full-screen interstitial for
+  the page-load transition (0.6s, then slides up) and for the Our Story
+  chapter openers.
+
+------------------------------------------------------------------------
+P9. Guideline-page layout (for text-heavy sections)
+------------------------------------------------------------------------
+
+  Off-white page, 12-col grid: col 1–3 title rail (stacked Bold/Regular),
+  col 4–12 content in up to three columns. Dark variant: #1E1E1E bg with
+  #F0F0F0 text, one key phrase in #57CAFF Bold. Use for Story text, About
+  copy, FAQ, Contact info.
+
+------------------------------------------------------------------------
+P10. Template → website component map
+------------------------------------------------------------------------
+
+  Kit template                 → Website use
+  ---------------------------  ------------------------------------------
+  Landing page header          → Home Hero composition: huge "Join our
+   (Join our community)           community" Regular headline bottom-left,
+                                  triple circle + arrow top-left, framed
+                                  photo centre-right, globe, slashes, logo
+  Website banner               → inner PageHero (shapes + framed photo)
+  Blog post image              → Our Story milestone cards
+  Email template header        → Contact / newsletter header collage
+  Evergreen social 1:1 / 4:5   → Gallery cards, EventCard
+  16:9 background              → Feature cards, OG image
+  Announcement: Event          → Events E2 "Upcoming" banner
+  Announcement: Venue          → Events venue chip / Contact map card
+  Announcement: Activity V1/V2 → EventCard (time pill + speakers) 
+  Agenda promo                 → Events E4 timetable (2 columns, time in
+                                  Mono, speaker names in theme core colour)
+  Speaker promo (+ co-branded) → SpeakerCard (portrait frame, quote marks,
+                                  talk title in white card, name pill)
+  Sponsor / partner template   → Partners H9 ("Sponsored by" tab + logo
+                                  circles, "In partnership with" second card)
+  Badges & lanyard             → Team ID cards + marquee strip
+  Signage / one-sheet          → print.css + downloadable posters
+  Certificates                 → optional /certificate generator later
+  Avatar / photo frames        → Team + Gallery frames
+  Stickers (die-cut, rectangle)→ draggable sticker easter-egg in Footer
+  T-shirt / bottle             → merch teaser strip + monochrome mode
+
+------------------------------------------------------------------------
+P11. Accessibility adaptations (kit look vs. WCAG on the web)
+------------------------------------------------------------------------
+
+  - The kit sets the chapter name in the core colour on pastel (e.g. #34A853
+    on #CCF6C5 ≈ 2.4:1). Keep that ONLY inside the logo SVG (it has an
+    accessible name). For readable text always use #1E1E1E.
+  - Halftone fills behind text must be paired with #1E1E1E text only.
+  - Core fills (#4285F4, #34A853, #F9AB00, #EA4335) carry #1E1E1E text
+    (≥ 3.9:1; fine for the large sizes used).
+  - Every decorative shape: aria-hidden="true", focusable="false".
+  - Focus ring #4285F4 3px + 2px offset on pastel; on blue fills use #1E1E1E.
+
+------------------------------------------------------------------------
+P12. Naming & copy rules from the kit (page 3)
+------------------------------------------------------------------------
+
+  - Group: "Google Developer Group on Campus Institute of Business
+    Administration" or "GDG on Campus IBA". Avoid the bare umbrella term
+    "GDG".
+  - Organizer title: "Google Developer Groups on Campus Organizer" /
+    "GDG on Campus Organizer" (Team page lead role, LinkedIn-style bios).
+  - Social hashtag: #GDGOnCampus on every share, footer and OG text.
+
+------------------------------------------------------------------------
+P13. Don'ts (from the kit's own restraint)
+------------------------------------------------------------------------
+
+  - No drop shadows / glows on shapes (hard 4px offset only on hover).
+  - No gradients on shapes inside templates — the kit is flat colour. (The
+    site's gradients stay in the atmosphere layer only; see Gradient Rules.)
+  - No more than one colourway per layout, no rainbow backgrounds.
+  - No bold paragraphs, no all-caps headlines (all-caps is for Mono labels).
+  - No third-party or competing logos near the lockup without clear space;
+    partner logos sit in white circles (kit sponsor template).
+
+################################################################################
+## Folder Structure
+################################################################################
+
+  gdgoc-iba/
+  ├── public/
+  │   ├── fonts/                    # Google Sans + Google Sans Mono (.woff2)
+  │   ├── brand/                    # Official logo lockups (SVG): horizontal,
+  │   │                             #   stacked, light + dark, favicon mark
+  │   ├── shapes/                   # Exported brand artwork from the kit (SVG)
+  │   ├── 3d/                       # Pre-rendered 3D sprites (webp/png) for hero
+  │   ├── lottie/                   # Optional small .json / .lottie files
+  │   ├── og-image.png              # 1200×630 Open Graph preview
+  │   └── favicon.svg
+  │
+  ├── src/
+  │   ├── assets/
+  │   │   ├── images/               # Event / gallery / team photos (Astro <Image>)
+  │   │   ├── speakers/
+  │   │   ├── team/
+  │   │   └── partners/             # Partner logos (SVG preferred)
+  │   │
+  │   ├── components/
+  │   │   ├── ui/                   # shadcn/ui components (generated, re-skinned)
+  │   │   ├── shapes/               # SVG brand-shape components (React or .astro)
+  │   │   │   ├── Pill.tsx, TripleCircle.tsx, Slashes.tsx, Asterisk.tsx,
+  │   │   │   ├── Globe.tsx, People.tsx, Arrow.tsx, Brace.tsx, Quote.tsx,
+  │   │   │   ├── Chevrons.tsx (the <> mark), Pin.tsx, Hash.tsx, Scallop.tsx
+  │   │   │   ├── Comma.tsx, DonutArc.tsx, Lines.tsx, Bars.tsx, CodeHeart.tsx,
+  │   │   │   ├── FourDots.tsx, Toggle.tsx            (see Pattern Library P1)
+  │   │   │   ├── NotchCard.tsx        (type tab | step — P2)
+  │   │   │   ├── PhotoFrame.tsx, AvatarFrame.tsx     (P3)
+  │   │   │   ├── PatternMosaic.tsx, LanyardStrip.tsx (P6, P7)
+  │   │   │   └── themes.ts            (the 4-colourway Theme Kit table)
+  │   │   ├── motion/               # Reusable animation wrappers (islands)
+  │   │   │   ├── Reveal.tsx            # whileInView fade/slide
+  │   │   │   ├── Stagger.tsx           # stagger container
+  │   │   │   ├── Marquee.tsx           # infinite horizontal scroller
+  │   │   │   ├── FloatingShape.tsx     # drifting + cursor-parallax wrapper
+  │   │   │   ├── CountUp.tsx           # number count-up
+  │   │   │   ├── TextRotator.tsx       # rotating word in hero headline
+  │   │   │   ├── MagneticButton.tsx    # cursor-attract hover
+  │   │   │   ├── ScrollProgress.tsx    # top Google-4-colour progress bar
+  │   │   │   └── SmoothScroll.tsx      # Lenis provider
+  │   │   ├── layout/
+  │   │   │   ├── Navbar.tsx            # island (client:load)
+  │   │   │   ├── MobileMenu.tsx        # shadcn Sheet
+  │   │   │   ├── Footer.astro
+  │   │   │   └── PageHero.astro        # shared inner-page hero banner
+  │   │   ├── home/                 # Home-only sections
+  │   │   │   ├── Hero.astro (+ HeroScene.tsx)
+  │   │   │   ├── TagMarquee.tsx
+  │   │   │   ├── About.astro
+  │   │   │   ├── Stats.tsx
+  │   │   │   ├── CrewPreview.tsx
+  │   │   │   ├── EventsPreview.tsx
+  │   │   │   ├── VoicesPreview.tsx
+  │   │   │   ├── GalleryStrip.tsx
+  │   │   │   ├── Partners.tsx
+  │   │   │   ├── CommunityCTA.astro
+  │   │   │   └── Faq.tsx (optional)
+  │   │   ├── events/   EventCard.tsx, EventFilter.tsx, EventTimeline.tsx,
+  │   │   │             EventDialog.tsx
+  │   │   ├── speakers/ SpeakerCard.tsx, SpeakerGrid.tsx, SpeakerModal.tsx
+  │   │   ├── team/     TeamCard.tsx, TeamGrid.tsx, LeadSpotlight.tsx
+  │   │   ├── gallery/  MasonryGallery.tsx, Lightbox.tsx, AlbumFilter.tsx
+  │   │   ├── story/    StoryTimeline.tsx, MilestoneCard.tsx, ValuesGrid.tsx
+  │   │   ├── contact/  ContactForm.tsx, ContactInfo.tsx, MapEmbed.astro
+  │   │   └── shared/   SectionHeading.astro, Chip.astro, SocialLinks.tsx,
+  │   │                 Logo.astro, ThemeSection.astro, ScallopDivider.astro
+  │   │
+  │   ├── content/                  # Astro content collections
+  │   │   ├── config.ts             # Zod schemas
+  │   │   ├── events/*.md(x)
+  │   │   ├── speakers/*.md
+  │   │   ├── team/*.md
+  │   │   ├── gallery/*.json
+  │   │   ├── story/*.md
+  │   │   └── partners/*.json
+  │   │
+  │   ├── data/
+  │   │   ├── site.ts               # name, links, socials, contact, nav items
+  │   │   ├── stats.ts              # home stats
+  │   │   ├── tags.ts               # marquee words
+  │   │   └── values.ts             # Our Story values
+  │   │
+  │   ├── layouts/
+  │   │   ├── BaseLayout.astro      # <head>, fonts, meta, ClientRouter, Lenis
+  │   │   └── PageLayout.astro      # BaseLayout + Navbar + Footer + page hero slot
+  │   │
+  │   ├── lib/                      # utils.ts (cn), motion presets, helpers
+  │   ├── pages/
+  │   │   ├── index.astro
+  │   │   ├── events.astro  (+ events/[slug].astro optional)
+  │   │   ├── speakers.astro
+  │   │   ├── team.astro
+  │   │   ├── gallery.astro
+  │   │   ├── our-story.astro
+  │   │   ├── contact.astro
+  │   │   └── 404.astro
+  │   └── styles/globals.css        # @import tailwind, @theme tokens, @font-face
+  │
+  ├── components.json               # shadcn config
+  ├── astro.config.ts
+  ├── tsconfig.json
+  ├── .env                          # PUBLIC_EMAILJS_* (or Web3Forms key)
+  └── package.json
+
+################################################################################
+## Global Components (used on every page)
+################################################################################
+
+------------------------------------------------------------------------
+G1. Navbar
+------------------------------------------------------------------------
+
+LAYOUT:
+  Fixed top. Floating pill-shaped bar inset 16px from the viewport edges
+  (max-w-[1280px], mx-auto), height 64px, bg #F0F0F0/90 with backdrop-blur,
+  2px #1E1E1E outline, rounded-full.
+  Left   : GDG horizontal logo lockup (mark + "Google Developer Group" +
+           "Institute of Business Administration" in blue). On <640px show
+           the mark + "GDG on Campus IBA" only.
+  Centre : Links — Home · About · Events · Gallery · Team · Speakers ·
+           Our Story · Contact  (Google Sans 500, text-sm).
+           "About" scrolls to /#about (on other pages it navigates to /#about).
+  Right  : "Join" colour button (theme-aware halftone yellow by default).
+  Active link: filled pill highlight behind the link in the page's theme
+  pastel (shared layoutId pill that slides between links).
+  Tablet/Mobile (<1024px): links collapse; a round menu button opens a shadcn
+  Sheet sliding from the right/bottom containing big stacked links (each link
+  a large Google Sans pill in alternating Blue/Green/Yellow/Red pastels),
+  socials row, and Join button.
+
+ANIMATION (Motion):
+  - Mount: y:-80 → 0, opacity 0→1, spring (stiffness 260, damping 24).
+  - Hide on scroll down / show on scroll up (useScroll velocity), always shown
+    at top.
+  - Active-pill: layoutId="nav-pill" slides between links with spring.
+  - Link hover: text colour → #1E1E1E on a pastel pill that grows from scale
+    0.8 → 1; the logo mark chevrons "wiggle" ±6° on hover.
+  - Mobile sheet: items stagger in (y:30 → 0, 0.05s each).
+  - Join button: MagneticButton behaviour (attracts toward cursor within 80px).
+
+COLOUR SCHEME:
+  Bar bg #F0F0F0 (90%) · outline #1E1E1E · links #1E1E1E · active pill =
+  current page theme pastel · Join button bg #FFD427 (halftone yellow).
+
+------------------------------------------------------------------------
+G2. Footer
+------------------------------------------------------------------------
+
+LAYOUT:
+  Full-width, bg #1E1E1E, text #F0F0F0, rounded-t-[48px] (so it "tucks" under
+  the last colourful section). Top edge has the 4-colour thin gradient line
+  (G-GOOGLE, 4px).
+  4 columns (lg): 
+    1. Dark logo lockup + the official long name + one-line mission +
+       #GDGOnCampus
+    2. Quick Links (Home, About, Events, Gallery, Team, Speakers, Our Story,
+       Contact)
+    3. Contact Us (address, email, phone if available)
+    4. Follow us: social circle buttons — Instagram, Facebook, LinkedIn,
+       Discord/TikTok/X (if exist) and a "Join on Google Developer Groups"
+       pill linking to the GDG community (Bevy) page.
+  Above the link columns: the kit's FOUR DOTS (red · yellow · green · blue)
+  and a LanyardStrip (P7) in #F0F0F0 line-art. The footer logo uses the DARK
+  lockup (no mark outline, chapter name #57CAFF).
+  Giant outlined watermark wordmark "GDG on Campus IBA" (text stroke only,
+  stroke #F0F0F0 at 12% opacity) across the bottom, partially cropped.
+  Bottom strip: © {year} Google Developer Groups on Campus Institute of
+  Business Administration. All rights reserved. · "Built with ♥ by the
+  GDG on Campus IBA team" · BACK TO TOP ↑ round button.
+  Disclaimer line (small, muted): "Google Developer Groups are community-run
+  groups for developers interested in Google technologies. This chapter is
+  not an official Google site." (keep wording factual and neutral)
+
+ANIMATION (Motion):
+  - Footer content: whileInView stagger (y:30 → 0, 0.08s).
+  - Social circles: whileHover rotate ±8°, scale 1.1; background fills with a
+    different Google colour per icon (Instagram→pink, Facebook→blue,
+    LinkedIn→blue-halftone, Discord→green, etc.).
+  - Watermark wordmark: slow horizontal drift (40s linear loop).
+  - Back-to-top: smooth scroll via Lenis, arrow bounces 0→-4px loop.
+
+COLOUR SCHEME:
+  bg #1E1E1E · text #F0F0F0 · muted #A8A8A8 · link hover = rotating Google
+  colour (blue/red/yellow/green by column) · divider rgba(240,240,240,0.15).
+
+------------------------------------------------------------------------
+G3. Page Hero (inner pages)
+------------------------------------------------------------------------
+
+LAYOUT:
+  Reusable <PageHero theme title subtitle shapes />. Pastel theme background,
+  pt-40 pb-20. Left: mono label ("02 / EVENTS" style), giant page H1 (one
+  Bold word + rest Regular), short intro. Right (lg): 2–3 floating brand shapes
+  of the page's theme (e.g., Events: globe + triple circle + slashes).
+  Bottom edge: scalloped divider into the next section.
+
+ANIMATION: headline words reveal one by one (y:60 → 0, mask overflow hidden,
+  0.08s stagger); shapes drift (float keyframes 6–10s, alternating) and
+  parallax with the cursor (±12px) and scroll (useTransform).
+
+------------------------------------------------------------------------
+G4. Motion Primitives (build once, reuse everywhere)
+------------------------------------------------------------------------
+
+  Reveal       : initial {opacity:0, y:40}; whileInView {opacity:1, y:0};
+                 transition {duration:0.6, ease:[0.22,1,0.36,1]};
+                 viewport {once:true, amount:0.2}. Props: direction, delay.
+  Stagger      : parent staggerChildren 0.08; child same as Reveal.
+  Marquee      : duplicated track, CSS `@keyframes marquee` (translateX 0 →
+                 -50%), speed prop, pause on hover, `direction` prop,
+                 mask-image fade on both edges.
+  FloatingShape: wrapper adding (a) CSS float (translateY ±14px, rotate ±4°,
+                 6–10s ease-in-out infinite, random delay) and (b) cursor
+                 parallax using useMotionValue/useSpring (depth prop).
+  CountUp      : animate(0 → n, duration 1.6s, ease easeOut) when in view.
+  MagneticButton: translate toward pointer, spring back on leave.
+  ScrollProgress: 4px fixed top bar, scaleX from useScroll, fill = G-GOOGLE.
+  SmoothScroll : Lenis init (lerp 0.1), disabled when prefers-reduced-motion.
+  prefers-reduced-motion: ALL looping/parallax animations off; reveals become
+  simple opacity fades.
+
+################################################################################
+## PAGE 1 — HOME ( / )
+################################################################################
+
+  Section order on the page (top → bottom). Section IDs: #hero, #about,
+  #stats, #crew, #events, #voices, #gallery, #partners, #join.
+
+------------------------------------------------------------------------
+H1. Hero  (#hero) — THEME YELLOW
+------------------------------------------------------------------------
+
+LAYOUT:
+  min-h-screen, bg G-SUNRISE soft (or pastel yellow #FFE7A5 with a blurred
+  yellow→pink gradient blob top-right). Full-bleed, overflow hidden.
+  Left (≈55%):
+    - Mono label chip: "GOOGLE DEVELOPER GROUP ON CAMPUS · IBA" with a small
+      4-colour dot cluster.
+    - Headline (Google Sans, mixed weights, huge):
+         "Learn. **Build.**"
+         "Belong." (rotating word: Belong / Grow / Lead / Create via
+         TextRotator — vertical slide swap every 2.2s)
+    - Sub-copy (lead paragraph): student-built community at IBA for people
+      who want to grow as developers — workshops, hackathons, study jams and
+      talks. All programs and majors are welcome.
+    - CTAs: "Join The Community" (Primary dark pill → external GDG/Bevy page)
+            "Explore Events" (Ghost pill → /events)
+    - Under CTAs: small social proof row — avatar stack (3–5 circle photos)
+      + "Join {N}+ members" (value from data/stats.ts).
+  Right (≈45%): the "playground" — a cluster of floating brand objects:
+      big 3D sprite (hero object, see Resources — e.g. 3D glossy chevrons /
+      star / abstract shapes) centre, surrounded by outlined shapes: globe,
+      triple circle, slashes "//", asterisk, arrow, brace, speech/quote, a
+      big yellow pill and a half-donut arc (as on the brand cover). Each
+      shape is a FloatingShape with a different depth.
+  Mobile: shapes shrink and rearrange behind the text at 30–40% opacity; the
+  3D hero object sits below the CTAs.
+  Bottom edge: scalloped divider into the marquee strip.
+  Scroll cue: mouse/arrow chip bottom-centre.
+  KIT REFERENCE: compose the right-hand playground like the kit's "Landing
+  Page Header" (P10): triple circle + long arrow top-left, a PhotoFrame with
+  a stepped corner centre-right, globe, filled slashes, logo lockup — then
+  add the 3D sprite and floats on top. Optional PatternMosaic (P6) behind at
+  10% opacity.
+
+ANIMATION (Motion):
+  - Load sequence: label (0.1s) → headline lines (0.2s, 0.3s, masks sliding up)
+    → sub-copy (0.5s) → CTAs (0.65s) → avatar row (0.8s) → shapes pop in with
+    spring scale 0 → 1 and slight rotate, staggered 0.08s from 0.4s.
+  - TextRotator: old word slides up & fades, new word slides in from below.
+  - Shapes: continuous float + cursor parallax; on scroll they drift upward at
+    different speeds (useTransform on scrollYProgress).
+  - Hero 3D sprite: slow 360° "turntable" tilt on pointer move (rotateX/Y ±10°).
+  - Scroll cue: bounce loop 1.2s.
+
+COLOUR SCHEME:
+  bg #FFE7A5 + gradient blob (#FFD427 → #FF7DAF @ 40%) · headline #1E1E1E ·
+  bold word underlined with a hand-drawn squiggle in #F9AB00 · shapes use
+  halftone yellow/blue/green/pink + #1E1E1E outlines · Primary CTA #1E1E1E.
+
+------------------------------------------------------------------------
+H2. Tag Marquee Strip
+------------------------------------------------------------------------
+
+LAYOUT:
+  Full-bleed band, bg #1E1E1E, py-5, rotated -1.5° with overflow visible so
+  it slightly tilts across the page (adds energy). Two stacked rows moving in
+  opposite directions. Each item = pill chip (pastel fill, 2px outline) with
+  a leading brand shape icon, text in Google Sans Mono uppercase:
+  MENTORSHIP · WORKSHOPS · HACKATHONS · STUDY JAMS · UI/UX · ANDROID · FLUTTER ·
+  FIREBASE · CLOUD · AI/ML · WEB · TALKS · NETWORKING · COMMUNITY · #GDGONCAMPUS
+  Chip colours cycle Blue → Red → Yellow → Green pastel.
+
+ANIMATION: infinite marquee (row 1 left, row 2 right, 35s/45s), pause on
+  hover, chip hover: scale 1.08 + rotate -3° + shape icon spins.
+
+VARIANT B (kit lanyard — build this as a second marquee below the tilted
+  chips, or on inner pages): white band, 1.5px outline, repeating
+  [logo] asterisk arrow→ globe scallops asterisk arrow→ globe scallops
+  (see Pattern Library P7). Speed 50s, pauses on hover.
+
+------------------------------------------------------------------------
+H3. About  (#about) — "Who We Are" — THEME BLUE
+------------------------------------------------------------------------
+
+LAYOUT:
+  bg #C3ECF6. Mono label "01 / WHO WE ARE". 2-column (lg).
+  Left (text): H2 "A community where **IBA** builds together". 2 short
+  paragraphs: what a Google Developer Group on Campus is, what the IBA chapter
+  does (workshops, hackathons, study jams, talks, mentorship), who it is for
+  (all programs, all levels, curious students). A row of 3 "pillars" chips:
+  Learn · Build · Connect. Button "Explore Our Story" → /our-story.
+  Right (visual): a large NotchCard (white, notch top-right) containing a
+  collage: 1 rounded team/event photo (notch-cropped) + overlapping floating
+  stickers (the code-sticker / chevron mark, a blue pill, triple circles,
+  globe). A rotating circular text badge ("GOOGLE DEVELOPER GROUPS ON CAMPUS •
+  ") orbits one corner (SVG textPath, 20s linear spin).
+  Below both columns: a "keyword cloud" — scattered rotated pills (Mentorship,
+  Brainstorming, Collaboration, Teamwork, Workshop, UI/UX, Hackathon, Problem
+  Solving, Prototype) that float gently and wiggle on hover.
+
+ANIMATION (Motion):
+  - Left column x:-40 → 0; right column x:40 → 0, delay 0.15s (once).
+  - Notch card image: clip reveal (inset 100% → 0%) 0.9s.
+  - Sticker shapes: pop-in with spring, then float.
+  - Keyword pills: stagger scale 0.6 → 1 + float; hover wiggle (rotate ±6°).
+  - Circular badge: infinite rotate 20s.
+
+COLOUR SCHEME:
+  bg #C3ECF6 · card white w/ #1E1E1E outline · pills alternate #57CAFF,
+  #FFE7A5, #CCF6C5, #F8D8D8 · accents #4285F4.
+
+------------------------------------------------------------------------
+H4. Stats  (#stats) — THEME GREEN
+------------------------------------------------------------------------
+
+LAYOUT:
+  bg #CCF6C5. 4 big stat tiles in a row (2×2 on mobile), each a rounded-3xl
+  card with a different halftone fill and 2px outline, a brand shape in the
+  corner and a CountUp number in huge Google Sans Bold + mono caption.
+  Suggested stats (replace with real numbers): Members · Events Hosted ·
+  Speakers · Workshops/Hackathons. Optional 5th wide tile: "Est. {year}".
+
+ANIMATION: tiles pop up with stagger (y:50, rotate ±2° → 0), numbers count up
+  1.6s, hover: tile lifts (-6px) + hard shadow appears + corner shape rotates.
+
+------------------------------------------------------------------------
+H5. Meet The Crew  (#crew) — THEME RED/PINK
+------------------------------------------------------------------------
+
+LAYOUT:
+  bg #F8D8D8. Mono label "02 / THE CREW". H2 "The people behind the code"
+  + sub-line. Content: a two-row, opposite-direction auto-scrolling marquee of
+  TeamCards (circular/notch-cropped photo, name in Google Sans Bold, role in
+  Google Sans Mono pill). Lead + Co-Lead are shown FIRST in a static
+  "spotlight" row above the marquee, slightly larger, with a crown-free
+  highlight: a bigger pill labelled "GDG on Campus Lead" / "Co-Lead".
+  Each card's hover reveals LinkedIn + email icon buttons (circle, 2px outline).
+  Button "Meet Everyone" → /team.
+
+ANIMATION: marquee loops (pause on hover); card hover: photo ring switches
+  between Google colours, card lifts, tiny shape sticker pops from corner;
+  spotlight cards reveal with stagger from below.
+
+------------------------------------------------------------------------
+H6. Events Preview  (#events) — "Moments In Motion" — THEME YELLOW
+------------------------------------------------------------------------
+
+LAYOUT:
+  bg #FFE7A5. Label "03 / MOMENTS IN MOTION". H2 "Experience the **events**".
+  Header-right button "View All Events" → /events.
+  Layout: one FEATURED event (the latest/upcoming) as a large horizontal
+  NotchCard (image left in notch crop, date chip, title, short blurb, mono
+  tags, "Details" button) + beside/below it 2–3 compact EventCards (cover,
+  date, title). Event cards use the brand "Upcoming / Event" tab label.
+  Data from the `events` content collection (sorted by date, newest first;
+  upcoming events labelled "Upcoming", past events "Recap").
+  Under the cards: a horizontally auto-scrolling strip of session photos
+  (rounded-2xl, alternating slight rotations) like the reference site's
+  "robo" photo carousel.
+
+ANIMATION: featured card slides in from left, small cards stagger from right;
+  card hover: image zooms 1.06 inside crop, hard shadow, date chip bounces;
+  photo strip: marquee, pause on hover.
+
+------------------------------------------------------------------------
+H7. Voices On Stage Preview  (#voices) — THEME BLUE
+------------------------------------------------------------------------
+
+LAYOUT:
+  bg #C3ECF6 (use alternate: sky gradient G-SKY at 30% in top-left blob).
+  Label "04 / VOICES". H2 "Voices that **inspire**". Embla carousel (shadcn
+  Carousel, autoplay, loop) of SpeakerCards styled as the brand "Speaker
+  Promo" template: notch-cropped portrait left, white rounded box right with
+  big quote marks (outlined), talk title (max 4 lines), a coloured pill with
+  "Firstname Lastname" and a second pill with "Company". Prev/Next as circle
+  icon buttons; dots as 4-colour mini circles. Button "All Speakers" →
+  /speakers. If no speakers yet: show a friendly empty state card
+  ("Speaker line-up dropping soon") with the quote shapes.
+
+ANIMATION: slide transitions with spring; active card scale 1, others 0.92 &
+  opacity 0.6; quote marks swing in; drag to scroll; autoplay pauses on hover.
+
+------------------------------------------------------------------------
+H8. Gallery Strip  (#gallery) — "Snapshots" — THEME GREEN
+------------------------------------------------------------------------
+
+LAYOUT:
+  bg #CCF6C5. Label "05 / SNAPSHOTS". H2 "Our best **moments**". Three rows of
+  photos in full-bleed marquees moving in alternating directions, each photo a
+  rounded-2xl card with 2px outline and slightly different aspect ratios.
+  Centre overlay card (NotchCard, white): "A glimpse into our most memorable
+  moments" + "View Gallery" button → /gallery. Sits on top; rows continue
+  behind it.
+
+ANIMATION: rows move at different speeds (30s/40s/50s); hovering a photo
+  enlarges it slightly (scale 1.08, z-index up) and slows the row; overlay card
+  floats ±6px.
+
+------------------------------------------------------------------------
+H9. Partners  (#partners) — "Powered By Friends"
+------------------------------------------------------------------------
+
+LAYOUT:
+  bg #F0F0F0. Label "06 / PARTNERS". H2 "Trusted by our **partners**".
+  Infinite marquee of partner/sponsor logo tiles (white rounded-2xl, 2px
+  outline, logo in grayscale → colour on hover). First tile is always Google
+  Developer Groups. Add "Become a partner →" link to /contact.
+
+ANIMATION: marquee (pause on hover), logo grayscale→colour 200ms, tile lifts.
+
+------------------------------------------------------------------------
+H10. Community CTA  (#join) — THEME RED/PINK
+------------------------------------------------------------------------
+
+LAYOUT:
+  bg #FF7DAF → pastel #F8D8D8 (G-BLOSSOM). Giant NotchCard (white) centred,
+  max-w-5xl: H2 "Join the **community**" + paragraph + 3 icon-chip bullets
+  (Workshops, Group Discussions, Networking, Project Help, Announcements) +
+  big "Join The Community" Primary button → GDG community (Bevy) page.
+  Second row, 3 social tiles (Instagram, Facebook, LinkedIn — plus Discord if
+  a server exists) each a pastel rounded-3xl card with icon, handle and
+  "Follow" arrow; links open in new tab.
+  Floating shapes: arrow, triple circle, slashes, asterisk, quote marks.
+  (Mirrors the Discord CTA of the reference site, adapted to Instagram /
+  Facebook / GDG page.)
+
+ANIMATION: card scale 0.9 → 1 on enter; button MagneticButton; social tiles
+  stagger with hover tilt (rotateX/Y following the pointer, ±6°); shapes
+  float; confetti burst (Lottie or canvas, 1.2s) when Join is clicked.
+
+################################################################################
+## PAGE 2 — OUR STORY ( /our-story ) — "Our Journey"
+################################################################################
+
+PAGE HERO (G3): theme BLUE. H1 "Our **Journey**". Intro: how the chapter began
+at IBA, why it exists.
+
+S1. Origin Story  — NotchCard text block (2 columns: text + photo), CountUp
+    "Since {year}", pull-quote with giant outlined quote marks.
+S2. Mission / Vision / Values — 3 tiles (Mission = BLUE, Vision = YELLOW,
+    Values = GREEN) + a ValuesGrid of 6 small pill cards (Curiosity,
+    Collaboration, Inclusion, Learning by building, Open source spirit,
+    Giving back) each with a brand shape icon.
+S3. Timeline (StoryTimeline) — vertical, centre line (2px #1E1E1E) with
+    alternating left/right MilestoneCards (NotchCard, each a different theme
+    colour: Blue → Green → Yellow → Red, repeating). Node = circle in the
+    milestone colour on the line. Each milestone: year chip (mono), title,
+    blurb, optional photo.
+    Mobile: all cards on one side of the line.
+S4. "What We Do" — 4 offering cards: Workshops, Hackathons, Study Jams,
+    Speaker Sessions (each with icon, short copy, link to /events filtered).
+S5. Closing CTA — "Be part of the next chapter" + Join button.
+
+ANIMATION: timeline line draws (scaleY 0→1 tied to scroll via useScroll,
+  transform-origin top); each milestone slides from its side (x:±60) and the
+  node pops (scale 0→1, backOut); photo parallax inside the card; values pills
+  float.
+
+################################################################################
+## PAGE 3 — EVENTS ( /events )
+################################################################################
+
+PAGE HERO (G3): theme BLUE. H1 "**Events**". Shapes: globe + slashes + circles.
+
+E1. Filter Bar (EventFilter) — shadcn Tabs styled as pills:
+    All · Upcoming · Past · Workshops · Hackathons · Study Jams · Talks.
+    Active tab = filled with theme halftone + outline. Optional search input
+    (pill) and year Select.
+E2. Featured / Next Event banner — full-width NotchCard "Upcoming" with
+    countdown timer (days / hours / minutes / seconds, mono digits in 4 colour
+    tiles) and "Register" button → GDG community (Bevy) event link (from
+    event.registerUrl).
+E3. Event Grid (EventCard) — 3 cols desktop, 2 tablet, 1 mobile. Card: cover
+    image (notch crop), label tab ("Workshop", "Hackathon"…), date chip,
+    title, 2-line blurb, tags, "View Details" → opens EventDialog (shadcn
+    Dialog) with full description, schedule/agenda list, speakers (avatars),
+    photo strip and Register / Recap links. Optional deep link /events/[slug].
+    Past events show a "Recap" ribbon.
+E4. Agenda promo style list for the next event — 2-col timetable inside a
+    NotchCard tab "Agenda" (time in mono, session title, speaker in accent
+    colour) — mirrors the brand's Agenda Promo template.
+E5. Photo Recap strip for the most recent event (marquee).
+E6. CTA band — "Want to host or speak? Talk to us" → /contact.
+
+ANIMATION: filter change = AnimatePresence popLayout; cards exit scale 0.95 /
+  opacity 0 (0.15s) then filtered cards enter with stagger 0.05s (layout
+  animation so the grid reflows smoothly); countdown digits flip (y slide);
+  card hover lifts with hard shadow; Dialog opens with scale+fade spring and
+  the image shares layoutId with the card image.
+
+################################################################################
+## PAGE 4 — SPEAKERS ( /speakers )
+################################################################################
+
+PAGE HERO (G3): theme RED/PINK. H1 "**Speakers**". Shapes: quote marks,
+  slashes, circles.
+
+SP1. Intro + filter chips (All · Industry · Alumni · Google Developer Experts ·
+     Student Speakers) — only show filters that have data.
+SP2. Speaker Grid (SpeakerGrid) — 3 cols desktop. SpeakerCard = brand
+     "Speaker Promo": notch-cropped portrait, outlined quote marks, talk title,
+     name pill (theme colour), company pill (halftone). Card colours rotate
+     through the 4 themes. Click → SpeakerModal (shadcn Dialog): large
+     portrait, bio, talk title/abstract, event(s) spoken at (links to
+     /events), social links (LinkedIn/X).
+SP3. "Past Speakers by Event" accordion (shadcn Accordion) — each event → its
+     speakers as small avatars.
+SP4. Call for Speakers — NotchCard with short form-less CTA → /contact?subject=speaker
+     (prefill the contact form subject).
+
+ANIMATION: cards stagger-reveal; hover: portrait pops out of the notch (scale
+  1.05) and quote marks swing; modal uses shared layoutId transition; grid
+  filter uses layout animation (same pattern as Events).
+
+################################################################################
+## PAGE 5 — TEAM ( /team )
+################################################################################
+
+PAGE HERO (G3): theme GREEN. H1 "Meet The **Crew**". Shapes: people arches +
+  triple circle + asterisk.
+
+T1. Lead Spotlight (LeadSpotlight) — Lead + Co-Lead as 2 large cards (notch
+    portrait, name, role "GDG on Campus Lead" / "Co-Lead", short bio line,
+    LinkedIn + email buttons). Each on a different theme colour.
+T2. Faculty Advisor (if any) — single wide card with distinct style.
+T3. Team Grid by department (TeamGrid) — sections with heading + coloured
+    chip: Tech / Design / Events & Operations / Marketing & Social / Content /
+    Outreach & Sponsorship (rename to the chapter's real departments). Each
+    TeamCard: circular or notch portrait with colour ring, name (Bold), role
+    (mono pill), hover reveals LinkedIn / email / GitHub icon buttons.
+    4 cols desktop, 3 tablet, 2 mobile.
+T4. Alumni / Past Team (optional collapsed Accordion).
+T5. "Want to join the team?" CTA → Join / /contact.
+
+ANIMATION: leads reveal with scale + slight rotation; team cards stagger per
+  department when it enters view; photo ring colour cycles on hover; cursor
+  parallax on shapes in hero; optional tilt (rotateX/Y) on lead cards.
+
+################################################################################
+## PAGE 6 — GALLERY ( /gallery ) — "Snapshots"
+################################################################################
+
+PAGE HERO (G3): theme YELLOW. H1 "**Snapshots**". Shapes: camera-like frame,
+  asterisk, circles.
+
+G1. Album Filter (AlbumFilter) — pills: All · Workshops · Hackathons · Talks ·
+    Team · Campus (sync with `gallery` collection `album` field).
+G2. Masonry Gallery (MasonryGallery) — CSS columns (1 / 2 / 3 / 4 by
+    breakpoint). Images rounded-2xl with 2px outline; some tiles are "brand
+    tiles" (a pastel notch card with a shape and #GDGOnCampus) inserted every
+    ~9 images to keep the colourful identity. Images use astro:assets with
+    blur-up placeholders, loading="lazy". Load 24 first + "Load more" (or
+    IntersectionObserver infinite append).
+G3. Lightbox — shadcn Dialog fullscreen: image, caption (event + date),
+    prev/next arrows, keyboard (←/→/Esc), swipe on mobile, counter "7 / 48",
+    download hidden. Shared layoutId expands the clicked thumbnail.
+G4. Photo-frame touch — on hover, a thin pastel frame with the brand corner
+    shapes (tab with chevrons mark) appears around the image (like the Photo
+    Frames template).
+
+ANIMATION: tiles fade/scale in with stagger as they enter; filtering uses
+  layout animation; hover: slight rotation (-1.5°/+1.5° alternate) + scale 1.03;
+  lightbox transitions with spring; parallax on hero shapes.
+
+################################################################################
+## PAGE 7 — CONTACT ( /contact ) — "Say Hello"
+################################################################################
+
+PAGE HERO (G3): theme YELLOW. H1 "Say **Hello**". Shapes: speech brace, arrow,
+  slashes.
+
+C1. Two-column layout (lg).
+    Left — ContactInfo: heading "Let's build something together", short copy,
+    info rows (icon in coloured circle + label + value): Email (click copies to
+    clipboard with toast "Copied!"), Address (IBA campus — confirm), Phone
+    (optional), Hours/Office (optional). Below: social buttons — Instagram,
+    Facebook, LinkedIn (+ Discord/TikTok/X if used) and "Join on Google
+    Developer Groups" pill (Bevy link).
+    Right — ContactForm inside a white NotchCard (tab label "Message"):
+      Fields: Name, Email, Subject (Select: General · Partnership/Sponsorship ·
+      Become a Speaker · Join the Team · Other), Message (textarea ≥ 20 chars).
+      Honeypot hidden field. Submit pill "Send Message →".
+      Validation: zod + react-hook-form; inline pill-shaped error text in red
+      (#EA4335) with small icon.
+      States: loading (3 bouncing 4-colour dots), success (card swaps to a
+      green-pastel confirmation with checkmark + confetti: "Message sent. We'll
+      get back to you soon."), error (red outline + retry text + email fallback).
+      Prefill Subject from query string (?subject=speaker).
+C2. Map — responsive Google Maps embed of the IBA campus (iframe, lazy, rounded
+    -3xl, 2px outline). Needs the correct campus location.
+C3. FAQ (shadcn Accordion) — "Who can join?", "Do I need coding experience?",
+    "Is it free?", "How do I become a speaker or partner?", "How do I stay
+    updated?" — answers editable in data.
+C4. Final CTA — Join community button.
+
+ANIMATION: columns slide from sides; inputs: focus ring animates border colour
+  to #4285F4 and label floats; submit button MagneticButton; success state
+  transitions with AnimatePresence (form exits y:-10, success enters y:10 → 0);
+  info icon circles wiggle on hover; map fades in.
+
+################################################################################
+## PAGE 8 — 404
+################################################################################
+
+  Big "4 ⬤ 4" where the 0 is a halftone circle with the <> chevrons mark; line
+  "This page wandered off campus." Buttons: Home, Events. Shapes float. Theme RED.
+
+################################################################################
+## Content Models (Astro content collections — Zod)
+################################################################################
+
+  events   : title, slug, date, endDate?, category (workshop|hackathon|study-jam|
+             talk|social), status (upcoming|past), cover, summary, description,
+             location, mode (onsite|online|hybrid), tags[], speakers[] (ids),
+             agenda[{time,title,speaker?}], gallery[], registerUrl?, recapUrl?
+  speakers : name, slug, role, company, photo, talkTitle, talkAbstract?, bio,
+             category, events[] (event slugs), links{linkedin?,x?,website?}
+  team     : name, role, department, isLead?, isCoLead?, photo, order, bio?,
+             links{linkedin?,github?,email?}, alumni? (bool)
+  gallery  : src, alt, album, event? (slug), date, caption?, width, height
+  story    : year, title, body, image?, theme (blue|green|yellow|red)
+  partners : name, logo, url?, tier? (optional)
+  Sample (dummy) content MUST be clearly marked "Sample" until real data is
+  provided. Do NOT invent real people's names, quotes or statistics.
+
+################################################################################
+## Resources — Where To Get Fonts, Images, Objects, Icons
+################################################################################
+
+  BRAND KIT (primary source — use first)
+    - The Google Developer Groups On Campus Brand Guidelines PDF supplied with
+      this project has "Download" buttons for: logos (horizontal / stacked,
+      light + dark), fonts (Google Sans, Google Sans Mono), colour swatches,
+      digital assets (banners, social templates, avatar templates, photo
+      frames, announcement templates, stickers), events and swag. Download all
+      and store the originals outside the repo (e.g. /_brand-kit-originals,
+      git-ignored). Export SVGs of the shapes (circles, slashes, globe,
+      arches, arrow, brace, quotes, asterisk, notch cards) into public/shapes/.
+    - Edit the logo lockup so the second line reads
+      "Institute of Business Administration" (use the editable template files
+      / Figma / Google Slides from the kit — do NOT hand-redraw the mark).
+    - Official GDG brand + community pages (for current logos & rules):
+        https://developers.google.com/community/gdg
+        https://gdg.community.dev/   (Bevy — chapter page, events, membership)
+
+  FONTS
+    - Google Sans / Google Sans Mono → brand kit download (see Typography).
+    - Free fallbacks → fonts.google.com (Outfit, Figtree, Roboto Mono,
+      JetBrains Mono) or @fontsource packages (self-hosted).
+
+  ICONS
+    - UI icons: lucide.dev (via lucide-react)
+    - Social/tech logos: simpleicons.org (react-icons/si) — Instagram,
+      Facebook, LinkedIn, X, TikTok, Discord, YouTube, GitHub, Android, Flutter,
+      Firebase, Google Cloud, TensorFlow, Kotlin, etc.
+    - Decorative line icons: the brand-shape set from the kit (preferred).
+
+  3D / HERO OBJECTS (the reference site uses 3D images: an Android figure, a
+  star, abstract shapes)
+    - Make your own: Spline (spline.design) → export transparent PNG/WebP or
+      embed ONE lightweight scene. Models: glossy chevrons <>, star, torus,
+      cubes in the four brand colours.
+    - Free 3D asset packs (check each licence for commercial/community use):
+        Spline Community (community.spline.design)
+        Icons8 3D Illustrations (icons8.com/illustrations — free with attribution)
+        Pixelbuddha / Freepik 3D shapes (freepik.com — attribution on free tier)
+        Blender (blender.org) — render brand shapes with a clay/glossy material
+    - Android mascot / Google product 3D art: ONLY if permitted by Google's
+      brand terms — Android bot: https://developer.android.com/distribute/marketing-tools/brand-guidelines
+      (follow the rules exactly; do not modify). If unsure, skip it — the brand
+      shapes already carry the identity.
+
+  ILLUSTRATIONS, SHAPES, PATTERNS
+    - undraw.co, storyset.com (recolour to brand tints; check licence)
+    - Haikei (haikei.app) — wave/scallop dividers + blob SVGs
+    - shapedivider.app — section dividers (recolour to theme pastels)
+    - SVGBackgrounds.com — subtle pattern ideas (dots, grids)
+    - Hand-drawn squiggle underlines: build in SVG, stroke #F9AB00
+
+  PHOTOS
+    - Best option: the chapter's OWN event/team photos (Instagram, Facebook,
+      shared drive). Get written consent from featured people for web use.
+      Resize to ≤ 2000px wide before adding to src/assets/.
+    - Placeholders until real photos arrive: Unsplash (unsplash.com) and Pexels
+      (pexels.com) — search "university students coding", "workshop",
+      "hackathon", "tech meetup", "Karachi". Credit where required.
+    - Speaker / team headshots: request from each person; crop square 1:1,
+      ≥ 600px, consistent framing. Remove backgrounds only with the person's
+      consent (remove.bg).
+
+  PARTNER LOGOS
+    - From each partner's brand/press page (SVG preferred). Always ask
+      permission before displaying. Google Developer Groups logo from the kit.
+
+  ANIMATION ASSETS
+    - LottieFiles (lottiefiles.com) — free confetti / sparkle / success-check
+      loops (check licence; keep tiny).
+    - Motion docs & examples: motion.dev/docs · Lenis: lenis.darkroom.engineering
+    - Embla Carousel: embla-carousel.com · shadcn/ui: ui.shadcn.com
+
+  INSPIRATION / REFERENCE
+    - https://www.gdgocdsu.com/ — information architecture, marquees, photo
+      strips, floating shapes, card layouts. DO NOT copy its images, copy text,
+      team data or code. Rebuild everything from the brand kit and our own
+      content.
+
+  CONTENT TO COLLECT FROM THE CHAPTER (before data entry)
+    - Official chapter name & GDG community (Bevy) URL, Instagram & Facebook URLs
+    - Lead / Co-Lead / team list with roles, photos, LinkedIn
+    - Event list (title, date, venue, description, photos, registration link)
+    - Speaker list with talk titles
+    - Story milestones (year → what happened)
+    - Real stats, partners, contact email, address, map location
+    - Permission to publish photos & names
+
+################################################################################
+## Global Animation Patterns
+################################################################################
+
+  Scroll reveal (default)  : y:40 → 0, opacity 0 → 1, 0.6s, ease [0.22,1,0.36,1],
+                             viewport once, amount 0.2
+  Stagger                  : 0.06–0.1s between siblings
+  Hover (cards)            : translate(-4px,-4px) + hard shadow 4px 4px 0 #1E1E1E,
+                             0.2s ease-out
+  Hover (pills/chips)      : scale 1.06, rotate ±2–3°, spring (stiffness 400,
+                             damping 18)
+  Tap                      : scale 0.97
+  Floating shapes          : translateY ±14px, rotate ±4°, 6–10s ease-in-out
+                             infinite alternate, random delays
+  Cursor parallax          : useSpring(stiffness 120, damping 20), depth 6–24px
+  Marquees                 : linear infinite, 30–50s, pause on hover
+  Page transitions         : Astro ClientRouter; old page fades/slides up 0.25s,
+                             new page enters y:20 → 0 0.35s; a quick full-screen
+                             4-colour "wipe" (four pastel bars sweeping, 0.5s)
+                             on route change (optional, keep subtle)
+  Scroll progress bar      : top 4px, G-GOOGLE fill
+  Performance rule         : animate transform + opacity only; avoid animating
+                             width/height/top/left; cap simultaneous floating
+                             shapes to ≤ 8 per viewport; pause offscreen loops
+                             (IntersectionObserver)
+  Accessibility            : respect prefers-reduced-motion (disable loops,
+                             parallax, marquee auto-run; keep simple fades);
+                             all marquees have a visually hidden static list
+
+################################################################################
+## Accessibility, SEO & Performance
+################################################################################
+
+  - Contrast: #1E1E1E on all pastels passes AA. Never place #F0F0F0 text on
+    halftone fills. Core Yellow (#F9AB00) is NEVER used for small text on light
+    backgrounds.
+  - Visible focus ring on all interactive elements; skip-to-content link.
+  - Semantic landmarks (header/nav/main/section/footer), one H1 per page.
+  - All images have meaningful alt; decorative shapes aria-hidden="true".
+  - Carousels: keyboard operable, pause control, no auto-advance under reduced
+    motion.
+  - SEO: per-page <title> / description / canonical / OG / Twitter card,
+    JSON-LD (Organization + Event for each upcoming event), sitemap.xml,
+    robots.txt, 1200×630 OG image in the brand style.
+  - Performance targets: LCP < 2.5s, CLS < 0.05, TBT low. Hydrate islands with
+    client:visible / client:idle wherever possible (Navbar = client:load only).
+    Hero 3D sprite preloaded and sized. Fonts preloaded (2 files). Images via
+    astro:assets (AVIF/WebP). Lazy-load Lottie/Spline.
+  - Hydration map: Navbar client:load · Hero shapes client:load · TextRotator
+    client:load · Marquees/Stats/Previews client:visible · Filters/Dialogs/
+    Forms client:visible · Footer static (.astro).
+
+################################################################################
+## Order of Work
+################################################################################
+
+  Rule: finish and verify each numbered step (build passes, works at 320 / 768
+  / 1024 / 1440px) before starting the next. Pages are built in this order:
+  GLOBAL FOUNDATION → HOME → OUR STORY → EVENTS → SPEAKERS → TEAM → GALLERY →
+  CONTACT → 404 → POLISH → DEPLOY. Within each page, components are built in
+  the order listed.
+
+  ---------------------------------------------------------------------
+  PHASE A — FOUNDATION (no pages yet)
+  ---------------------------------------------------------------------
+  1.  Scaffold Astro (TypeScript strict). Add @astrojs/react, Tailwind v4
+      (@tailwindcss/vite), @astrojs/sitemap. Install motion, lenis,
+      lucide-react, react-icons, embla-carousel(-react/-autoplay),
+      react-hook-form, zod, @hookform/resolvers, emailjs (or Web3Forms),
+      class-variance-authority, clsx, tailwind-merge, tw-animate-css, sonner.
+      Add ESLint + Prettier.
+  2.  globals.css: Tailwind import, @theme tokens (all brand colours, section
+      theme variables, radii, fonts), @font-face for Google Sans + Mono (or
+      fallbacks), base resets, ::selection (#FFD427), scrollbar styling,
+      reduced-motion rules. Place font files in public/fonts/.
+  3.  Initialise shadcn/ui (components.json, base colour "neutral", radius
+      1.5rem). Add: button, sheet, dialog, tabs, accordion, carousel, badge,
+      input, textarea, label, select, form, sonner, tooltip, skeleton,
+      scroll-area. Re-skin each to the brand (pill radius, 2px #1E1E1E outline,
+      pastel fills, focus ring #4285F4, Google Sans).
+  4.  Brand shape library (src/components/shapes/*): Pill, TripleCircle,
+      Slashes, Asterisk, Globe, People, Arrow, Brace, Quote, Chevrons, Pin,
+      Hash, Scallop, and NotchCard (all 4 notch positions, outline follows the
+      notch). Create a temporary /dev/shapes page to review them on all 4
+      themes. Build from Brand Pattern Library P1–P7: also Comma, DonutArc,
+      Lines, Bars, CodeHeart, FourDots, Toggle, PhotoFrame, AvatarFrame,
+      PatternMosaic, LanyardStrip; NotchCard supports type "tab" and "step"
+      (P2). Export the 4 Theme Kit colourways to src/components/shapes/
+      themes.ts and verify every shape against the kit pages side by side.
+  5.  Motion primitives (src/components/motion/*): SmoothScroll (Lenis),
+      Reveal, Stagger, Marquee, FloatingShape, CountUp, TextRotator,
+      MagneticButton, ScrollProgress.
+  6.  Shared Astro components: Logo (light/dark lockups with "Institute of
+      Business Administration"), SectionHeading, Chip, ThemeSection (data-theme
+      wrapper), ScallopDivider, SocialLinks.
+  7.  Data layer: src/data/site.ts (name, nav, links, socials, contact),
+      stats.ts, tags.ts, values.ts; content collections config.ts (Zod) + a
+      few clearly-labelled SAMPLE entries per collection.
+  8.  BaseLayout.astro (head, meta/OG, font preloads, ClientRouter, Lenis,
+      ScrollProgress) and PageLayout.astro (Navbar + Footer + slot).
+  9.  Global Navbar (G1) incl. MobileMenu Sheet, active pill, hide-on-scroll.
+  10. Global Footer (G2).
+  11. PageHero (G3) component.
+
+  ---------------------------------------------------------------------
+  PHASE B — PAGE 1: HOME  ( / )   (build sections strictly top → bottom)
+  ---------------------------------------------------------------------
+  12. H1  Hero (+ HeroScene floating shapes, TextRotator, 3D sprite, scroll cue)
+  13. H2  Tag Marquee Strip
+  14. H3  About (#about) — NotchCard collage, circular text badge, keyword cloud
+  15. H4  Stats
+  16. H5  Meet The Crew preview — build TeamCard here (reused later on /team)
+  17. H6  Events preview — build EventCard here (reused later on /events)
+  18. H7  Voices On Stage preview — build SpeakerCard here (reused on /speakers)
+  19. H8  Gallery strip
+  20. H9  Partners marquee
+  21. H10 Community CTA
+  22. Assemble index.astro in order; wire section IDs and nav anchors;
+      verify smooth scroll + active-link tracking; set per-section themes and
+      scallop dividers.
+
+  ---------------------------------------------------------------------
+  PHASE C — PAGE 2: OUR STORY  ( /our-story )
+  ---------------------------------------------------------------------
+  23. PageHero (theme blue)
+  24. S1 Origin Story block
+  25. S2 Mission / Vision / Values (ValuesGrid)
+  26. S3 StoryTimeline + MilestoneCard (scroll-drawn line)
+  27. S4 What We Do cards
+  28. S5 Closing CTA
+  29. Assemble our-story.astro; verify the "Explore" link from Home About.
+
+  ---------------------------------------------------------------------
+  PHASE D — PAGE 3: EVENTS  ( /events )
+  ---------------------------------------------------------------------
+  30. PageHero (theme blue)
+  31. E1 EventFilter (Tabs)
+  32. E2 Featured / Next-event banner with countdown
+  33. E3 Event grid (reuse EventCard) + EventDialog (+ optional /events/[slug])
+  34. E4 Agenda promo list
+  35. E5 Photo recap strip
+  36. E6 CTA band
+  37. Assemble events.astro; test filtering + layout animations.
+
+  ---------------------------------------------------------------------
+  PHASE E — PAGE 4: SPEAKERS  ( /speakers )
+  ---------------------------------------------------------------------
+  38. PageHero (theme red)
+  39. SP1 Filter chips
+  40. SP2 SpeakerGrid (reuse SpeakerCard) + SpeakerModal
+  41. SP3 Past-speakers-by-event accordion
+  42. SP4 Call for Speakers CTA (links to /contact?subject=speaker)
+  43. Assemble speakers.astro.
+
+  ---------------------------------------------------------------------
+  PHASE F — PAGE 5: TEAM  ( /team )
+  ---------------------------------------------------------------------
+  44. PageHero (theme green)
+  45. T1 LeadSpotlight
+  46. T2 Faculty Advisor card (if applicable)
+  47. T3 TeamGrid by department (reuse TeamCard)
+  48. T4 Alumni accordion (optional)
+  49. T5 Join-the-team CTA
+  50. Assemble team.astro.
+
+  ---------------------------------------------------------------------
+  PHASE G — PAGE 6: GALLERY  ( /gallery )
+  ---------------------------------------------------------------------
+  51. PageHero (theme yellow)
+  52. G1 AlbumFilter
+  53. G2 MasonryGallery (+ brand tiles, load-more)
+  54. G3 Lightbox (Dialog, keyboard + swipe, shared-element transition)
+  55. G4 Hover photo-frame treatment
+  56. Assemble gallery.astro; check image performance (lazy, sizes, AVIF).
+
+  ---------------------------------------------------------------------
+  PHASE H — PAGE 7: CONTACT  ( /contact )
+  ---------------------------------------------------------------------
+  57. PageHero (theme yellow)
+  58. C1a ContactInfo (copy-to-clipboard email, socials, Join pill)
+  59. C1b ContactForm (zod validation, honeypot, EmailJS/Web3Forms in .env,
+          loading / success / error states, ?subject= prefill)
+  60. C2 Map embed
+  61. C3 FAQ accordion
+  62. C4 Final CTA
+  63. Assemble contact.astro; test form end-to-end (success + error + spam).
+
+  ---------------------------------------------------------------------
+  PHASE I — PAGE 8 + POLISH + RELEASE
+  ---------------------------------------------------------------------
+  64. 404 page.
+  65. Replace SAMPLE content with real content (events, speakers, team,
+      gallery, story, partners, links). Confirm consent for all photos/names.
+  66. Cross-page link audit (every preview button → its page; every social /
+      Join link opens in a new tab with rel="noopener noreferrer").
+  67. SEO pass: meta, OG images, JSON-LD, sitemap, robots, canonical.
+  68. Accessibility pass: keyboard navigation, focus order, contrast, alt text,
+      reduced-motion behaviour, screen-reader check of Navbar / Dialog /
+      Carousel / Accordion.
+  69. Performance pass: Lighthouse (mobile) on /, /events, /gallery; trim
+      hydration, compress images, verify CLS ≈ 0, cap floating shapes.
+  70. Responsive pass: 320 · 375 · 768 · 1024 · 1440 · 1920; verify Navbar
+      sheet, marquees, masonry columns, timeline layout on mobile.
+  71. Brand compliance review against the brand kit: colours exact, fonts,
+      logo untouched, naming rule ("GDG on Campus", never bare "GDG"),
+      hashtag #GDGOnCampus, disclaimer line present.
+  72. Deploy to Vercel or Netlify, set env vars, add custom domain / IBA
+      subdomain (if approved), whitelist the production domain in EmailJS
+      (Allowed Origins), smoke-test every page and the contact form in
+      production.
+
+  ##### This order must not be altered by any means #####
+
+################################################################################
+## Work Done
+################################################################################
+List everything done here. After each task completion update this list.
+
+1. This is the Instructions .txt file for the GDG on Campus IBA website. The
+   tech stack, brand-kit-based design system (colours, fonts, shapes,
+   gradient rules), site map, global components, all page layouts / animations /
+   colour schemes, content models, resources list and the 72-step Order of
+   Work have been defined.
+
+2. Opened the GDG brand-kit PDF (58 pages) page by page and extracted the
+   exact colour scheme and design patterns. Added: design-philosophy rules
+   verified against the kit; Colour Roles & Pairing Rules; the 4-colourway
+   Theme Kit (with logo tint rules, dark/mono modes); kit typographic
+   patterns; outline-weight scale; and a new 13-part "Brand Pattern Library"
+   (shape vocabulary, two notch-card geometries, photo frames, avatars, pills,
+   logo rules, pattern mosaic, lanyard marquee, numbered divider, guideline
+   grid, template-to-component map, accessibility adaptations, don'ts).
+   Updated the Folder Structure, Hero, Marquee, Footer and Order of Work
+   step 4 to use them.
+   
+3. Project initialised. Created the Astro project "gdgoc-iba" (TypeScript
+   strict) with React and sitemap integrations, and Tailwind CSS v4 via the
+   @tailwindcss/vite plugin. Set up the "@/" path alias. Created the full
+   folder skeleton from the Folder Structure section (public/, src/assets,
+   components, content, data, layouts, lib, styles). Added globals.css
+   (Tailwind import, brand colour tokens, Google Sans / Google Sans Mono
+   @font-face) and BaseLayout.astro with a placeholder index page.
+   Initialised shadcn/ui (radius 1.5rem) with the base components and
+   installed motion, lenis, embla, react-hook-form, zod, sonner and icon
+   libraries. The dev server and production build both run clean.
+   Next: step 4 (brand shape library).
+
+4. Replaced the Astro starter README with project documentation based on this
+   instruction file: overview, foundation status, stack, setup and background
+   server commands, planned routes, brand rules, content/configuration guidance,
+   development order, and release requirements. No website features were added.
+
+5. Audited the repository for JavaScript and package-manager usage. Converted
+   astro.config.mjs to astro.config.ts; all authored source now uses TypeScript
+   or TypeScript-enabled Astro components. Disabled allowJs and simplified
+   the path alias configuration. Migrated to pnpm 10.34.6 with a pinned
+   packageManager and pnpm-lock.yaml imported from the npm lockfile; removed
+   package-lock.json. Added compatible TypeScript 5.9, @astrojs/check and Node
+   types, a check script, and mandatory type checking before builds. Updated
+   README setup commands, VS Code launch configuration, and config references.
+   Removed an unused React import. Verified frozen-lockfile installation,
+   tsc --noEmit, Astro check (0 errors, warnings or hints), production build,
+   and background dev server HTTP 200 for the homepage and linked assets.
+
+6. Implemented Order of Work step 4: the TypeScript brand shape library with
+   all 25 requested components, four exact Theme Kit colourways, inherited
+   theme variables, filled/outline variants, and non-scaling ink strokes.
+   NotchCard supports all four step corners, combined notches, and top-left /
+   bottom-left label tabs; a continuous rounded path supplies both the crop
+   and outline, with ResizeObserver updating pixel geometry. Added photo and
+   avatar frames, an accessible keyboard toggle, the three-row pattern mosaic,
+   and the exact lanyard symbol sequence. Reused Google's official chevron
+   SVG path data and recorded its source. Added 39 standalone SVG exports
+   plus clearly-labelled sample frame artwork, component usage documentation,
+   and the temporary /dev/shapes review page in all four colourways. The page
+   is noindex and excluded from the sitemap. Separated production/development
+   Vite caches after browser testing exposed a React hydration cache conflict.
+   Verified Astro checks (0 errors, warnings, hints), tsc --noEmit, production
+   build, and pnpm test (three geometry tests, all corner combinations).
+   Headless Chrome passed in development and production preview at
+   320 / 768 / 1024 / 1440px: no overflow, matching
+   responsive clip/outline geometry, unique IDs, loaded images, working outline
+   and compact controls, keyboard toggle, reduced motion, and no browser errors.
+   Visually reviewed desktop/mobile artwork, cards and photo frames. The
+   original brand-kit PDF is absent, so side-by-side kit comparison remains
+   pending; implementation follows the detailed recorded P1-P7 specifications.
+   Next: step 5 (motion primitives).
+
+
+7. Completed Order of Work step 5: TypeScript motion primitives SmoothScroll
+   (Lenis), Reveal, Stagger/StaggerItem, Marquee, FloatingShape, CountUp,
+   TextRotator, MagneticButton and ScrollProgress. Added viewport activation,
+   pause controls, hidden duplicate marquee tracks, stable screen-reader text,
+   pointer parallax and reduced-motion behaviour. Lenis and its animation frame
+   clean up during Astro swaps and unmounts; same-page anchors scroll and focus
+   their targets. Added /dev/motion for review.
+
+8. Completed step 6: shared Astro Logo, SectionHeading, Chip, ThemeSection,
+   ScallopDivider and SocialLinks. Implemented horizontal/stacked light/dark
+   chapter lockups and compact mark, preserving official artwork from the
+   Google Drawings templates linked by the supplied GDG Brand Kit.pdf. Added
+   the IBA chapter line as Google Sans vector lettering; documented provenance.
+   Added local Google Sans Mono declarations, brand styling and /dev/shared.
+   This supersedes the earlier note that the original PDF was unavailable.
+
+9. Completed step 7: site/nav/contact configuration, unset real statistics,
+   topic tags and values; Zod schemas and glob loaders for events, speakers,
+   team, gallery, story and partners. Added two clearly labelled SAMPLE entries
+   per collection (12 total), sample artwork and /dev/content. Validated sample
+   relationships, dates, image dimensions, alternative text and external URLs.
+   Unknown chapter details remain null; no registration URL or statistics were
+   invented. Planned page links remain disabled until their pages exist.
+
+10. Completed step 8: BaseLayout metadata, canonical/OG/Twitter tags, local font
+    preloads, ClientRouter, persistent Lenis and scroll progress, and skip link.
+    PageLayout provides Navbar, main/hero slots and Footer. Added a 1200x630
+    social-card PNG with its source SVG. SITE_URL must be set to the confirmed
+    production origin before launch. The homepage remains foundation scaffolding.
+
+11. Completed step 9: global responsive floating Navbar, full/compact logo,
+    theme active pill, spring transitions, scroll-direction visibility, hover
+    treatment, magnetic Join button and accessible MobileMenu using shadcn Sheet.
+    Mobile links stagger in; Sheet supports focus trapping and Escape dismissal.
+    About supports the future home section; confirmed external links can be
+    configured centrally. Unconfirmed Join links are visibly unavailable.
+
+12. Completed step 10: dark four-column Footer, official dark logo, full name,
+    mission, hashtag, navigation, conditional contact/social details and Join.
+    Added FourDots, white line-art Lanyard marquee with pause control, top Google
+    gradient, staggered entry, outlined drifting watermark, copyright/credit,
+    Lenis back-to-top and the exact community-run/not-official-site disclaimer.
+    Loops pause offscreen and stop for reduced motion.
+
+13. Completed step 11: reusable PageHero with theme, title, one bold word,
+    subtitle, numbered mono label and configurable decorative shapes (capped
+    at three). Added word reveals, cursor/scroll parallax, stationary Globe
+    rotation, responsive shape sizing and scalloped bottom edge. Added noindex
+    /dev/foundation to review the complete shell; all /dev pages are excluded
+    from the sitemap. Updated README foundation status and configuration notes.
+
+14. Final verification for steps 5-11: pnpm test passed all eight tests;
+    tsc --noEmit passed; final pnpm build checked 94 files with zero errors,
+    warnings or hints and generated all six routes. Headless Chrome reviewed
+    development and production output at 320/768/1024/1440px, with no horizontal
+    overflow, failed logo images or browser errors. Verified mobile Sheet focus
+    trapping through repeated Tab presses, Escape dismissal, active Home link,
+    metadata, repeated ClientRouter transitions and a single progress instance.
+    Production motion checks passed pause controls and reduced motion; shared
+    checks passed all six collections and twelve samples. Verified Navbar hides
+    downward/returns upward and Lenis back-to-top restores main-content focus.
+    Visually reviewed mobile/desktop shell, footer and social-card artwork.
+    Authored changes, browser profiles, PDF tooling and review artifacts stayed
+    inside this repository. Existing work and the supplied PDF were preserved.
+    Requested Phase 1 steps 5-11 are complete. Next: step 12 (Home hero); actual
+    page phases, real chapter content and deployment remain outside this task.
+
+
+15. Completed Phase B step 12 (H1 Hero) on the actual / homepage. Added the
+    yellow/pink atmosphere, mixed-weight Learn/Build headline and squiggle,
+    rotating Belong/Grow/Lead/Create word, community copy, local Events/Join
+    anchors and social-proof fallback without invented membership numbers.
+    Added original shaded 3D-style programming-bracket SVG sprite, pointer
+    tilt, spring object reveals, four floating/parallax objects plus static
+    decorations, offscreen pause, reduced motion and bouncing scroll cue.
+    The brand kit supplies the palette/shapes; the DSU reference informs the
+    layered website composition. No DSU artwork, text, people or code was copied.
+
+16. Completed step 13 (H2 Tag Marquee). Added the tilted ink band, two
+    opposite-direction rows with all fifteen topic chips, rotating icon/scale
+    hover effects, explicit pause controls and stable accessible topic text.
+    Added the separate white lanyard row. Filled tracks remain continuous at
+    wide viewports; loops pause on hover/focus, offscreen and reduced motion.
+
+17. Completed step 14 (H3 About). Added the blue Who We Are section, IBA
+    mixed-weight heading, inclusive copy, Learn/Build/Connect pillars and the
+    future Our Story action. Added responsive notched collage, clip reveal,
+    stickers, circular SVG text badge and keyword cloud with reveal/hover
+    motion. Uses original workspace illustration until approved chapter
+    photography exists; a confirmed gallery image can replace it automatically.
+
+18. Completed step 15 (H4 Stats). Added four responsive halftone tiles,
+    corner shapes, captions, stagger, lift/shadow hover and CountUp support.
+    Real numbers and founding year remain unset. Unknown figures display a
+    clearly explained dash, not zero or fabricated counts; confirmed values
+    and optional established year render through the existing data layer.
+
+19. Completed step 16 (H5 Crew). Built reusable team/TeamCard.tsx with avatar
+    frame, name, role/department, sample badge and conditional LinkedIn/email
+    controls. Added Lead/Co-Lead-first static spotlights and two opposite crew
+    tracks, pause controls, colour-ring/lift/sticker hover and responsive sizes.
+    Decorative visual repeats are hidden from assistive technology and removed
+    from keyboard order while pointer actions remain usable. Current profiles
+    are explicitly samples, not actual IBA organisers.
+
+20. Completed step 17 (H6 Events). Built reusable events/EventCard.tsx with
+    notched Upcoming/Recap tab, artwork, Karachi-time date, category, summary,
+    tags and conditional valid registration/recap/detail actions. Added featured
+    upcoming/latest selection, newest-first compact cards and session-artwork
+    strip. Existing sample records remain explicitly unannounced demonstrations.
+    The preview supports up to three compact cards as content becomes available.
+
+21. Completed step 18 (H7 Voices). Built reusable speakers/SpeakerCard.tsx
+    with notched portrait, quote shape, talk title, biography and identity pills.
+    Added shadcn/Embla carousel, real looping with two source records, active
+    scale/opacity, previous/next, logical-record dots, announcements, drag and
+    autoplay control. Autoplay stops on hover, keyboard/click interaction,
+    hidden tab, offscreen and reduced motion. Added friendly empty state.
+    Copies do not create fake speakers or extra logical slide counts.
+
+22. Completed step 19 (H8 Gallery). Added three alternating snapshot tracks,
+    responsive outlined artwork cards, hover enlargement, pause controls and
+    floating central notched gallery CTA. Sample captions/alternative text
+    explicitly identify illustrations rather than chapter event photographs.
+    Actual approved gallery entries replace demonstration records when available.
+
+23. Completed step 20 (H9 Partners). Added the neutral Powered By Friends
+    section and continuous grayscale-to-colour/lift logo track. The official
+    chapter/community lockup is first, followed by clearly labelled sample
+    partner tiles. No sponsorship or endorsement is invented. External partner
+    links require HTTPS; the future Contact page action stays visibly pending.
+
+24. Completed step 21 (H10 Community CTA). Added the pink atmosphere, giant
+    responsive tab-notch card, community copy, five benefit chips, magnetic
+    Join control and decorative shapes positioned clear of mobile copy.
+    Confirmed social profiles render branded pointer-tilt tiles. Valid external
+    Join clicks trigger a 24-piece, 1.2-second confetti burst with cleanup and
+    reduced-motion suppression. Until links are confirmed, public registration
+    and social availability are clearly explained without fabricated URLs.
+
+25. Completed step 22 (homepage assembly). index.astro now loads five content
+    collections, prefers confirmed records to samples and assembles H1-H10 in
+    exact order with #hero/#about/#stats/#crew/#events/#voices/#gallery/
+    #partners/#join, all section themes and scalloped transitions. Navbar/Footer
+    link to live home previews until inner routes exist; active pill/theme track
+    scrolling and hashes. Fixed same-page ClientRouter/Lenis interception,
+    duplicate fixed-header offsets and mobile Sheet destination focus.
+    Fixed transformed notch measurements and SSR surface fitting; descriptive
+    content remains server-rendered, below-fold interactions hydrate visibly,
+    and a no-JavaScript navigation fallback is provided. Updated README, original
+    SVG asset provenance and the noindex /dev/home-interactions test fixture page.
+
+26. Phase B verification completed. Final pnpm build checked 124 files with
+    zero errors/warnings/hints and generated all seven routes. tsc --noEmit
+    passed; pnpm test passed all thirteen tests. Production Chrome checked every
+    home section at 320/768/1024/1440/1920px with no horizontal overflow, failed
+    loaded artwork or runtime errors. Verified section order, one H1, live local
+    hrefs, active navigation/themes, Lenis destination focus, mobile Sheet Tab
+    trap/Escape/section dismissal, carousel arrows/dots/pause/loop, marquee pause
+    and reduced motion. Verified unset stats, sample labelling, no-JavaScript
+    readable content, card geometry, unique IDs, anchor history and three Astro
+    route round trips with stable document click listeners and one progress bar.
+    Fixture checks passed configured Join/confetti cleanup, social tilt/safe
+    links, team contacts, event registration and all four preview empty states.
+    Hover checks passed topic chips/gallery and paused offscreen hero loops.
+    Visually reviewed desktop/mobile hero, sections and the final mobile CTA.
+    Development interaction checks passed as well; background dev remains at
+    http://localhost:4321/. Review routes remain noindex and outside the sitemap.
+    All authored changes and review artifacts stayed within this repository;
+    existing work and the brand-kit PDF were preserved. Real chapter details,
+    photos, numbers and inner pages remain for their planned later steps.
+    Phase B steps 12-22 are complete. Next: Phase C step 23 (Our Story PageHero).
+
+27. Fixed the Voices on Stage carousel overlap reported after Phase B.
+    Scaling the slide wrappers also scaled Embla's loop translations, causing
+    neighbouring cards to intersect. Moved scale/opacity effects onto the inner
+    cards, kept slide wrappers unscaled, and allowed grid columns to shrink.
+    Preserved static rendering and the active-card visual treatment.
+    Verified 14 forward/backward positions at each of 320, 798, 1024, 1440
+    and 1920px: no card intersection, page overflow or browser errors.
+    Visually reviewed the corrected 798px carousel. pnpm build passed with
+    zero errors/warnings/hints; all 13 tests passed. Changes stayed in this repo.
+
+28. Updated Powered by our partners following the colour feedback. Removed
+    the default grayscale logo filter so original artwork colours are visible
+    without hover on desktop and touch devices; retained the tile hover lift.
+    This overrides H9's original grayscale-until-hover direction at the user's
+    request. Verified 320px and 1440px: no logo filters, all images decode,
+    no page overflow or browser errors. Visually reviewed the desktop section.
+    pnpm build passed with zero errors, warnings or hints. Changes stayed
+    within this repository.
+
+29. Reworked the footer's lower layout and added visible colour to the
+    partners section in response to the screenshots. Replaced the clipped,
+    drifting outline watermark with a compact chapter wordmark, yellow IBA
+    accent, community tagline and green back-to-top button. Separated credits
+    and the community disclaimer with a responsive layout and readable spacing.
+    Partners now uses a yellow section background and blue/green/pink/yellow
+    tiles with original logo colours; updated both scalloped transitions.
+    Verified 320, 798 and 1440px: coloured backgrounds, no page overflow or
+    footer overlap, working back-to-top and no browser errors. Visually reviewed
+    the footer and partners section. pnpm build passed with zero errors, warnings
+    or hints. All changes and review artifacts remained inside this repository.
+
+30. Completed Phase C step 23: blue Our Journey PageHero on /our-story.
+    Reused the shared hero, floating people/globe/circles, page metadata,
+    global navigation/footer and scalloped transition.
+31. Completed step 24: OriginStory NotchCard with a responsive text/photo
+    layout, giant outlined pull-quote and optional Since-year CountUp.
+    src/data/story.ts keeps unconfirmed founding year/history/photo unset.
+    The fallback artwork is labelled as an illustration, not a chapter photo.
+    Confirmed years display without digit grouping. Refined mobile card spacing.
+32. Completed step 25: blue Mission, yellow Vision and green Values tiles,
+    plus six ValuesGrid pills with brand icons, staggered reveals and gentle
+    icon motion that pauses offscreen and stops with reduced motion.
+33. Completed step 26: StoryTimeline and MilestoneCard from the story
+    collection. Confirmed records replace samples; milestones sort oldest first
+    without mutating inputs. Alternating desktop cards become one-sided on
+    mobile. Added the scroll-drawn centre line, coloured popping nodes, side
+    reveals, optional photo parallax and repeating blue/green/yellow/pink themes.
+    Sample years and copy remain explicitly unconfirmed. Added an empty state
+    and a static/reduced-motion fallback. Timeline tests cover sorting, sample
+    replacement, empty input and the repeating theme order.
+34. Completed step 27: four What We Do cards for Workshops, Hackathons,
+    Study Jams and Speaker Sessions, with brand icons, themed cards, stagger
+    and hover lift. Links currently open Home's live event preview; category
+    URLs are ready for the full Events route once it is enabled in Phase D.
+35. Completed step 28: pink closing CTA, Be part of the next chapter,
+    with reusable JoinButton, brand shapes, a NotchCard and responsive spacing.
+    Unconfirmed registration remains disabled with an explanation. A configured
+    HTTPS Join link retains its new-tab safety attributes and existing motion.
+36. Completed step 29: assembled our-story.astro in S1-S5 order and enabled
+    Our Story in navigation. Home About's Explore Our Story link is now live.
+    Verified the active navigation pill and page-to-Home event navigation.
+    Updated README with content locations and the next phase. Added noindex
+    /dev/story fixtures for origin year, four milestones, empty timeline and
+    configured Join; fixtures remain excluded from the sitemap.
+37. Phase C verification completed. Final pnpm build checked 136 files with
+    zero errors, warnings or hints and built nine routes. All 15 tests passed.
+    Production browser checks passed at 320, 375, 768, 1024, 1440 and 1920px:
+    section order, one H1, card counts, image loading, chronological timeline,
+    desktop/mobile card positions, active navigation and no horizontal overflow.
+    Verified scroll-driven drawing, reduced-motion behaviour, no-JavaScript
+    readability, Explore navigation, event-preview anchors and development
+    fixtures. No browser errors. Visually reviewed hero, origin, values,
+    timeline and closing CTA on desktop/mobile; final mobile Join label fits.
+    Sitemap contains Home and Our Story only. All authored changes and review
+    artifacts stayed inside this repository; prior work and brand PDF preserved.
+    The existing background dev server remains at http://localhost:4321/.
+    Phase C steps 23-29 are complete. Next: Phase D step 30 (Events PageHero).
+
+38. Completed Phase D step 30: blue Events PageHero on /events with globe,
+    slashes and circles, original intro, metadata and the shared page shell.
+39. Completed step 31: EventFilter with branded shadcn pill Tabs for All,
+    Upcoming, Past, Workshops, Hackathons, Study Jams and Talks; Social appears
+    when records exist. Added search, accessible year selection and live result
+    counts. Filters combine with search/year and persist in shareable query
+    strings; browser Back restores state. Empty results offer Clear filters.
+40. Completed step 32: upcoming FeaturedEvent NotchCard with four themed
+    countdown tiles and animated digits. The nearest confirmed future event
+    is selected; ticking pauses offscreen and in hidden tabs, cleans up on
+    unmount, and handles expiration. Dates/times use Pakistan Standard Time.
+    Samples display countdown placeholders and disabled registration. Real
+    registration uses validated HTTPS event.registerUrl with safe new-tab links.
+41. Completed step 33: responsive 3/2/1-column EventCard grid and EventDialog.
+    Reused the Home card with shared styling, theme accents, Recap tabs, tags,
+    date chips and two-line summaries. Added AnimatePresence popLayout, stagger,
+    grid reflow and shared cover-image transitions. Dialogs show full copy,
+    agenda, speaker avatars, photos and validated Register/Recap links.
+    Verified focus trapping, Escape, focus restoration and viewport fit.
+    The close button stays visible while the dialog body scrolls. Shareable
+    /events?event=slug opens a dialog; optional standalone slug pages were
+    not needed. Sample events never expose registration or recap actions.
+42. Completed step 34: themed EventAgenda NotchCard with a desktop two-column
+    timetable, mono times, session titles and optional accented speaker names.
+    Mobile uses a single column. Missing agendas have a clear pending state.
+43. Completed step 35: latest-past-event recap marquee with rounded outlined
+    photos, captions, pause control and reduced-motion support. Gallery records
+    are associated by event slug; duplicate sources are removed. Sample
+    illustrations remain labelled and empty recaps have a pending state.
+44. Completed step 36: pink Want to host or speak CTA with brand shapes.
+    The Contact route remains a later phase, so the working fallback opens
+    Home's community section with an explanation. It switches to /contact
+    when that route becomes available; no broken Contact link was introduced.
+45. Completed step 37: assembled events.astro in E1-E6 order, enabled Events
+    navigation and Home's View All Events / View Details links. Our Story
+    activity cards now open category-filtered Events lists. Updated README
+    and added noindex /dev/events fixtures for every category, a six-card grid,
+    configured actions, empty states and live/expired countdowns. Review routes
+    stay outside the sitemap; its public routes are Home, Our Story and Events.
+46. Phase D verification completed. Final pnpm build checked 148 files with
+    zero errors, warnings or hints and built eleven routes. All 20 tests passed,
+    including five new cases covering filters/time zones, future-event selection,
+    countdown boundaries, safe actions and associated/deduplicated recap photos.
+    Production browser checks passed at 320, 375, 768, 1024, 1440 and 1920px:
+    section order, image loading, no horizontal overflow, sample safety, dialog
+    bounds, fixed close button and focus restoration. Interaction checks passed
+    tabs and keyboard arrows, search, year/status combinations, clear filters,
+    browser history, deep-link dialogs, focus trap, Escape, agenda/speaker
+    content and Home/Our Story navigation. Fixture checks passed configured
+    Register/Recap attributes, three-column layout, empty catalogue and ticking/
+    expired countdowns. Reduced-motion filtering/static marquee and readable
+    no-JavaScript content passed. No browser errors. Development-server smoke
+    checks passed Events navigation, unique IDs, dialog and Home card reuse.
+    Visually reviewed desktop/mobile filters, banner, grid, dialog, agenda,
+    recap and CTA, plus the final hero and existing Home event preview.
+    All authored changes and review artifacts remained in this repository.
+    Existing content and the brand PDF were preserved. Real event announcements,
+    photos and registration URLs still await confirmed chapter content. The
+    background dev server remains available at http://localhost:4321/.
+    Phase D steps 30-37 are complete. Next: Phase E step 38 (Speakers PageHero).
+
+47. Completed Phase E step 38: pink Speakers PageHero on /speakers, with
+    outlined quotes, slashes and circles, original introduction, metadata,
+    and the shared Navbar/Footer page shell.
+48. Completed step 39: accessible category filter pills showing All and only
+    populated Industry, Alumni, Google Developer Experts and Student categories.
+    Added live result counts, stable alphabetical ordering, shareable category
+    query strings and browser Back restoration. Current samples populate
+    Alumni and Student; development fixtures exercise all four categories.
+49. Completed step 40: responsive 3/2/1-column SpeakerGrid reusing SpeakerCard,
+    with four rotating themes, notch portraits, name/company pills, staggered
+    reveals, animated filtering, portrait hover scale and swinging quotes.
+    Added accessible SpeakerModal with shared portrait layout transitions,
+    bio, talk/abstract, associated sessions and validated LinkedIn/X links.
+    Samples remain explicitly labelled and expose no social actions. Session
+    relationships work from either collection and keep samples separate from
+    confirmed content. Profile query links open dialogs; event links open the
+    existing Events dialogs. Verified focus trapping, Escape, focus restoration,
+    viewport fit and a close button that remains visible during body scrolling.
+    Extracted shared SpeakerCard styles and preserved Home carousel behavior.
+50. Completed step 41: themed Past Speakers by Event accordion, with dated
+    sessions and small speaker avatars linking to profiles. Groups contain only
+    past events with associated speakers, ordered newest first. Added empty
+    states and reduced-motion support; keyboard activation passed.
+51. Completed step 42: pink Call for Speakers NotchCard with original copy,
+    quote/arrow shapes and a form-less CTA prepared for /contact?subject=speaker.
+    Until the Contact route is built, its working fallback opens Home's
+    community section and explains that the speaker enquiry form is pending.
+52. Completed step 43: assembled speakers.astro in SP1-SP4 order, enabled
+    Speakers in shared navigation and Home's All Speakers link. Updated README.
+    Added noindex /dev/speakers fixtures for six cards, all categories, configured
+    socials, talk abstracts, event relationships and empty states. Public sitemap
+    contains Home, Our Story, Events and Speakers; review routes remain excluded.
+53. Phase E verification completed. pnpm build checked 156 files with zero
+    errors, warnings or hints and built thirteen routes. All 23 tests passed,
+    including category normalization/populated filters, immutable sorting,
+    bidirectional event associations and sample separation. Production browser
+    checks passed at 320, 375, 768, 1024, 1440 and 1920px: section order, one H1,
+    image loading, active navigation, no horizontal overflow, dialog bounds,
+    fixed close button, focus restoration and sample safety. Interaction checks
+    passed filters/history, profile query links, keyboard focus trap, session
+    dialogs, keyboard accordion, avatar profiles and Home navigation. Fixture
+    checks passed six-card/three-column layout, four themes, all categories,
+    abstracts, safe social-link attributes, event groups and empty states.
+    Reduced-motion and readable no-JavaScript content passed. Home carousel
+    regression checks passed eight loop positions at both 320 and 1024px with
+    no overlapping cards. No browser errors. Development-server smoke checks
+    passed navigation, unique IDs, profile dialog and Home's All Speakers link.
+    Visually reviewed desktop/mobile grid, profile dialog, accordion and CTA.
+    All authored changes and review artifacts stayed inside this repository;
+    existing content and the brand PDF were preserved. Confirmed speaker names,
+    photos, abstracts and social profiles still await chapter content.
+    The existing background dev server remains at http://localhost:4321/.
+    Phase E steps 38-43 are complete. Next: Phase F step 44 (Team PageHero).
+
+54. Completed Phase F step 44: green Team PageHero on /team, titled Meet The
+    Crew, with people arches, triple circles and an asterisk, original intro,
+    page metadata and the shared Navbar/Footer shell.
+55. Completed step 45: LeadSpotlight with Lead/Co-Lead ordered first, distinct
+    blue/pink themes, notch portraits, role pills, short bios and confirmed
+    LinkedIn/email actions. Added scale/rotation entrance motion with reduced-
+    motion support. The existing sample leaders remain explicitly labelled;
+    samples never expose social or email actions.
+56. Completed step 46: optional wide Faculty Advisor card, with yellow theme,
+    portrait, bio and actions. Added isAdvisor to the team content schema;
+    Faculty Advisor/Adviser roles also resolve automatically. No advisor record
+    currently exists, so the public section is omitted rather than invented.
+    A clearly labelled development fixture verifies its desktop/mobile layout.
+57. Completed step 47: TeamGrid reusing TeamCard, grouped by actual department,
+    with themed department chips, member counts and staggered reveals. Layout
+    uses four columns on desktop, three on tablet and two on mobile. Cards have
+    coloured avatar rings, role pills, hover lift/sticker and LinkedIn, email
+    and GitHub actions revealed on hover/focus, always visible on touch devices.
+    Actions require confirmed profiles, HTTPS social URLs and valid email.
+    Confirmed records replace samples. Missing department records show a clear
+    pending state, without creating fictitious public members or departments.
+58. Completed step 48: optional collapsed Alumni/Past Team accordion using the
+    shared accessible Accordion and themed TeamCards. Alumni are excluded from
+    current leadership/departments. No current alumni content is available, so
+    the public section is omitted; fixtures verify keyboard expansion and cards.
+59. Completed step 49: green Join-the-team NotchCard with People/Asterisk shapes,
+    original invitation, reusable JoinButton and community/contact actions.
+    Unconfirmed registration stays disabled with an explanation. Contact is a
+    later phase; the working fallback opens Home's joining details and will
+    switch to /contact?subject=team when available. Added local shared-control
+    styles, including the configured Join celebration and sample notices.
+60. Completed step 50: assembled team.astro in T1-T5 order with optional T2/T4,
+    enabled Team in shared navigation and Home's Meet Everyone link. Updated
+    README with placement flags and the next phase. Added noindex /dev/team
+    fixtures for leadership, advisor, eight department members, alumni, safe
+    configured actions and empty states. The sitemap includes five public routes
+    (Home, Our Story, Events, Speakers, Team), excluding all development routes.
+61. Phase F verification completed. Final pnpm build checked 165 files with zero
+    errors, warnings or hints and built fifteen routes. All 26 tests passed,
+    including three new tests for immutable team partitioning, confirmed/sample
+    selection, advisor classification, empty records and safe social/email actions.
+    Production browser checks passed at 320, 375, 768, 1024, 1440 and 1920px:
+    one H1, section order, active navigation, unique IDs, sample safety, optional
+    section visibility and no horizontal overflow. Fixtures passed responsive
+    4/3/2-column grids, advisor layout, safe new-tab social links and keyboard
+    alumni expansion. Reduced-motion styles, Home's Team link and readable
+    no-JavaScript content passed. No browser errors. Development-server smoke
+    checks passed the Team route, loaded portraits, navigation and existing
+    Home crew cards. Visually reviewed desktop/mobile leadership, department
+    cards and closing CTA; corrected sample badges and shared Join styles.
+    All authored changes and review artifacts stayed inside this repository;
+    previous work, existing content and the brand PDF were preserved. Confirmed
+    chapter profiles, photos, departments and registration still await content.
+    The existing background dev server remains at http://localhost:4321/.
+    Phase F steps 44-50 are complete. Next: Phase G step 51 (Gallery PageHero).
+
+62. Completed Phase G step 51: yellow Snapshots PageHero on /gallery, with an
+    original camera-like outlined frame, asterisk and circles. Reused hero
+    floating/cursor/scroll parallax with reduced-motion support, page metadata
+    and the shared Navbar/Footer shell. No chapter photographs were invented.
+63. Completed step 52: AlbumFilter pills for All and populated Workshops,
+    Hackathons, Talks, Team and Campus albums, with support for custom albums.
+    Normalized singular/sample album labels, added accessible pressed states,
+    live counts, shareable album query strings and browser Back restoration.
+    Current public samples populate Workshops and Talks; fixtures cover all five.
+64. Completed step 53: MasonryGallery with responsive 1/2/3/4 CSS columns,
+    outlined rounded images, captions and repeating themed brand NotchCards
+    inserted after every nine photos. Added 24-photo initial batches and Load
+    more, newest-first sorting, confirmed-record preference and empty states.
+    Added fade/scale/stagger reveals, animated layout/filter transitions and a
+    readable no-JavaScript fallback. Images reserve intrinsic dimensions and
+    load lazily. Repository raster photos use astro:assets for responsive AVIF
+    and WebP sources, small blur placeholders and larger lightbox images.
+    Existing SVG illustrations retain vector quality. Home previews and Events
+    recaps share prepared sources so future repository photos work across pages.
+65. Completed step 54: fullscreen accessible Lightbox using the shared Dialog,
+    with a large contained image, caption, associated event/album and date,
+    previous/next buttons, counter, keyboard arrows/Escape and mobile swipe.
+    Navigation wraps within the selected album; download remains absent.
+    Added shared thumbnail layout IDs and spring transitions, focus trapping
+    and restoration, safe viewport fit and reduced-motion behavior. Individual
+    photo query links open the lightbox. Samples remain explicitly identified
+    as illustrations rather than chapter photographs.
+66. Completed step 55: thin themed pastel hover frame with a chevrons corner
+    tab, alternating slight rotation and 1.03 scale. Keyboard focus reveals the
+    frame; reduced motion suppresses transforms. Corrected Motion/CSS hover
+    conflicts and verified the actual animated transform, not just its styles.
+67. Completed step 56: assembled gallery.astro, enabled Gallery navigation and
+    Home's View Gallery link. Updated README with content paths, optimization
+    behavior and the next phase. Added noindex /dev/gallery fixtures with thirty
+    clearly artificial records, five albums, varied image proportions, brand
+    tiles, pagination and an empty state. Copied the existing repository brand
+    raster into a development image fixture to verify real AVIF/WebP processing;
+    it is not public gallery content. Six public routes are in the sitemap;
+    all development review routes remain excluded.
+68. Phase G verification completed. Final pnpm build checked 176 files with
+    zero errors, warnings or hints and built seventeen routes. All 30 tests
+    passed, including four new cases covering album normalization, custom
+    filters, confirmed/sample selection, immutable ordering, pagination and
+    lightbox wrap boundaries. The raster fixture generated ten image variants:
+    four responsive AVIF sizes, four WebP sizes, a tiny blur placeholder and a
+    larger lightbox source. Verified lazy loading, srcset/sizes and browser AVIF
+    selection. Production browser checks passed at 320, 375, 768, 1024, 1440 and
+    1920px: one H1, active navigation, unique IDs, actual separate masonry columns,
+    sample labels, image loading, no horizontal overflow and fullscreen dialog
+    bounds. Passed album filtering/history, 24-to-30 pagination, brand-tile
+    counts, empty states, hover corner/rotation, keyboard focus trapping,
+    arrows/wrap, Escape/focus restoration, mobile swipe and query links.
+    Reduced-motion styles, Home Gallery navigation and readable no-JavaScript
+    images passed. No browser errors. Development-server smoke checks passed
+    navigation, lightbox, optimized image loading, Home Gallery and Events recap
+    regression checks. Visually reviewed desktop/mobile hero, grid, fullscreen
+    lightbox, hover frame and the varied fixture masonry with brand tiles.
+    Corrected initial Dialog centring, mobile counter wrapping and sparse-column
+    layout during review. All authored changes and review artifacts stayed in
+    this repository; prior work, existing content and the brand PDF were
+    preserved. Confirmed chapter photos, captions and albums still await content.
+    The existing background dev server remains at http://localhost:4321/.
+    Phase G steps 51-56 are complete. Next: Phase H step 57 (Contact PageHero).
+
+69. Completed Phase H step 57: yellow Say Hello PageHero on /contact, with
+    speech brace, arrow and slashes, original introduction, page metadata,
+    shared Navbar/Footer and existing reduced-motion-aware hero animation.
+70. Completed step 58: ContactInfo with coloured icon rows, copy-email status
+    toast, safe social buttons and reusable Join pill. Configured email supports
+    mailto and clipboard copying, with a usable fallback when copying fails.
+    Optional phone/hours appear only when supplied. Unconfirmed email, campus
+    address, social and registration details remain clearly pending. Added side
+    reveals and icon hover motion without inventing chapter contact details.
+71. Completed step 59: ContactForm in a Message NotchCard, with Name, Email,
+    Subject and Message, Zod/react-hook-form validation, floating labels, blue
+    focus rings and accessible red error pills. Requires a trimmed message of
+    at least 20 characters; supports general/partnership/speaker/team/other
+    subject prefills and defaults unknown values to General. Added a hidden
+    honeypot, loading dots, disabled duplicate submission, a 15-second timeout,
+    green success state with check/confetti and an error/retry state preserving
+    entered values with a configured email fallback. Success receives keyboard
+    focus, including with reduced motion. Reused MagneticButton for submission.
+    Selected Web3Forms: its browser API fits this static site and the free plan
+    currently allows 250 monthly submissions. Added .env.example with
+    PUBLIC_WEB3FORMS_ACCESS_KEY and setup instructions in README. No real key or
+    account was created; sending is disabled until configured, as requested.
+    Provider references: https://web3forms.com/pricing and
+    https://docs.web3forms.com/getting-started/api-reference.
+72. Completed step 60: responsive, rounded, outlined and lazy Google Maps embed
+    component with accessible title and fade reveal. Only HTTPS Google embed
+    URLs are accepted. The correct campus meeting location is not confirmed,
+    so the public page shows a clear pending state. Configure address and
+    mapEmbedUrl in src/data/site.ts once confirmed; no false location was added.
+73. Completed step 61: five themed FAQ accordion items with editable questions
+    and answers in src/data/contact.ts. Covered joining, experience, fees,
+    speaking/partnerships and staying updated. Answers avoid invented fees or
+    programme rules. Keyboard activation and reduced motion were checked.
+74. Completed step 62: green closing community CTA with a white NotchCard,
+    CodeHeart/Arrow shapes and reusable JoinButton. Unknown registration stays
+    disabled with an explanation. Added safe configured-link behavior and
+    corrected mobile notch spacing through the card's resize-aware hydration.
+75. Completed step 63: assembled contact.astro in C1-C4 order, enabled Contact
+    navigation and connected Home's Become a partner link plus Events, Speakers
+    and Team enquiry CTAs. Speaker/team URLs prefill their respective subjects.
+    Updated README with Web3Forms setup, content locations and the next phase.
+    Added noindex /dev/contact artificial fixtures for configured contact info,
+    socials, Join and form states. All seven main public routes are in the
+    sitemap; development fixtures remain excluded. Immediate column hydration
+    makes prefills/form controls available independently of scroll reveals.
+76. Phase H verification completed. Final pnpm build checked 186 files with
+    zero errors, warnings or hints and built nineteen routes. All 35 tests
+    passed, including five new cases for validation/prefills, request payloads,
+    explicit provider success, honeypot/missing-key request blocking, provider/
+    malformed/network failures and map URL validation. Production browser
+    checks passed at 320, 375, 768, 1024, 1440 and 1920px: one H1, section order,
+    active navigation, unique IDs, no horizontal overflow, pending-contact
+    safety, subject prefill, FAQ keyboard activation, validation focus, loading,
+    success and reset. Tested complete browser submission flows with mocked
+    Web3Forms responses: success, provider failure/retry, network failure,
+    preserved values/email fallback and honeypot blocking with zero requests.
+    Clipboard success and denied-permission fallback passed. Enquiry links,
+    reduced-motion styles/success focus and the no-JavaScript form explanation
+    passed. No browser errors. Final 320/1440px rechecks passed after tightening
+    the success card and correcting closing CTA geometry. Development-server
+    checks passed Contact navigation/prefill and Home partner-to-Contact routing.
+    Visually reviewed desktop/mobile hero, information, form, loading, success,
+    error, map pending state, FAQ and closing CTA. No real message was sent;
+    actual email delivery must be verified after the access key is configured.
+    The live campus map also awaits confirmed location details. All authored
+    changes and review artifacts stayed inside this repository; previous work,
+    existing content and the brand PDF were preserved. The existing background
+    dev server remains at http://localhost:4321/.
+    Phase H steps 57-63 implementation is complete. Next: Phase I step 64 (404).
+
+77. Website dropdown polish: replaced both native dropdowns (Contact subject
+    and Events year) with shared BrandSelect, using the existing Base UI select
+    for keyboard, touch, accessible labels and form semantics. Menus use rounded
+    dark outlines, cream surfaces, yellow selected states, blue highlights and
+    checkmarks. Portaled menus avoid card clipping; long labels wrap on mobile.
+    Contact retains subject query prefills, React Hook Form validation, disabled
+    loading state and reset; Events retains year filtering and URL updates.
+    pnpm build checked 187 files with zero errors/warnings/hints and built
+    nineteen routes; all 35 tests passed. Browser checks passed at 320, 375,
+    768, 1024, 1440 and 1920px for menu placement, selection, prefills, Escape
+    focus return, event filtering/URL changes and no horizontal overflow.
+    Mobile and desktop menus were visually reviewed. All changes stayed in
+    this repository. This polish does not advance the next phase.
+    Contact browser regression checks also passed validation focus, mocked
+    submission/loading/success/reset, provider and network failures, retry,
+    preserved input, honeypot blocking, reduced motion and JavaScript fallback.
+    No real email was sent; no browser errors were recorded.
+
+78. Phase I step 64 implemented: red/pink branded 404 with large 4-circle-4,
+    unchanged monochrome chevrons, requested off-campus message, Home/Events
+    recovery links and three floating outlined shapes with reduced-motion
+    support. Shared navigation/footer remain available; page is noindex.
+79. Step 65 content review: all six collections currently contain only clearly
+    labelled samples. No approved chapter records, photo/name/logo permissions,
+    community/social URLs or contact details are present. Asked for approved
+    content; preserved samples and original assets rather than inventing real
+    people/events or claiming consent. Replacement remains pending these inputs.
+    Continuing the remaining independent release checks in their listed order.
+80. User confirmed real content and environment values will be supplied later.
+    Step 65 is intentionally deferred; existing labelled dummy entries stay.
+81. Step 66 cross-page audit passed 248 built links across eight public pages,
+    including recovery/navigation links, Home previews and section anchors.
+    Every present new-tab link has noopener noreferrer. No broken route or
+    anchor was found. Unconfigured Join/social/contact actions remain pending.
+82. Step 67 implemented: query-free canonical URLs, existing unique page meta
+    and PNG social card with OG dimensions/locale/Twitter alt; safe Organization
+    JSON-LD and confirmed-only Event JSON-LD with no fabricated prices or online
+    venue URLs. Samples emit no Event schema. Added robots.txt with sitemap;
+    local builds disallow indexing. Sitemap excludes development and 404 routes.
+    Added reusable built-site audit plus tests for canonical normalization,
+    sample exclusion and script-safe schema serialization. Production URLs
+    require SITE_URL, which the user will configure later.
+83. Step 68 accessibility pass: axe WCAG 2 A/AA and WCAG 2.1 AA scans
+    covered all eight pages, mobile navigation and Gallery/Speaker dialogs.
+    Fixed a scrollable carousel viewport missing keyboard focus, and updated
+    marquee labels so reduced-motion text matches the accessible name. Removed
+    outdated mobile-menu copy. Existing keyboard/focus/reduced-motion semantics
+    were preserved. Chrome accessibility-tree inspection supplements keyboard
+    checks; a human screen-reader session is still a release follow-up.
+84. Step 69 performance work: baseline Home mobile Lighthouse performance
+    was 55 with over 6 MB of font transfer. Generated compact WOFF2 versions
+    from the existing Google Sans/Sans Text/Mono fonts; original TTFs remain
+    untouched as separately ranged fallback faces for other scripts. Added a
+    reproducible font utility and updated preload declarations. Above-fold
+    Home copy now uses static HTML with a CSS entrance rather than six reveal
+    islands; the main hero artwork stays visible through hydration. Deferred
+    Home effects and Footer motion, and hydrate the footer marquee on visibility.
+    Final Lighthouse results and CLS are recorded below after verification.
+85. Step 70 responsive pass: all eight pages were checked at the requested
+    widths for one H1, unique IDs, loaded images, section overflow and at most
+    eight visible floating shapes; Gallery uses responsive 1/2/3/4 columns.
+    Mobile navigation stayed within the viewport, trapped keyboard focus and
+    restored focus on Escape. Desktop/mobile 404 was visually reviewed.
+    Final 1920px and interaction rechecks are recorded with verification below.
+86. Step 71 brand review: re-read the supplied 58-page PDF, including naming
+    and hashtag guidance on pages 3-4, fonts on pages 8-9 and exact colour
+    swatches on page 11. Theme tokens match all twelve brand colour values
+    and the two neutrals. Preserved supplied logo paths/assets and removed a
+    compact-logo hover rotation that violated the untouched-logo rule. Footer
+    legal credit now uses the official full chapter name. Google Sans and Mono,
+    #GDGOnCampus and the community-run/non-official-Google disclaimer remain.
+    Public source copy has no bare GDG chapter reference.
+87. Step 72 deployment preparation: selected Netlify static hosting and added
+    netlify.toml with frozen pnpm install/build, dist publishing, native 404
+    behavior, hosted /dev fixture blocking, asset cache headers and noindex
+    previews. Added build:deploy with an HTTPS production-origin check and
+    built-site audit; SITE_URL and SITE_INDEXING are in .env.example. Indexing
+    stays disabled while dummy content remains. Web3Forms configuration remains
+    blank as requested; EmailJS allowed-origin configuration does not apply to
+    the selected provider. No hosting project, credentials or approved domain
+    is configured, so no live deployment, DNS change or real mail submission
+    was performed. Live production page/form smoke tests remain pending.
+88. Final performance results (local production preview, mobile Lighthouse):
+    Home 83 performance / 100 accessibility / 100 best practices, LCP 3.9s,
+    CLS 0.002; Events 83 / 100 / 100, LCP 4.2s, CLS 0; Gallery 85 / 100 / 100,
+    LCP 4.0s, CLS 0.001. Home measured transfer fell from about 6,673 KiB to
+    463 KiB. Added inline built styles, static/CSS word entrances, desktop-only
+    hydration for pointer-driven hero artwork, and visible hydration for the
+    Gallery island; shared photo/album URLs bring that island into view.
+    Compact fonts preserve the original Google typography and source assets.
+    Performance >=90 and LCP <2.5s are NOT yet met and remain release follow-ups.
+    Local SEO score 69 reflects deliberate noindex/robots blocking while dummy
+    content stays. Final live-host scores must be measured after deployment.
+    Full HTML/JSON Lighthouse reports are inside .astro; no results were
+    presented as live production measurements.
+89. Final Phase I local verification: pnpm build checked 193 files with zero
+    errors, warnings or hints and built twenty routes plus robots.txt. All 38
+    unit tests passed. Built-site audit passed 248 links across eight pages,
+    metadata/JSON-LD checks, sitemap exclusions and the 1200x630 PNG preview.
+    Final responsive browser run passed all 48 page/width combinations at
+    320, 375, 768, 1024, 1440 and 1920px: H1/IDs, image decoding, no horizontal
+    overflow, floating-shape budget, masonry columns and mobile Sheet bounds/
+    focus trapping/Escape restoration. Passed reduced motion, Gallery focus
+    trapping/query links, keyboard FAQ and no-JavaScript Home/Gallery/404.
+    Additional production-preview interaction checks passed focused-carousel
+    arrow browsing/pause, Gallery lazy album/photo links, Event/Speaker query
+    dialogs and mocked Contact subject selection/loading/success/reset. No
+    real message was sent and no browser errors were recorded.
+    Final axe WCAG 2 A/AA and WCAG 2.1 AA checks found no violations in eight
+    pages, mobile navigation and all three Gallery/Speaker/Event dialogs. The
+    final Event dialog scan exposed an unfocusable scrolling region: added a
+    named focusable Event details region and an inset visible focus ring, then
+    verified native keyboard scrolling and clean axe results at 320/375/1440px.
+    Inspected Chrome accessibility-tree navigation names/roles; a human screen
+    reader review remains recommended before public release. Seven main pages
+    return HTTP 200; unknown paths return the branded HTTP 404 in Astro preview.
+    Direct /404 is served as a document by preview; the Netlify rule explicitly
+    returns 404 there. Netlify TOML parses; HTTPS-origin validation rejects
+    missing/local/pathful URLs and accepts a valid HTTPS-origin fixture.
+    Production-indexable, local-blocked and staging-blocked robots rules passed.
+90. Phase I status/report: local implementation and audits are recorded above.
+    Step 65 real content/consent and step 72 actual deployment/domain/env/live
+    smoke tests are deferred by the owner. Step 69 performance >=90/LCP <2.5s
+    remains open despite the substantial measured improvement; do not label
+    the website fully release-ready. RELEASE_CHECKLIST.md documents these
+    follow-ups, hosting setup, provider configuration and measured results.
+    README and .env.example are updated. All authored changes and audit
+    artifacts stayed inside this repository; original content, fonts, logo
+    assets, the brand PDF and previous work were preserved. The existing
+    background development server remains at http://localhost:4321/.

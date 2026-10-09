@@ -1,0 +1,31 @@
+---
+import Logo from '../shared/Logo.astro';
+import SocialLinks from '../shared/SocialLinks.astro';
+import { FourDots } from '../shapes';
+import { FooterMotion, FooterBand } from './FooterMotion';
+import { site, confirmedExternalUrl, navigationHref } from '../../data/site';
+import './shell.css';
+const join=confirmedExternalUrl(site.communityUrl);
+---
+<footer class="site-footer">
+ <div class="footer-gradient" aria-hidden="true"></div>
+ <FooterMotion client:idle />
+ <div class="site-container footer-dots"><FourDots width={48} height={48}/></div>
+ <FooterBand client:visible/>
+ <div class="site-container footer-grid">
+  <div class="footer-column"><Logo surface="dark"/><p class="footer-name">{site.name}</p><p>{site.mission}</p><p class="footer-hashtag">{site.hashtag}</p></div>
+  <div class="footer-column"><h2>Explore</h2><nav aria-label="Footer navigation">{site.nav.map(item=>navigationHref(item)?<a href={navigationHref(item)}>{item.label}</a>:<span aria-disabled="true">{item.label}</span>)}</nav></div>
+  <div class="footer-column"><h2>Get in touch</h2><p>{site.contact.city}</p>{site.contact.address&&<p>{site.contact.address}</p>}{site.contact.email&&<a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>}{site.contact.phone&&<a href={`tel:${site.contact.phone}`}>{site.contact.phone}</a>}<SocialLinks links={site.socials}/>{!site.socials.length&&<p>Chapter contact details coming soon.</p>}</div>
+  <div class="footer-column"><h2>Follow us</h2><SocialLinks links={site.socials}/><p>All programmes. All experience levels. One community.</p>{join?<a class="join-button" href={join} target="_blank" rel="noopener noreferrer">Join Us ↗</a>:<><button class="join-button" disabled>Join Us</button><p>Registration link coming soon.</p></>}</div>
+ </div>
+ <div class="site-container footer-signoff">
+  <p class="footer-signoff-label">LEARN. BUILD. BELONG.</p>
+  <div class="footer-signoff-row"><p class="footer-wordmark">GDG on Campus <span>IBA</span></p><a class="back-top" href="#main-content">Back to top <span aria-hidden="true">&uarr;</span></a></div>
+ </div>
+ <div class="site-container footer-bottom">
+  <div class="footer-credit"><p>&copy; {new Date().getFullYear()} {site.name}.</p><p>Built with <span class="footer-heart" aria-label="love">&hearts;</span> by our community.</p></div>
+  <p class="footer-disclaimer">Google Developer Groups are community-run groups for developers interested in Google technologies. This chapter is not an official Google site.</p>
+ </div>
+ <div class="footer-gradient" aria-hidden="true"></div>
+</footer>
+

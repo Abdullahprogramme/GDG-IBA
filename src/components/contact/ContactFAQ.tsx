@@ -1,0 +1,2 @@
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../ui/accordion';
+export function ContactFAQ({faqs}:{faqs:{question:string;answer:string}[]}){return <Accordion className="contact-faq">{faqs.map((faq,index)=><AccordionItem key={faq.question} value={`faq-${index}`} data-theme={(['blue','green','yellow','pink'] as const)[index%4]}><AccordionTrigger>{faq.question}</AccordionTrigger><AccordionContent className="contact-faq-answer"><p>{faq.answer}</p></AccordionContent></AccordionItem>)}</Accordion>}

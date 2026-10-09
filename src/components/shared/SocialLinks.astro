@@ -1,0 +1,12 @@
+---
+import { FaInstagram, FaFacebookF, FaLinkedinIn, FaGithub, FaYoutube } from "react-icons/fa";
+import type { SocialLink } from "./social-types";
+import { confirmedExternalUrl } from "../../data/site";
+interface Props { links?: readonly SocialLink[]; label?: string }
+const { links = [], label = "Chapter social profiles" } = Astro.props;
+const icons = { instagram: FaInstagram, facebook: FaFacebookF, linkedin: FaLinkedinIn, github: FaGithub, youtube: FaYoutube };
+---
+{links.length > 0 && <nav class="social-links" aria-label={label}>{links.filter(link => confirmedExternalUrl(link.href)).map(link => {
+  const Icon = icons[link.platform];
+  return <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={`${link.label} (opens in a new tab)`} data-platform={link.platform}><Icon size={20} aria-hidden="true" /></a>;
+})}</nav>}

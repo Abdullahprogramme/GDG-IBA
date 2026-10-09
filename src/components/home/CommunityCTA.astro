@@ -1,0 +1,13 @@
+---
+import { CommunityCard } from "./CommunityCard";
+import { CommunityVisual } from "./CommunityVisual";
+import { SocialTile } from "./SocialTile";
+import { site, confirmedExternalUrl } from "../../data/site";
+const socials = site.socials.filter(link => confirmedExternalUrl(link.href));
+---
+<section id="join" class="home-section community-section" data-theme="pink" aria-labelledby="join-title">
+ <div class="site-container home-section__body">
+  <div class="community-card-wrap"><CommunityVisual client:visible/><CommunityCard client:visible url={site.communityUrl}/></div>
+  {socials.length > 0 ? <div class="community-social-grid">{socials.map(link => <SocialTile client:visible link={link}/>)}</div> : <p class="community-social-pending">Official chapter social profiles will be shared here soon.</p>}
+ </div>
+</section>

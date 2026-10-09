@@ -1,0 +1,7 @@
+---
+import { mapEmbedUrl } from '../../lib/contact';
+import { Reveal } from '../motion';
+interface Props { url?:string|null; address?:string|null }
+const {url,address}=Astro.props;const embed=mapEmbedUrl(url);
+---
+<section id="contact-map" class="contact-section contact-map-section" aria-labelledby="contact-map-title"><div class="site-container"><p class="contact-kicker">02 / Meet us on campus</p><h2 id="contact-map-title" class="contact-heading">A place to <strong>connect.</strong></h2><Reveal client:visible>{embed?<iframe class="contact-map" src={embed} title={`Map of ${address??'the confirmed chapter meeting location'}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen/>:<div class="contact-map-pending"><p>The campus meeting location is being confirmed.</p><small>A map and directions will appear here once the chapter shares its location.</small></div>}</Reveal></div></section>

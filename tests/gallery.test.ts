@@ -1,0 +1,8 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { albumKey, galleryFilters, galleryPhotos, galleryPage, nextPhotoIndex, type GalleryRecord } from '../src/lib/gallery.ts';
+const photo=(id:string,props:Partial<GalleryRecord>={}):GalleryRecord=>({id,src:'/sample.svg',alt:'Sample',album:'Workshops',date:'2025-01-01',width:800,height:600,sample:false,...props});
+test('gallery normalizes populated albums and retains custom album labels',()=>{assert.equal(albumKey('Sample study-jams'),'workshops');assert.deepEqual(galleryFilters([photo('a'),photo('b',{album:'Sample Talks'}),photo('c',{album:'Community day'})]).map(f=>f.value),['all','workshops','talks','community-day'])});
+test('gallery replaces samples, sorts newest first and filters without mutation',()=>{const records=[photo('a'),photo('b',{date:'2026-01-01',album:'Talks'}),photo('sample',{sample:true,date:'2027-01-01'})],before=JSON.stringify(records);assert.deepEqual(galleryPhotos(records).map(p=>p.id),['b','a']);assert.deepEqual(galleryPhotos(records,'workshops').map(p=>p.id),['a']);assert.equal(JSON.stringify(records),before)});
+test('gallery pagination handles 24 initial photos, more and empty albums',()=>{const records=Array.from({length:30},(_,i)=>photo(String(i)));assert.equal(galleryPage(records).photos.length,24);assert.equal(galleryPage(records).hasMore,true);assert.equal(galleryPage(records,'all',48).photos.length,30);assert.equal(galleryPage(records,'talks').total,0)});
+test('lightbox wraps both directions and handles empty or singleton albums',()=>{assert.equal(nextPhotoIndex(0,-1,30),29);assert.equal(nextPhotoIndex(29,1,30),0);assert.equal(nextPhotoIndex(0,1,1),0);assert.equal(nextPhotoIndex(0,1,0),0)});

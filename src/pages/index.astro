@@ -1,16 +1,49 @@
 ---
+import { getCollection } from "astro:content";
+import PageLayout from "../layouts/PageLayout.astro";
+import Hero from "../components/home/Hero.astro";
+import { TagMarquee } from "../components/home/TagMarquee";
+import About from "../components/home/About.astro";
+import { Stats } from "../components/home/Stats";
+import CrewPreview from "../components/home/CrewPreview.astro";
+import Events from "../components/home/Events.astro";
+import Voices from "../components/home/Voices.astro";
+import Gallery from "../components/home/Gallery.astro";
+import PartnersSection from "../components/home/PartnersSection.astro";
+import CommunityCTA from "../components/home/CommunityCTA.astro";
+import { HomeEffects } from "../components/home/HomeEffects";
+import ScallopDivider from "../components/shared/ScallopDivider.astro";
+import { preferConfirmed, orderTeam, orderEvents } from "../lib/home";
+import { site } from "../data/site";
+import { prepareGalleryImage } from "../lib/gallery-images";
+import "../components/home/home.css";
+
+const [teamEntries, eventEntries, speakerEntries, galleryEntries, partnerEntries] = await Promise.all([
+  getCollection("team", entry => !entry.data.alumni), getCollection("events"),
+  getCollection("speakers"), getCollection("gallery"), getCollection("partners"),
+]);
+const people = orderTeam(preferConfirmed(teamEntries.map(({ id, data }) => ({ id, ...data }))));
+const events = orderEvents(preferConfirmed(eventEntries.map(({ id, data }) => ({ id, ...data, date: data.date.toISOString() }))));
+const speakers = preferConfirmed(speakerEntries.map(({ id, data }) => ({ id, ...data })));
+const photos = await Promise.all(preferConfirmed(galleryEntries.map(({ id, data }) => ({ id, ...data, date: data.date.toISOString() }))).map(prepareGalleryImage));
+const partners = preferConfirmed(partnerEntries.map(({ id, data }) => ({ id, ...data })));
+const aboutPhoto = photos.find(photo => !photo.sample);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<PageLayout title={`${site.tagline} | ${site.shortName}`} description={site.description} theme="yellow">
+ <div class="home-main">
+  <HomeEffects client:idle/>
+  <Hero/>
+  <TagMarquee client:visible/>
+  <ScallopDivider from="off-white" to="blue"/>
+  <About photo={aboutPhoto}/>
+  <Stats client:visible/>
+  <ScallopDivider from="green" to="pink"/>
+  <CrewPreview people={people}/>
+  <Events events={events} photos={photos}/>
+  <Voices speakers={speakers}/>
+  <Gallery photos={photos}/>
+  <PartnersSection partners={partners}/>
+  <CommunityCTA/>
+ </div>
+</PageLayout>

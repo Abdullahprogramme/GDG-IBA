@@ -1,0 +1,5 @@
+---
+interface Props { visible?: boolean; label?: string }
+const { visible = false, label = "Sample content for preview. Chapter details are coming soon." } = Astro.props;
+---
+{visible && <p class="sample-notice"><span class="sample-badge">SAMPLE</span> {label}</p>}

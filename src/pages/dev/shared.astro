@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Logo from "../../components/shared/Logo.astro";
+import SectionHeading from "../../components/shared/SectionHeading.astro";
+import Chip from "../../components/shared/Chip.astro";
+import ThemeSection from "../../components/shared/ThemeSection.astro";
+import ScallopDivider from "../../components/shared/ScallopDivider.astro";
+import { THEME_ORDER } from "../../components/shapes/themes";
+---
+<BaseLayout title="Shared component review | GDG on Campus IBA" robots="noindex, nofollow">
+  <main id="main-content">
+    <div class="review-intro site-container"><h1>Shared component studies</h1><Logo /><Logo layout="stacked" /></div>
+    {THEME_ORDER.map((theme,index) => <><ThemeSection theme={theme}><SectionHeading title="Build together." emphasis="Build" label="Sample heading" number={`0${index+1}`} subtitle="Sample copy for the shared component review." /><Chip theme={theme}>Sample label</Chip> <Chip theme={theme} tone="halftone">Sample tag</Chip></ThemeSection><ScallopDivider from={theme} to={THEME_ORDER[index+1] ?? "off-white"} /></>)}
+    <div class="review-dark"><Logo surface="dark" /><Logo surface="dark" layout="stacked" /></div>
+  </main>
+</BaseLayout>
+<style>.review-intro{padding:120px 24px 64px;display:flex;gap:40px;flex-wrap:wrap;align-items:center}.review-intro h1{width:100%;font-size:clamp(2rem,5vw,4rem)}.review-dark{padding:64px 24px;background:#1E1E1E;display:flex;gap:40px;flex-wrap:wrap}</style>

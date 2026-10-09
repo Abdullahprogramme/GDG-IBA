@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+const names = ["events", "speakers", "team", "gallery", "story", "partners"] as const;
+const results = await Promise.all(names.map(async name => ({ name, entries: await getCollection(name) })));
+const events = await getCollection("events");
+const speakers = await getCollection("speakers");
+const gallery = await getCollection("gallery");
+for (const event of events) for (const speaker of event.data.speakers) if (!speakers.some(entry => entry.id === speaker)) throw new Error(`Unknown speaker ${speaker}`);
+for (const speaker of speakers) for (const event of speaker.data.events) if (!events.some(entry => entry.id === event)) throw new Error(`Unknown event ${event}`);
+for (const image of gallery) if (image.data.event && !events.some(entry => entry.id === image.data.event)) throw new Error(`Unknown gallery event ${image.data.event}`);
+---
+<BaseLayout title="Sample content review | GDG on Campus IBA" robots="noindex, nofollow">
+  <main id="main-content" class="content-review site-container"><h1>Sample content collections</h1><p>Every entry here is sample data. None represents real chapter activity or people.</p>
+    {results.map(({name,entries}) => <section><h2>{name} <span>({entries.length} sample entries)</span></h2><ul>{entries.map(entry => <li><strong>Sample</strong> · {entry.id}</li>)}</ul></section>)}
+  </main>
+</BaseLayout>
+<style>.content-review{padding:120px 24px}.content-review h1{font-size:clamp(2rem,5vw,4rem)}.content-review section{margin-top:40px}.content-review h2{font-size:1.5rem}.content-review li{margin-top:12px}</style>

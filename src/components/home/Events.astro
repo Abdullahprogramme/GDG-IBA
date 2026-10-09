@@ -1,0 +1,18 @@
+---
+import SectionHeading from "../shared/SectionHeading.astro";
+import ScallopDivider from "../shared/ScallopDivider.astro";
+import HomeLink from "./HomeLink.astro";
+import SampleNotice from "./SampleNotice.astro";
+import { EventsPreview } from "./EventsPreview";
+import type { EventPreview, GalleryPhoto } from "../../lib/home";
+interface Props { events: EventPreview[]; photos: GalleryPhoto[] }
+const { events, photos } = Astro.props;
+---
+<section id="events" class="home-section" data-theme="yellow" aria-labelledby="events-title">
+ <div class="site-container home-section__body">
+  <div class="section-topline"><SectionHeading id="events-title" title="Experience the events" emphasis="events" number="03" label="Moments in motion" subtitle="Less watching from the sidelines. More trying, making, and figuring it out together."/><HomeLink href="/events" label="View All Events" ghost/></div>
+  <SampleNotice visible={events.some(event => event.sample)} label="These sample entries show how events will appear. They are not scheduled chapter events."/>
+  <EventsPreview client:visible events={events} photos={photos}/>
+ </div>
+ <ScallopDivider from="yellow" to="blue"/>
+</section>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <style>@font-face{font-family:GoogleSans;src:url('/fonts/GoogleSans-Regular.ttf')}@font-face{font-family:GoogleSans;src:url('/fonts/GoogleSans-Bold.ttf');font-weight:700}text{font-family:GoogleSans,sans-serif;fill:#1E1E1E}</style>
+  <rect width="1200" height="630" fill="#FFE7A5"/>
+  <path d="M52 52H650Q678 52 678 80V100Q678 128 706 128H1120Q1148 128 1148 156V550Q1148 578 1120 578H80Q52 578 52 550Z" fill="#FFFFFF" stroke="#1E1E1E" stroke-width="1.5"/>
+  <image href="/brand/logo-horizontal-light.svg" x="68" y="72" width="580" height="118"/>
+  <g fill="#FFD427" stroke="#1E1E1E" stroke-width="2"><circle cx="862" cy="72" r="28"/><circle cx="922" cy="72" r="28"/><circle cx="982" cy="72" r="28"/></g>
+  <text x="96" y="312" font-size="88">Learn. <tspan font-weight="700">Build.</tspan></text>
+  <text x="96" y="404" font-size="88">Belong.</text>
+  <text x="100" y="490" font-size="26">A community learning and building together at IBA.</text>
+  <text x="100" y="536" font-size="20">Karachi, Pakistan · #GDGOnCampus</text>
+</svg>

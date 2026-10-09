@@ -1,0 +1,19 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import { EventCatalog } from "../../components/events/EventCatalog";
+import { EventAgenda } from "../../components/events/EventAgenda";
+import { EventRecap } from "../../components/events/EventRecap";
+import { Countdown } from "../../components/events/Countdown";
+import type { EventRecord } from "../../lib/events";
+import "../../components/events/events.css";
+const now=Date.now();
+const categories=["workshop","hackathon","study-jam","talk","social","workshop"];
+const events:EventRecord[]=categories.map((category,index)=>({id:`fixture-${index}`,slug:`fixture-${index}`,title:`Development fixture ${index+1}`,date:new Date(now+(index+1)*86400000).toISOString(),category,status:index<3?"upcoming":"past",cover:"/images/community-study.svg",summary:"Development-only event data, not a chapter announcement.",description:"Fixture description for dialog checks. These details are not real chapter content.",location:"Development test venue",mode:"onsite",tags:["Fixture",category],sample:false,registerUrl:"https://example.com/register",recapUrl:"https://example.com/recap",agenda:[{time:"14:00",title:"Fixture introduction",speaker:"Test presenter"},{time:"15:00",title:"Fixture workshop"}],speakers:[],gallery:["/images/community-study.svg"]}));
+---
+<PageLayout title="Event development fixtures" robots="noindex,nofollow" theme="blue">
+ <div class="site-container" style="padding-top:160px"><h1>Event development fixtures</h1><p>All records, venues, dates and URLs here are test data, not chapter details.</p></div>
+ <EventCatalog client:load events={events} featured={events[0]} initialNow={now}/>
+ <section class="events-section"><div class="site-container"><EventAgenda client:load event={events[0]}/><EventRecap client:load event={events[3]} photos={[]}/></div></section>
+ <section class="events-section"><div class="site-container"><h2>Empty catalogue fixture</h2><EventCatalog idPrefix="empty-event" client:load events={[]} initialNow={now}/></div></section>
+ <section class="events-section"><div class="site-container"><h2>Countdown fixtures</h2><div id="fixture-live"><Countdown client:load date={new Date(now+3600000).toISOString()} sample={false} initialNow={now}/></div><div id="fixture-expired"><Countdown client:load date={new Date(now-1000).toISOString()} sample={false} initialNow={now}/></div></div></section>
+</PageLayout>

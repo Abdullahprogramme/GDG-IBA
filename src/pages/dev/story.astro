@@ -1,0 +1,16 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import { OriginStory } from "../../components/story/OriginStory";
+import { StoryTimeline } from "../../components/story/StoryTimeline";
+import { StoryClosingCTA } from "../../components/story/StoryClosingCTA";
+import type { StoryMilestone } from "../../lib/story";
+import "../../components/story/story.css";
+const fixtures: StoryMilestone[] = Array.from({length:4}, (_, index) => ({id:`fixture-${index}`,year:2020+index,title:`Layout fixture ${index + 1}`,body:"Development fixture only. Not chapter history.",theme:"blue",sample:true}));
+---
+<PageLayout title="Story development fixtures" robots="noindex,nofollow" theme="blue">
+ <div class="site-container" style="padding-top:160px"><h1>Story development fixtures</h1><p>All years, copy and URLs on this page are test data, not chapter details.</p></div>
+ <section class="story-section"><div class="site-container"><OriginStory client:load origin={{foundedYear:2000,history:"Development fixture to exercise the confirmed-origin rendering path. This is not the chapter's founding year.",photo:{src:"/images/community-study.svg",alt:"Development fixture illustration"}}}/></div></section>
+ <section class="story-section story-history"><div class="site-container"><StoryTimeline client:load milestones={fixtures}/></div></section>
+ <section class="story-section"><div class="site-container"><StoryTimeline client:load milestones={[]}/></div></section>
+ <section class="story-section story-closing"><div class="site-container"><StoryClosingCTA client:load url="https://example.com/join"/></div></section>
+</PageLayout>

@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/shared/PageHero.astro';
+import SampleNotice from '../components/home/SampleNotice.astro';
+import { partitionTeam } from '../lib/team';
+import { LeadSpotlight } from '../components/team/LeadSpotlight';
+import { TeamGrid } from '../components/team/TeamGrid';
+import { AlumniTeam } from '../components/team/AlumniTeam';
+import JoinTeam from '../components/team/JoinTeam.astro';
+import '../components/team/team.css';
+const records=(await getCollection('team')).map(({id,data})=>({id,...data}));
+const {leads,advisors,departments,alumni}=partitionTeam(records);
+---
+<PageLayout title="Team | GDG on Campus IBA" description="Meet the crew behind GDG on Campus IBA: the student leaders and departments helping our community learn, build and belong." theme="green">
+<PageHero slot="hero" title="Meet The Crew" emphasis="Crew" theme="green" label="People behind the possibilities" subtitle="Different skills. Shared curiosity. A community built together." shapes={['people','triple-circle','asterisk']}/>
+<section id="team-leadership" class="team-section" aria-labelledby="team-leadership-title"><div class="site-container"><p class="team-kicker">01 / Guiding the community</p><h2 id="team-leadership-title" class="team-heading">Meet our <strong>leads.</strong></h2><p class="team-intro">Helping ideas become opportunities to learn and build together.</p><SampleNotice visible={records.every(p=>p.sample)&&records.length>0} label="Sample profiles show the layout. No real chapter organizer is represented."/>{leads.length?<LeadSpotlight client:visible people={leads}/>:<p class="team-empty">Leadership profiles will appear when confirmed.</p>}</div></section>
+{advisors.length>0&&<section id="team-advisor" class="team-section team-advisor-section" aria-labelledby="team-advisor-title"><div class="site-container"><p class="team-kicker">Guidance that matters</p><h2 id="team-advisor-title" class="team-heading">Faculty <strong>guidance.</strong></h2><LeadSpotlight client:visible people={advisors} advisor/></div></section>}
+<section id="team-departments" class="team-section team-departments-section" aria-labelledby="team-departments-title"><div class="site-container"><p class="team-kicker">02 / Many talents, one crew</p><h2 id="team-departments-title" class="team-heading">Find your <strong>people.</strong></h2><p class="team-intro">The teams that turn plans into experiences worth sharing.</p><TeamGrid client:visible departments={departments}/></div></section>
+{alumni.length>0&&<section id="team-alumni" class="team-section" aria-labelledby="team-alumni-title"><div class="site-container"><p class="team-kicker">Our community keeps growing</p><h2 id="team-alumni-title" class="team-heading">Past crew.<br/><strong>Lasting impact.</strong></h2><AlumniTeam client:visible people={alumni}/></div></section>}
+<JoinTeam/>
+</PageLayout>

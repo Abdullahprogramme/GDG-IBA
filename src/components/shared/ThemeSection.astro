@@ -1,0 +1,9 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import type { ThemeName } from "../shapes/themes";
+interface Props extends HTMLAttributes<"section"> { theme?: ThemeName; contained?: boolean }
+const { theme = "blue", contained = true, class: className, ...props } = Astro.props;
+---
+<section {...props} data-theme={theme} class:list={["theme-section", className]}>
+  {contained ? <div class="site-container"><slot /></div> : <slot />}
+</section>

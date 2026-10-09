@@ -1,0 +1,15 @@
+---
+import SectionHeading from "../shared/SectionHeading.astro";
+import ScallopDivider from "../shared/ScallopDivider.astro";
+import SampleNotice from "./SampleNotice.astro";
+import { GalleryStrip } from "./GalleryStrip";
+import type { GalleryPhoto } from "../../lib/home";
+import { site } from "../../data/site";
+interface Props { photos: GalleryPhoto[] }
+const { photos } = Astro.props;
+---
+<section id="gallery" class="home-section" data-theme="green" aria-labelledby="gallery-title">
+ <div class="site-container"><SectionHeading id="gallery-title" title="Our best moments" emphasis="moments" number="05" label="Snapshots" subtitle="The conversations, the small wins, and everything that happens between the slides."/><SampleNotice visible={photos.some(photo => photo.sample)} label="Original sample illustrations. These are not photographs of chapter events."/></div>
+ <div class="home-section__body"><GalleryStrip client:visible photos={photos} fullPageAvailable={site.nav.some(item => item.href === "/gallery" && item.available)}/></div>
+ <ScallopDivider from="green" to="yellow"/>
+</section>

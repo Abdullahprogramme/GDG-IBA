@@ -1,0 +1,15 @@
+---
+import { Globe, Arrow, People } from "../shapes";
+import { Reveal } from "../motion";
+import { ValuesGrid } from "./ValuesGrid";
+const pillars = [
+ { title: "Mission", theme: "blue", icon: Globe, text: "Help students turn curiosity into practical skills through shared learning, hands-on projects and support from one another." },
+ { title: "Vision", theme: "yellow", icon: Arrow, text: "An IBA community where anyone interested in technology can find a starting point, build with confidence and share what they learn." },
+ { title: "Values", theme: "green", icon: People, text: "Stay curious, welcome different perspectives and grow together. The way we learn matters as much as what we make." },
+] as const;
+---
+<section id="values" class="story-section story-values" aria-labelledby="values-title"><div class="site-container">
+ <p class="story-kicker">02 / What guides us</p><h2 id="values-title" class="story-heading">A shared purpose.<br/><strong>Room for everyone.</strong></h2>
+ <div class="mission-grid">{pillars.map(({title, theme, icon: Icon, text}, index) => <Reveal client:visible delay={index * .08}><article class="mission-tile" data-theme={theme}><Icon theme={theme} width={64} height={64}/><h3>{title}</h3><p>{text}</p></article></Reveal>)}</div>
+ <h2 class="values-subtitle">The habits we want to build</h2><ValuesGrid client:visible/>
+</div></section>

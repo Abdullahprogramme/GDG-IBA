@@ -1,0 +1,14 @@
+---
+import { themes, OFF_WHITE, type ThemeName } from "../shapes/themes";
+interface Props { from?: ThemeName | "off-white"; to?: ThemeName | "off-white"; dir?: "up" | "down" }
+const { from = "blue", to = "off-white", dir = "up" } = Astro.props;
+const colour = (theme: ThemeName | "off-white") => theme === "off-white" ? OFF_WHITE : themes[theme].pastel;
+const id = `scallop-${crypto.randomUUID()}`;
+---
+<div class="scallop-divider" style={`background:${colour(from)}`} aria-hidden="true">
+  <svg width="100%" height="32" focusable="false" aria-hidden="true">
+    <defs><pattern id={id} width="48" height="32" patternUnits="userSpaceOnUse">
+      <path d={dir === "up" ? "M0 32 V16 Q12 -8 24 16 T48 16 V32 Z" : "M0 0 V16 Q12 40 24 16 T48 16 V0 Z"} fill={colour(to)} />
+    </pattern></defs><rect width="100%" height="32" fill={`url(#${id})`} />
+  </svg>
+</div>

@@ -1,0 +1,29 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import PageHero from "../components/shared/PageHero.astro";
+import { OriginStory } from "../components/story/OriginStory";
+import { chapterOrigin } from "../data/story";
+import MissionValues from "../components/story/MissionValues.astro";
+import { getCollection } from "astro:content";
+import { StoryTimeline } from "../components/story/StoryTimeline";
+import SampleNotice from "../components/home/SampleNotice.astro";
+import { orderMilestones } from "../lib/story";
+import WhatWeDo from "../components/story/WhatWeDo.astro";
+import { StoryClosingCTA } from "../components/story/StoryClosingCTA";
+import { site } from "../data/site";
+import "../components/story/story.css";
+const milestones = orderMilestones((await getCollection("story")).map(({id, data}) => ({id, ...data})));
+---
+<PageLayout title="Our Journey | GDG on Campus IBA" description="Explore the ideas, values and journey of GDG on Campus IBA: a community for learning, building and belonging." theme="blue">
+ <PageHero slot="hero" title="Our Journey" emphasis="Journey" label="Our story" subtitle="A shared curiosity. A place to build. A journey we shape together at IBA." theme="blue" shapes={["people", "globe", "triple-circle"]}/>
+ <section id="origin" class="story-section" aria-labelledby="origin-title"><div class="site-container"><OriginStory client:visible origin={chapterOrigin}/></div></section>
+ <MissionValues/>
+ <section id="timeline" class="story-section story-history" aria-labelledby="timeline-title"><div class="site-container">
+  <p class="story-kicker">03 / The journey so far</p><h2 id="timeline-title" class="story-heading">Small steps.<br/><strong>Shared progress.</strong></h2>
+  <p class="story-intro">Every community has a story. This is where we will share the moments that shape ours.</p>
+  <SampleNotice visible={milestones.some(item => item.sample)} label="These are sample milestones showing the timeline layout. Confirmed chapter history is coming soon."/>
+  <StoryTimeline client:visible milestones={milestones}/>
+ </div></section>
+ <WhatWeDo/>
+ <section id="story-join" class="story-section story-closing" aria-labelledby="story-join-title"><div class="site-container"><StoryClosingCTA client:visible url={site.communityUrl}/></div></section>
+</PageLayout>

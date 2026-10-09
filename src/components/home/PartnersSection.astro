@@ -1,0 +1,15 @@
+---
+import SectionHeading from "../shared/SectionHeading.astro";
+import ScallopDivider from "../shared/ScallopDivider.astro";
+import SampleNotice from "./SampleNotice.astro";
+import HomeLink from "./HomeLink.astro";
+import { Partners } from "./Partners";
+import type { PartnerProfile } from "../../lib/home";
+interface Props { partners: PartnerProfile[] }
+const { partners } = Astro.props;
+---
+<section id="partners" class="home-section partners-section" aria-labelledby="partners-title">
+ <div class="site-container"><div class="section-topline"><SectionHeading id="partners-title" title="Powered by our partners" emphasis="partners" number="06" label="Powered by friends" subtitle="More people sharing what they know. More possibilities for everyone."/><HomeLink href="/contact" label="Become a partner" ghost/></div><SampleNotice visible={partners.some(partner => partner.sample)} label="Sample partner tiles show the layout. No sponsorship or endorsement is claimed."/></div>
+ <div class="home-section__body"><Partners client:visible partners={partners}/></div>
+ <ScallopDivider from="yellow" to="pink"/>
+</section>

@@ -1,0 +1,16 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { MotionReview } from "../../components/motion/MotionReview";
+---
+<BaseLayout title="Motion review | GDG on Campus IBA" robots="noindex, nofollow">
+  <main id="main-content" class="foundation-review"><h1>Motion studies</h1><MotionReview client:load /></main>
+</BaseLayout>
+<style>
+  .foundation-review { max-width: 1200px; margin: auto; padding: 120px 24px; }
+  .foundation-review h1 { font-size: clamp(2rem,5vw,4rem); }
+  :global(.motion-review) { display: grid; gap: 48px; padding-top: 48px; }
+  :global(.motion-review h2) { font-size: clamp(2rem,4vw,3rem); }
+  :global(.motion-review__grid) { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
+  :global(.motion-review__tile) { border: 2px solid #1E1E1E; border-radius: 24px; padding: 24px; background: #CCF6C5; }
+  @media(max-width:640px) { :global(.motion-review__grid) { grid-template-columns: 1fr; } }
+</style>

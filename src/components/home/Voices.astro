@@ -1,0 +1,18 @@
+---
+import SectionHeading from "../shared/SectionHeading.astro";
+import ScallopDivider from "../shared/ScallopDivider.astro";
+import HomeLink from "./HomeLink.astro";
+import SampleNotice from "./SampleNotice.astro";
+import { VoicesCarousel } from "./VoicesCarousel";
+import type { SpeakerProfile } from "../../lib/home";
+interface Props { speakers: SpeakerProfile[] }
+const { speakers } = Astro.props;
+---
+<section id="voices" class="home-section voices-section" data-theme="blue" aria-labelledby="voices-title">
+ <div class="site-container home-section__body">
+  <div class="section-topline"><SectionHeading id="voices-title" title="Voices that inspire" emphasis="inspire" number="04" label="Voices on stage" subtitle="People who share what they know, and make you wonder what you could do next."/><HomeLink href="/speakers" label="All Speakers" ghost/></div>
+  <SampleNotice visible={speakers.some(speaker => speaker.sample)} label="Sample speaker profiles. The confirmed chapter line-up will appear here."/>
+  <VoicesCarousel client:visible speakers={speakers}/>
+ </div>
+ <ScallopDivider from="blue" to="green"/>
+</section>

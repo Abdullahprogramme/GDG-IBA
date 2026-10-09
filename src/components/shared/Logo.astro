@@ -1,0 +1,6 @@
+---
+import { LogoLockup, type LogoLockupProps } from "./LogoLockup";
+interface Props extends LogoLockupProps { href?: string }
+const { href = "/", ...props } = Astro.props;
+---
+<a href={href} class="chapter-logo-link" aria-label="GDG on Campus IBA home"><LogoLockup {...props} /></a>

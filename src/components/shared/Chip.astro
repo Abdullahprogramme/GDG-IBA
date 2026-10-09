@@ -1,0 +1,7 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import type { ThemeName } from "../shapes/themes";
+interface Props extends HTMLAttributes<"span"> { theme?: ThemeName; tone?: "pastel" | "halftone" | "core" }
+const { theme, tone = "pastel", class: className, ...props } = Astro.props;
+---
+<span {...props} class:list={["brand-chip", className]} data-theme={theme} data-tone={tone}><slot name="icon" /><slot /></span>

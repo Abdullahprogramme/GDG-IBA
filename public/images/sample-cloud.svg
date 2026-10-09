@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+ <rect width="800" height="600" fill="#F8D8D8"/><circle cx="95" cy="90" r="180" fill="#FF7DAF"/>
+ <g stroke="#1E1E1E" stroke-width="3"><path d="M204 309a83 83 0 0 1 54-158 131 131 0 0 1 245-7 85 85 0 0 1 49 165Z" fill="#F0F0F0"/>
+ <path d="M390 309v74m-140 0h280m-280 0v42m140-42v42m140-42v42" fill="none"/>
+ <rect x="198" y="425" width="104" height="90" rx="18" fill="#57CAFF"/><rect x="338" y="425" width="104" height="90" rx="18" fill="#FFD427"/><rect x="478" y="425" width="104" height="90" rx="18" fill="#5CDB6D"/>
+ <path d="m238 453-14 17 14 17m25-34 14 17-14 17m113-38v41m-20-20h40m119-22 10 39 17-39" fill="none" stroke-width="5" stroke-linecap="round"/>
+ </g><text x="760" y="567" text-anchor="end" font-family="monospace" font-size="14" fill="#1E1E1E">SAMPLE / CLOUD STUDY</text>
+</svg>

@@ -1,0 +1,24 @@
+---
+import { HeroScene } from "./HeroScene";
+import { TextRotator, MagneticButton } from "../motion";
+import { FourDots } from "../shapes";
+import ScallopDivider from "../shared/ScallopDivider.astro";
+import { site, confirmedExternalUrl } from "../../data/site";
+import { stats } from "../../data/stats";
+const join = confirmedExternalUrl(site.communityUrl);
+const members = stats.find(stat => stat.label === "Members")?.value;
+---
+<section id="hero" class="home-hero" data-theme="yellow" aria-labelledby="hero-title">
+  <div class="site-container hero-grid">
+    <div class="hero-copy">
+      <div class="hero-enter"><p class="hero-label mono-label"><FourDots width={30} height={20}/> GDG ON CAMPUS / IBA</p></div>
+      <div class="hero-enter"><h1 id="hero-title"><span class="hero-title-line">Learn. <strong class="build-word">Build.<svg viewBox="0 0 250 20" aria-hidden="true"><path d="M4 12 Q55 0 115 10 T246 8" fill="none" stroke="#F9AB00" stroke-width="7" stroke-linecap="round"/></svg></strong></span><br/><TextRotator client:load words={["Belong.", "Grow.", "Lead.", "Create."]}/></h1></div>
+      <div class="hero-enter"><p class="hero-description">A student-built community at IBA for curious minds and people who make things. Learn through workshops, hackathons, study jams, and talks. Every programme. Every experience level.</p></div>
+      <div class="hero-enter"><div class="hero-actions"><MagneticButton client:load>{join ? <a class="brand-button" href={join} target="_blank" rel="noopener noreferrer">Join The Community <span aria-hidden="true">↗</span></a> : <a class="brand-button" href="#join">Find your community <span aria-hidden="true">↗</span></a>}</MagneticButton><a class="brand-button brand-button--ghost" href="#events">Explore Events <span aria-hidden="true">↓</span></a></div></div>
+      <div class="hero-enter"><div class="hero-proof"><div class="avatar-stack" aria-hidden="true"><span>✳</span><span>&lt;/&gt;</span><span>☺</span></div><p>{members != null ? `Join ${members.toLocaleString("en-US")}+ members` : "A place for every curious mind."}<small>Learn together. Make something that matters.</small></p></div></div>
+    </div>
+    <HeroScene client:media="(min-width: 768px)"/>
+  </div>
+  <a class="scroll-cue mono-label" href="#about"><span aria-hidden="true">↓</span> KEEP EXPLORING</a>
+  <ScallopDivider from="yellow" to="off-white"/>
+</section>

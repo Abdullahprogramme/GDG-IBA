@@ -1,0 +1,45 @@
+@font-face { font-family: "Google Sans Mono"; src: url("/fonts/GoogleSansMono-Regular.ttf") format("truetype"); font-weight: 400; font-display: swap; }
+.shape-review { background: #F0F0F0; color: #1E1E1E; font-family: "Google Sans", sans-serif; }
+.shape-review__intro, .shape-review__neutral, .shape-review__footer { max-width: 1440px; margin: auto; padding: 64px clamp(16px, 4vw, 56px); }
+.shape-review__intro h1 { max-width: 900px; font-size: clamp(3rem, 7vw, 6.5rem); font-weight: 400; line-height: 1; letter-spacing: -0.055em; margin: 24px 0; }
+.shape-review__intro > p:last-of-type { max-width: 560px; line-height: 1.6; font-size: 1.125rem; }
+.shape-review__eyebrow, .shape-review figcaption, .shape-review__swatches, .shape-review__footer { font-family: "Google Sans Mono", monospace; font-size: 0.75rem; line-height: 1.5; }
+.shape-review__eyebrow { text-transform: uppercase; letter-spacing: 0.08em; }
+.shape-review__intro nav { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; }
+.shape-review__intro nav a { display: inline-flex; align-items: center; gap: 10px; border: 1.5px solid #1E1E1E; border-radius: 999px; padding: 10px 20px; text-transform: capitalize; }
+.shape-review__intro nav span { width: 12px; height: 12px; border: 1px solid #1E1E1E; border-radius: 50%; }
+.shape-review__controls { display: flex; flex-wrap: wrap; gap: 16px 32px; max-width: 1440px; padding: 0 clamp(16px, 4vw, 56px) 28px; margin: auto; }
+.shape-review__controls label { display: inline-flex; gap: 10px; align-items: center; min-height: 44px; cursor: pointer; }
+.shape-review__controls input { accent-color: #1E1E1E; width: 18px; height: 18px; }
+.shape-review__theme { padding: 48px clamp(16px, 4vw, 56px) 64px; background: var(--t-bg); scroll-margin-top: 16px; }
+.shape-review__theme > * { max-width: 1280px; margin-inline: auto; }
+.shape-review__theme-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 32px; }
+.shape-review h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; line-height: 1.15; }
+.shape-review__swatches { display: flex; flex-wrap: wrap; gap: 20px; }
+.shape-review__swatches dt { display: flex; align-items: center; gap: 6px; text-transform: uppercase; }
+.shape-review__swatches dt span { width: 16px; height: 16px; border: 1px solid #1E1E1E; border-radius: 50%; }
+.shape-review__swatches dd { margin-top: 6px; }
+.shape-review__grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1.5px solid #1E1E1E; border-left: 1.5px solid #1E1E1E; }
+.shape-review__tile { margin: 0; padding: 16px 12px; min-width: 0; border-right: 1.5px solid #1E1E1E; border-bottom: 1.5px solid #1E1E1E; display: flex; flex-direction: column; gap: 16px; }
+.shape-review__art { height: 116px; display: flex; align-items: center; justify-content: center; gap: 8px; min-width: 0; }
+.shape-review__art > .brand-shape { max-width: 100%; max-height: 100%; width: 100%; height: 100%; flex: 1; min-width: 0; }
+.shape-review figcaption { overflow-wrap: anywhere; }
+.shape-review__section-heading { padding-block: 40px 24px; }
+.shape-review h3 { font-weight: 400; font-size: clamp(1.5rem, 3vw, 2.25rem); margin-bottom: 8px; letter-spacing: -0.025em; }
+.shape-review__section-heading p { max-width: 600px; line-height: 1.6; }
+.shape-review__cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.shape-review__cards--compact { max-width: 620px; grid-template-columns: 1fr; }
+.shape-review h4 { font-size: clamp(1.5rem, 2.5vw, 2.25rem); font-weight: 400; line-height: 1.15; margin: 12px 0; }
+.shape-review__cards .brand-notch__body > p:last-child { font-size: 0.9375rem; line-height: 1.6; }
+.shape-review__frames { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.shape-review__frames figure { min-width: 0; margin: 0; }
+.shape-review__frames figcaption { margin-top: 12px; }
+.shape-review__avatar { display: flex; flex-direction: column; align-items: center; padding-block: 16px; }
+.shape-review__mark-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1.5px solid #1E1E1E; border-left: 1.5px solid #1E1E1E; }
+.shape-review__dark { background: #1E1E1E; color: #F0F0F0; }
+.shape-review__footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; border-top: 1.5px solid #1E1E1E; padding-block: 24px; }
+.shape-review__skip { position: fixed; top: 8px; left: 8px; z-index: 100; transform: translateY(-150%); padding: 12px 20px; background: #F0F0F0; color: #1E1E1E; border: 2px solid #1E1E1E; border-radius: 999px; }
+.shape-review__skip:focus { transform: none; }
+.shape-review a:focus-visible, .shape-review input:focus-visible, .shape-review__skip:focus-visible { outline: 3px solid #4285F4; outline-offset: 3px; }
+@media (max-width: 1023px) { .shape-review__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 767px) { .shape-review__intro { padding-top: 40px; } .shape-review__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .shape-review__cards, .shape-review__frames { grid-template-columns: 1fr; } .shape-review__mark-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

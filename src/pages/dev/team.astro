@@ -1,0 +1,12 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { partitionTeam, type TeamRecord } from '../../lib/team';
+import { LeadSpotlight } from '../../components/team/LeadSpotlight';
+import { TeamGrid } from '../../components/team/TeamGrid';
+import { AlumniTeam } from '../../components/team/AlumniTeam';
+import '../../components/team/team.css';
+const fixture=(id:string,props:Partial<TeamRecord>={}):TeamRecord=>({id,name:`Fixture ${id}`,role:'Fixture member',department:'Fixture Tech',photo:'/images/sample-avatar-blue.svg',isLead:false,isCoLead:false,isAdvisor:false,order:0,sample:false,alumni:false,bio:'Development fixture only; not a real organizer.',links:{linkedin:'https://example.com/linkedin',github:'https://example.com/github',email:'fixture@example.com'},...props});
+const records=[fixture('lead',{isLead:true}),fixture('co-lead',{isCoLead:true}),fixture('advisor',{isAdvisor:true,role:'Fixture Faculty Advisor'}),...Array.from({length:8},(_,i)=>fixture(`member-${i+1}`,{department:i<4?'Fixture Tech':'Fixture Design',order:i})),fixture('past',{alumni:true})];
+const {leads,advisors,departments,alumni}=partitionTeam(records);
+---
+<PageLayout title="Team development fixtures" description="Development-only review fixtures" robots="noindex,nofollow" theme="green"><div class="site-container" style="padding-top:150px"><h1>Team development fixtures</h1><p>Every name, role and link below is an artificial test fixture, not chapter content.</p></div><section id="fixture-leads" class="team-section"><div class="site-container"><LeadSpotlight client:visible people={leads}/></div></section><section id="fixture-advisor" class="team-section"><div class="site-container"><LeadSpotlight client:visible people={advisors} advisor/></div></section><section id="fixture-grid" class="team-section"><div class="site-container"><TeamGrid client:visible departments={departments}/></div></section><section id="fixture-alumni" class="team-section"><div class="site-container"><AlumniTeam client:visible people={alumni}/></div></section><section id="fixture-empty" class="team-section"><div class="site-container"><TeamGrid departments={[]}/></div></section></PageLayout>

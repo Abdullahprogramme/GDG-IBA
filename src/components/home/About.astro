@@ -1,0 +1,22 @@
+---
+import SectionHeading from "../shared/SectionHeading.astro";
+import ScallopDivider from "../shared/ScallopDivider.astro";
+import Chip from "../shared/Chip.astro";
+import HomeLink from "./HomeLink.astro";
+import { AboutVisual } from "./AboutVisual";
+import { Reveal } from "../motion";
+interface Props { photo?: { src: string; alt: string } }
+const { photo } = Astro.props;
+const keywords = ["Mentorship", "Brainstorming", "Collaboration", "Teamwork", "Workshops", "UI/UX", "Hackathons", "Problem Solving", "Prototype"];
+const themes = ["blue", "pink", "yellow", "green"] as const;
+---
+<section id="about" class="home-section" data-theme="blue" aria-labelledby="about-title">
+ <div class="site-container home-section__body">
+  <div class="about-grid">
+   <Reveal client:visible direction="left"><div><SectionHeading id="about-title" title="A community where IBA builds together" emphasis="IBA" number="01" label="Who we are"/><p class="section-intro">Good ideas get better when you share them.</p><p>Google Developer Groups on Campus bring students together to explore technology beyond the classroom. At IBA, we want to turn curiosity into skills, and skills into things we can build together.</p><p>Workshops, hackathons, study jams, talks, and a little help along the way. Whether you’re writing your first line of code or bringing a project to life, there’s room for you here.</p><div class="about-pillars"><Chip theme="blue">Learn</Chip><Chip theme="green">Build</Chip><Chip theme="yellow">Connect</Chip></div><HomeLink href="/our-story" label="Explore Our Story" ghost/></div></Reveal>
+   <AboutVisual client:visible src={photo?.src ?? "/images/community-study.svg"} alt={photo?.alt ?? "Original illustration of a coding workspace with a laptop, notes, and a coffee cup; not a chapter photograph"} sample={!photo}/>
+  </div>
+  <div class="keyword-cloud" aria-label="Ways we learn together">{keywords.map((word, i) => <span class="keyword-chip" data-theme={themes[i % 4]} style={`--tilt:${[-4,3,-2,5][i % 4]}deg;--delay:${i * .15}s`}>{word}</span>)}</div>
+ </div>
+ <ScallopDivider from="blue" to="green"/>
+</section>

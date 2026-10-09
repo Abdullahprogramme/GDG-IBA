@@ -1,0 +1,15 @@
+---
+import SectionHeading from "../shared/SectionHeading.astro";
+import ScallopDivider from "../shared/ScallopDivider.astro";
+import HomeLink from "./HomeLink.astro";
+import SampleNotice from "./SampleNotice.astro";
+import { CrewRows } from "./CrewRows";
+import type { TeamProfile } from "../../lib/home";
+interface Props { people: TeamProfile[] }
+const { people } = Astro.props;
+---
+<section id="crew" class="home-section" data-theme="pink" aria-labelledby="crew-title">
+ <div class="site-container"><div class="section-topline"><SectionHeading id="crew-title" title="The people behind the code" emphasis="people" number="02" label="The crew" subtitle="Different programmes. Shared curiosity. A crew that makes room for you."/><HomeLink href="/team" label="Meet Everyone" ghost/></div><SampleNotice visible={people.some(person => person.sample)} label="Sample profiles show the layout. These are not real chapter organisers."/></div>
+ <div class="home-section__body"><CrewRows client:visible people={people}/></div>
+ <ScallopDivider from="pink" to="yellow"/>
+</section>

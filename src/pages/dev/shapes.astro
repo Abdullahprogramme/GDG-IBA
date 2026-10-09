@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { ShapeGallery } from "../../components/shapes/ShapeGallery";
+import { THEME_ORDER, themes } from "../../components/shapes/themes";
+import "../../styles/shape-review.css";
+---
+
+<BaseLayout title="Brand shapes | GDG on Campus IBA" description="Development review of the GDG on Campus IBA brand shape library." robots="noindex, nofollow" mainId="shapes">
+  <a class="shape-review__skip" href="#shapes">Skip to shapes</a>
+  <main class="shape-review" id="shapes">
+    <header class="shape-review__intro">
+      <p class="shape-review__eyebrow">GDG ON CAMPUS IBA · FOUNDATION / 04</p>
+      <h1>A language of <b>shapes.</b></h1>
+      <p>Pills, circles, curves, and corners. One family of shapes, four colourways, endless ways to build together.</p>
+      <nav aria-label="Review colourways">
+        {THEME_ORDER.map(theme => <a href={`#${theme}`} style={`background:${themes[theme].pastel}`}><span style={`background:${themes[theme].core}`}></span>{theme === "pink" ? "Pink / Red" : theme}</a>)}
+      </nav>
+    </header>
+    <ShapeGallery client:load />
+    <footer class="shape-review__footer"><p>Development review · GDG on Campus IBA</p><p>Built from the recorded brand specifications. Original kit comparison remains pending.</p></footer>
+  </main>
+</BaseLayout>

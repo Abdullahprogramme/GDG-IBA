@@ -1,0 +1,11 @@
+---
+import { NotchCard, Quote, Arrow } from "../shapes";
+import { Reveal } from "../motion";
+import { site } from "../../data/site";
+const contactAvailable=site.nav.some(item=>item.href==="/contact"&&item.available);
+---
+<section id="speaker-call" class="speakers-section speakers-call" aria-labelledby="speaker-call-title"><div class="site-container">
+ <Reveal client:visible><NotchCard type="tab" label="Your voice" theme="pink" className="speaker-call-card" initialHeight={360}>
+  <div class="speaker-call-grid"><div><p class="speakers-kicker">03 / Pass it on</p><h2 id="speaker-call-title" class="speakers-heading">Have something<br/>to <strong>share?</strong></h2><p>A useful lesson, a project you learned from, a perspective that could help someone take their first step. Bring your ideas to our community.</p><a class="brand-button" href={contactAvailable?"/contact?subject=speaker":"/#join"}>{contactAvailable?"Become a speaker":"Find our community"}<span aria-hidden="true">↗</span></a>{!contactAvailable&&<p class="speaker-call-note">The speaker enquiry form is coming with the Contact page. For now, explore our community joining details.</p>}</div><div class="speaker-call-shapes" aria-hidden="true"><Quote theme="pink" variant="outline" width={96} height={96}/><Arrow theme="yellow" width={110} height={90}/></div></div>
+ </NotchCard></Reveal>
+</div></section>

@@ -1,0 +1,8 @@
+---
+import { NotchCard, People, Asterisk } from '../shapes';
+import { Reveal } from '../motion';
+import { JoinButton } from '../home/JoinButton';
+import { site, confirmedExternalUrl } from '../../data/site';
+const contact=site.nav.some(item=>item.href==='/contact'&&item.available);
+---
+<section id="team-join" class="team-section team-join" aria-labelledby="team-join-title"><div class="site-container"><Reveal client:visible><NotchCard type="tab" label="Build with us" theme="green" className="team-join-card" initialHeight={360}><div class="team-join-layout"><div><p class="team-kicker">Make your mark</p><h2 id="team-join-title" class="team-heading">Want to join<br/>the <strong>team?</strong></h2><p>Bring your curiosity, your ideas and whatever you love doing. Help create the next conversation, workshop or community moment.</p><div class="team-join-actions"><JoinButton client:visible url={confirmedExternalUrl(site.communityUrl)??null}/><a class="team-contact-link" href={contact?'/contact?subject=team':'/#join'}>{contact?'Ask about the team':'Explore joining details'} <span aria-hidden="true">↗</span></a></div>{!contact&&<p class="team-join-note">Team enquiries will be available with the Contact page. Community joining details are available on Home.</p>}</div><div class="team-join-shapes" aria-hidden="true"><People theme="green" width={140} height={120}/><Asterisk theme="yellow" width={64} height={64}/></div></div></NotchCard></Reveal></div></section>

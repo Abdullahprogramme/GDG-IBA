@@ -1,0 +1,8 @@
+---
+import { site } from "../../data/site";
+interface Props { href: string; label: string; ghost?: boolean; class?: string }
+const { href, label, ghost = false, class: className = "" } = Astro.props;
+const available = site.nav.some(item => item.href === href && item.available);
+const classes = `brand-button ${ghost ? "brand-button--ghost" : ""} ${className}`;
+---
+{available ? <a href={href} class={classes}>{label}<span aria-hidden="true">↗</span></a> : <span class="pending-link"><span class={classes} aria-disabled="true">{label}<span aria-hidden="true">↗</span></span><small>Full page coming soon</small></span>}

@@ -1,0 +1,16 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import { SpeakerGrid } from "../../components/speakers/SpeakerGrid";
+import { PastSpeakers } from "../../components/speakers/PastSpeakers";
+import type { SpeakerRecord } from "../../lib/speakers";
+import type { EventRecord } from "../../lib/events";
+import "../../components/speakers/speakers.css";
+const categories=["Industry","Alumni","Google Developer Experts","Student Speakers","Industry","Alumni"];
+const speakers:SpeakerRecord[]=categories.map((category,index)=>({id:`fixture-person-${index}`,slug:`fixture-speaker-${index}`,name:`Fixture Speaker ${index+1}`,role:"Development test presenter",company:"Test organisation",photo:index%2?"/images/sample-avatar-yellow.svg":"/images/sample-avatar-blue.svg",talkTitle:`Fixture talk ${index+1}: a practical idea to share`,bio:"Development fixture biography only. This is not a real speaker.",sample:false,category,events:index<3?["fixture-session"]:[],talkAbstract:index===0?"Fixture abstract for testing the full talk section.":undefined,links:index===0?{linkedin:"https://example.com/linkedin",x:"https://example.com/x"}:{}}));
+const events:EventRecord[]=[{id:"fixture-session",slug:"fixture-session",title:"Development session fixture",date:"2025-01-01T09:00:00Z",category:"talk",status:"past",cover:"/images/community-study.svg",summary:"Test data, not chapter content",description:"Development-only session",location:"Test venue",mode:"online",tags:[],sample:false,agenda:[],gallery:[],speakers:["fixture-speaker-3"]}];
+---
+<PageLayout title="Speaker development fixtures" robots="noindex,nofollow" theme="pink">
+ <section class="speakers-section" style="padding-top:160px"><div class="site-container"><h1>Speaker development fixtures</h1><p>All profiles, events and social URLs here are test data, not chapter details.</p><SpeakerGrid client:load speakers={speakers} events={events}/></div></section>
+ <section id="fixture-speaker-history" class="speakers-section speakers-past"><div class="site-container"><h2>Past event fixture</h2><PastSpeakers client:load speakers={speakers} events={events}/></div></section>
+ <section id="fixture-speaker-empty" class="speakers-section"><div class="site-container"><h2>Empty fixtures</h2><SpeakerGrid idPrefix="empty-speaker" client:load speakers={[]} events={[]}/><PastSpeakers client:load speakers={[]} events={[]}/></div></section>
+</PageLayout>

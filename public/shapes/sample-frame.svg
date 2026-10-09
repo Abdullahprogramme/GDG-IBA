@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480">
+  <rect width="640" height="480" fill="#F0F0F0"/>
+  <g fill="none" stroke="#1E1E1E" stroke-width="1.5">
+    <path d="M0 80H640M0 160H640M0 240H640M0 320H640M0 400H640M80 0V480M160 0V480M240 0V480M320 0V480M400 0V480M480 0V480M560 0V480" opacity=".12"/>
+    <circle cx="320" cy="196" r="64"/>
+    <path d="M192 380v-16a128 100 0 0 1 256 0v16"/>
+  </g>
+  <text x="320" y="438" fill="#1E1E1E" font-family="monospace" font-size="18" text-anchor="middle">SAMPLE / FRAME STUDY</text>
+</svg>

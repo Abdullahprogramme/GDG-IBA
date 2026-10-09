@@ -1,0 +1,9 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { ContactInfo } from '../../components/contact/ContactInfo';
+import { ContactForm } from '../../components/contact/ContactForm';
+import { ContactFAQ } from '../../components/contact/ContactFAQ';
+import { contactFaqs } from '../../data/contact';
+import '../../components/contact/contact.css';
+---
+<PageLayout title="Contact development fixtures" description="Development-only contact review" robots="noindex,nofollow" theme="yellow"><section class="contact-section" style="padding-top:160px"><div class="site-container"><h1>Contact development fixtures</h1><p>All contact details and the access key below are artificial fixtures. Tests intercept submissions; no real message is delivered.</p><div class="contact-columns" style="margin-top:40px"><ContactInfo client:load details={{email:'fixture@example.com',address:'Development fixture address',phone:'+000000000',hours:'Fixture hours',city:'Fixture city'}} socials={[{platform:'linkedin',label:'Fixture LinkedIn',href:'https://example.com/linkedin'},{platform:'instagram',label:'Fixture Instagram',href:'https://example.com/instagram'}]} communityUrl="https://example.com/community"/><ContactForm client:load accessKey="00000000-0000-0000-0000-000000000000" email="fixture@example.com"/></div><div id="fixture-faq" style="margin-top:80px"><ContactFAQ client:visible faqs={contactFaqs}/></div></div></section></PageLayout>

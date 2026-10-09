@@ -1,0 +1,19 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import PageHero from "../components/shared/PageHero.astro";
+import { getCollection } from "astro:content";
+import { preferConfirmed } from "../lib/home";
+import { SpeakerGrid } from "../components/speakers/SpeakerGrid";
+import SampleNotice from "../components/home/SampleNotice.astro";
+import { PastSpeakers } from "../components/speakers/PastSpeakers";
+import CallForSpeakers from "../components/speakers/CallForSpeakers.astro";
+import "../components/speakers/speakers.css";
+const speakers=preferConfirmed((await getCollection("speakers")).map(({id,data})=>({id,...data})));
+const events=(await getCollection("events")).map(({id,data})=>({id,...data,date:data.date.toISOString(),endDate:data.endDate?.toISOString()}));
+---
+<PageLayout title="Speakers | GDG on Campus IBA" description="Meet the voices sharing practical ideas with GDG on Campus IBA. Explore speaker profiles, talks and the sessions they contributed to." theme="pink">
+ <PageHero slot="hero" title="Speakers" emphasis="Speakers" theme="pink" label="Voices that inspire" subtitle="Fresh perspectives. Practical ideas. People who share what they know." shapes={["quote","slashes","triple-circle"]}/>
+ <section id="speaker-browse" class="speakers-section" aria-labelledby="speaker-browse-title"><div class="site-container"><p class="speakers-kicker">01 / Meet the voices</p><h2 id="speaker-browse-title" class="speakers-heading">Ideas worth <strong>sharing.</strong></h2><p class="speakers-intro">Discover the people, perspectives and talks that help us learn together.</p><SampleNotice visible={speakers.some(speaker=>speaker.sample)} label="Sample profiles show the layout. No real speaker or alumni is represented."/><SpeakerGrid client:load speakers={speakers} events={events}/></div></section>
+ <section id="speaker-history" class="speakers-section speakers-past" aria-labelledby="speaker-history-title"><div class="site-container"><p class="speakers-kicker">02 / Conversations to remember</p><h2 id="speaker-history-title" class="speakers-heading">Past speakers.<br/><strong>Shared sessions.</strong></h2><p class="speakers-intro">Explore the voices behind earlier sessions and follow the conversation back to its event.</p><PastSpeakers client:visible speakers={speakers} events={events}/></div></section>
+ <CallForSpeakers/>
+</PageLayout>

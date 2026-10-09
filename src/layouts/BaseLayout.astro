@@ -1,0 +1,76 @@
+---
+import "../styles/globals.css";
+import "../components/shapes/shapes.css";
+import { ClientRouter } from "astro:transitions";
+import { SmoothScroll, ScrollProgress } from "../components/motion";
+import { site, navigationHref } from "../data/site";
+import { canonicalUrl, organizationSchema, serializeSchema } from '../lib/seo';
+
+interface Props {
+	title?: string;
+	description?: string;
+	robots?: string;
+	image?: string;
+	mainId?: string;
+	structuredData?: unknown[];
+}
+
+const {
+	title = `${site.name} | ${site.tagline}`,
+	description = site.description,
+	robots,
+	image = "/brand/social-card.png",
+	mainId = "main-content",
+	structuredData = [],
+} = Astro.props;
+const origin = (Astro.site ?? new URL(Astro.url.origin)).origin;
+const pageRobots = robots ?? (process.env.SITE_INDEXING === 'true' ? 'index, follow' : 'noindex, follow');
+const canonical = canonicalUrl(Astro.url.pathname, origin);
+const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/brand/google-bracket.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<meta name="robots" content={pageRobots} />
+		<link rel="canonical" href={canonical} />
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content={site.name} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:image" content={socialImage} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:locale" content="en_PK" />
+		<meta property="og:image:alt" content={`${site.shortName}: ${site.tagline}`} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={socialImage} />
+		<meta name="twitter:image:alt" content={`${site.shortName}: ${site.tagline}`} />
+		{!robots?.includes('noindex') && <script type="application/ld+json" set:html={serializeSchema([organizationSchema(origin), ...structuredData])} />}
+		<link
+			rel="preload"
+			href="/fonts/GoogleSans-Regular.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+		<link rel="preload" href="/fonts/GoogleSansMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
+		<title>{title}</title>
+		<ClientRouter fallback="swap" />
+	</head>
+	<body>
+		<a class="skip-link" href={`#${mainId}`}>Skip to content</a>
+		<noscript><nav class="noscript-nav" aria-label="Page navigation">{site.nav.filter(item => navigationHref(item)).map(item => <a href={navigationHref(item)}>{item.label}</a>)}</nav></noscript>
+		<SmoothScroll client:load transition:persist="smooth-scroll" />
+		<ScrollProgress client:load transition:persist="scroll-progress" />
+		<slot />
+	</body>
+</html>

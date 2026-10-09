@@ -1,0 +1,12 @@
+---
+interface Props { title: string; emphasis?: string; subtitle?: string; number?: string; label?: string; id?: string; stacked?: boolean }
+const { title, emphasis, subtitle, number, label, id, stacked = false } = Astro.props;
+const index = emphasis ? title.indexOf(emphasis) : -1;
+const before = index >= 0 ? title.slice(0,index) : title;
+const after = index >= 0 ? title.slice(index + emphasis!.length) : "";
+---
+<header class="section-heading">
+  {(label || number) && <p class="mono-label">{number && `${number} / `}{label}</p>}
+  <h2 id={id}>{before}{index >= 0 && <><b>{emphasis}</b>{stacked && <br />}{after}</>}</h2>
+  {subtitle && <p class="section-heading__subtitle">{subtitle}</p>}
+</header>
