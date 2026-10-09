@@ -22,3 +22,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+
+/GDGoC_IBA_Instructions.txt
+/GDG Brand Kit.pdf
