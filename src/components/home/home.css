@@ -33,3 +33,4 @@ astro-island[ssr] .voice-slide .speaker-card{scale:1;opacity:1}astro-island[ssr]
 .social-tile__community-mark{width:64px;height:64px;flex:0 0 64px;object-fit:contain}
 .social-tile>span:nth-child(2){min-width:0}
 .social-tile small{overflow-wrap:anywhere}
+.crew-home-row{padding-block:10px 24px}.crew-row-heading{font:11px var(--font-mono);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}.crew-row-empty{padding-block:22px;font-size:13px;line-height:1.7}.crew-home-row--oc{background:#f8d8d8}.crew-home-row--lead{padding-top:0}.crew-spotlights--single{grid-template-columns:minmax(0,340px)}.crew-tracks .team-card:hover,.crew-tracks .team-card:focus-within{transform:none}

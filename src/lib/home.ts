@@ -1,6 +1,7 @@
 export interface TeamProfile {
   id: string; name: string; role: string; department: string; photo: string;
-  isLead: boolean; isCoLead: boolean; order: number; sample: boolean;
+  isLead: boolean; isCoLead: boolean; order: number; sample: boolean; bio?: string;
+  photoPending?: boolean; organizingCommittee?: boolean;
   links: { linkedin?: string; email?: string; github?: string; website?: string };
 }
 export interface EventPreview {
