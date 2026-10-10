@@ -15,7 +15,7 @@ const join=confirmedExternalUrl(site.communityUrl);
  <div class="site-container footer-grid">
   <div class="footer-column"><Logo surface="dark"/><p class="footer-name">{site.name}</p><p>{site.mission}</p><p class="footer-hashtag">{site.hashtag}</p></div>
   <div class="footer-column"><h2>Explore</h2><nav aria-label="Footer navigation">{site.nav.map(item=>navigationHref(item)?<a href={navigationHref(item)}>{item.label}</a>:<span aria-disabled="true">{item.label}</span>)}</nav></div>
-  <div class="footer-column"><h2>Get in touch</h2><p>{site.contact.city}</p>{site.contact.address&&<p>{site.contact.address}</p>}{site.contact.email&&<a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>}{site.contact.phone&&<a href={`tel:${site.contact.phone}`}>{site.contact.phone}</a>}<SocialLinks links={site.socials}/>{!site.socials.length&&<p>Chapter contact details coming soon.</p>}</div>
+  <div class="footer-column"><h2>Get in touch</h2><p>{site.contact.city}</p>{site.contact.address&&<p>{site.contact.address}</p>}{site.contact.email&&<a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>}{site.contact.phone&&<a href={`tel:${site.contact.phone}`}>{site.contact.phone}</a>}{!site.contact.address&&!site.contact.email&&!site.contact.phone&&<p>Chapter contact details coming soon.</p>}</div>
   <div class="footer-column"><h2>Follow us</h2><SocialLinks links={site.socials}/><p>All programmes. All experience levels. One community.</p>{join?<a class="join-button" href={join} target="_blank" rel="noopener noreferrer">Join Us ↗</a>:<><button class="join-button" disabled>Join Us</button><p>Registration link coming soon.</p></>}</div>
  </div>
  <div class="site-container footer-signoff">

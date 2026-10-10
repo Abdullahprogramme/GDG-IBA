@@ -6,7 +6,7 @@ const themes = ["blue", "yellow", "pink", "green"] as const;
 export function Stats() {
   return <section id="stats" className="home-stats" data-theme="green" aria-labelledby="stats-title">
     <div className="site-container">
-      <div className="stats-heading"><h2 id="stats-title" className="mono-label">Small beginnings. Shared possibilities.</h2>{stats.some(stat => stat.value == null) && <p>Confirmed chapter figures coming soon.</p>}</div>
+      <div className="stats-heading"><h2 id="stats-title" className="mono-label">Small beginnings. Shared possibilities.</h2></div>
       <Stagger className="stats-grid">{stats.map((stat, index) => {
         const Icon = icons[index % icons.length];
         return <StaggerItem key={stat.label}><div className="stat-tile" data-theme={themes[index % 4]}>

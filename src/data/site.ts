@@ -8,8 +8,13 @@ export const site = {
   mission: "A place to learn, build, and belong at IBA.",
   hashtag: "#GDGOnCampus",
   // Replace nulls only with the chapter's confirmed details.
-  communityUrl: null as string | null,
-  socials: [] as SocialLink[],
+  communityUrl: "https://gdg.community.dev/gdg-on-campus-institute-of-business-administration-karachi-pakistan/",
+  socials: [
+    { platform: "facebook", label: "Facebook", href: "https://www.facebook.com/gdgociba/" },
+    { platform: "instagram", label: "Instagram", href: "https://www.instagram.com/gdg.iba/" },
+    { platform: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/company/google-developer-group-iba/posts/?feedView=all" },
+    { platform: "community", label: "GDG on Campus IBA on Bevy", href: "https://gdg.community.dev/gdg-on-campus-institute-of-business-administration-karachi-pakistan/" },
+  ] as SocialLink[],
   contact: { email: null as string | null, address: null as string | null, phone: null as string | null, hours: null as string | null, mapEmbedUrl: null as string | null, city: "Karachi, Pakistan" },
   nav: [
     { label: "Home", href: "/", available: true },

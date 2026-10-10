@@ -28,3 +28,8 @@ astro-island[ssr] .voice-slide .speaker-card{scale:1;opacity:1}astro-island[ssr]
 
 /* Above-fold copy stays visible in server HTML and throughout hydration. */
 .hero-enter{animation:hero-copy-enter .6s cubic-bezier(.22,1,.36,1) both}@keyframes hero-copy-enter{from{transform:translateY(14px)}to{transform:translateY(0)}}@media(prefers-reduced-motion:reduce){.hero-enter{animation:none}}
+/* Keep the community mark contained inside its social tile at every card width. */
+.social-tile{min-width:0;overflow:hidden}
+.social-tile__community-mark{width:64px;height:64px;flex:0 0 64px;object-fit:contain}
+.social-tile>span:nth-child(2){min-width:0}
+.social-tile small{overflow-wrap:anywhere}
