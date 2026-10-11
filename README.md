@@ -29,7 +29,7 @@ About is a section of the homepage, not a separate page. Development fixtures li
 
 ## Stack
 
-- Astro with static output, strict TypeScript, and React islands.
+- Astro with static output, strict TypeScript, and React islands. The standalone `api/chat.ts` function handles the server-side Gemini chat on Vercel.
 - Tailwind CSS v4 and shared branded UI components.
 - Motion, CSS animations, Lenis, and Embla Carousel.
 - Astro Content Collections with Zod validation.

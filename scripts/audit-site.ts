@@ -3,8 +3,14 @@ import { join } from 'node:path';
 import { publicRoutes } from '../src/lib/seo.ts';
 const failures: string[]=[];
 const pages = new Map<string,string>();
+const outputRoot = await access(join('.vercel','output','static','index.html'))
+  .then(() => join('.vercel','output','static'))
+  .catch(() => 'dist');
+const pagePath = (route: string) => route === '/404'
+  ? join(outputRoot, '404.html')
+  : join(outputRoot, route.slice(1), 'index.html');
 for (const route of [...publicRoutes,'/404']) {
-  pages.set(route,await readFile(route==='/404'?join('dist','404.html'):join('dist',route.slice(1),'index.html'),'utf8'));
+  pages.set(route,await readFile(pagePath(route),'utf8'));
 }
 const attrs=(tag:string)=>Object.fromEntries([...tag.matchAll(/([\w:-]+)="([^"]*)"/g)].map(match=>[match[1],match[2]]));
 let checkedLinks=0;
@@ -28,10 +34,10 @@ for (const [route,html] of pages) {
   }
   for(const tag of html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>(.*?)<\/script>/gs))try{JSON.parse(tag[1])}catch{fail('invalid JSON-LD')}
 }
-const sitemap=await readFile('dist/sitemap-0.xml','utf8');
+const sitemap=await readFile(join(outputRoot,'sitemap-0.xml'),'utf8');
 if(sitemap.includes('/dev/')||sitemap.includes('/404'))failures.push('Sitemap contains excluded routes');
 for(const route of publicRoutes)if(!sitemap.includes(route==='/'?'</loc>':`${route}/</loc>`))failures.push(`Sitemap missing ${route}`);
-await access('dist/robots.txt');await access('dist/brand/social-card.png');
+await access(join(outputRoot,'robots.txt'));await access(join(outputRoot,'brand','social-card.png'));
 const report={pages:pages.size,checkedLinks,failures};
 await writeFile('.astro/site-audit.json',JSON.stringify(report,null,2));
 console.log(JSON.stringify(report,null,2));if(failures.length)process.exitCode=1;
