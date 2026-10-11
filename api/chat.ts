@@ -66,8 +66,12 @@ export async function handleChat(request: Request, environment: ChatEnvironment 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 20_000);
   try {
-    const knowledgeResponse = await fetch(new URL("/chat-knowledge.json", parsedOrigin), { signal: controller.signal });
-    if (!knowledgeResponse.ok) throw new Error("Knowledge snapshot unavailable");
+    const knowledgeUrl = new URL("/chat-knowledge.json", parsedOrigin);
+    const knowledgeResponse = await fetch(knowledgeUrl, { signal: controller.signal });
+    if (!knowledgeResponse.ok) {
+      console.error(`Chapter-chat knowledge request failed with HTTP ${knowledgeResponse.status}.`);
+      return reply(502, { error: "The chapter guide data is unavailable right now. Please try again or use the Contact page." });
+    }
     const knowledge = await knowledgeResponse.json() as Record<string, unknown>;
     const currentQuestion = messages[messages.length - 1]!.content.toLocaleLowerCase();
     const keywords = currentQuestion.match(/[\p{L}\p{N}]{3,}/gu)?.filter(word => !["the", "and", "for", "what", "how", "where", "when", "who", "does", "can", "you", "about", "with", "are", "our", "this", "that"].includes(word)) ?? [];
@@ -84,26 +88,33 @@ export async function handleChat(request: Request, environment: ChatEnvironment 
     }
     const groundedData = JSON.stringify(selected).slice(0, 24_000);
 
-    const model = (environment.model ?? process.env.GEMINI_CHAT_MODEL)?.trim() || "gemini-flash-latest";
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
+    const configuredModel = (environment.model ?? process.env.GEMINI_CHAT_MODEL)?.trim();
+    const model = configuredModel || "gemini-flash-latest";
+    const requestBody = JSON.stringify({
+      systemInstruction: { parts: [{ text: SYSTEM }] },
+      contents: [
+        ...messages.slice(0, -1).map(message => ({
+          role: message.role === "assistant" ? "model" : "user",
+          parts: [{ text: message.content }],
+        })),
+        {
+          role: "user",
+          parts: [{ text: JSON.stringify({ question: messages[messages.length - 1]!.content, untrustedWebsiteKnowledge: groundedData }) }],
+        },
+      ],
+      generationConfig: { maxOutputTokens: 450 },
+    });
+    const requestModel = (name: string) => fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(name.replace(/^models\//, ""))}:generateContent`, {
       method: "POST",
       headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
       signal: controller.signal,
-      body: JSON.stringify({
-        systemInstruction: { parts: [{ text: SYSTEM }] },
-        contents: [
-          ...messages.slice(0, -1).map(message => ({
-            role: message.role === "assistant" ? "model" : "user",
-            parts: [{ text: message.content }],
-          })),
-          {
-            role: "user",
-            parts: [{ text: JSON.stringify({ question: messages[messages.length - 1]!.content, untrustedWebsiteKnowledge: groundedData }) }],
-          },
-        ],
-        generationConfig: { maxOutputTokens: 450 },
-      }),
+      body: requestBody,
     });
+    let response = await requestModel(model);
+    if (response.status === 404 && configuredModel) {
+      console.warn(`Configured Gemini model "${configuredModel}" was not found; retrying with gemini-flash-latest.`);
+      response = await requestModel("gemini-flash-latest");
+    }
     const result = await response.json() as {
       candidates?: Array<{ content?: { parts?: Array<{ text?: unknown }> } }>;
       error?: { message?: string; code?: string; status?: string };
@@ -117,7 +128,8 @@ export async function handleChat(request: Request, environment: ChatEnvironment 
     const answer = result.candidates?.[0]?.content?.parts?.map(part => part.text).find((text): text is string => typeof text === "string");
     if (!answer) throw new Error("Model response was empty");
     return reply(200, { answer: answer.slice(0, 2_500) });
-  } catch {
+  } catch (cause) {
+    console.error("Chapter-chat request failed before a response was returned.", cause);
     return reply(502, { error: "I couldn’t reach the chapter guide just now. Please try again or use the Contact page." });
   } finally {
     clearTimeout(timeout);
