@@ -22,7 +22,7 @@ function validMessages(value: unknown): ChatMessage[] | null {
     if (!content || content.length > MAX_MESSAGE) return null;
     messages.push({ role: candidate.role, content });
   }
-  if (messages.at(-1)?.role !== "user") return null;
+  if (messages[messages.length - 1]?.role !== "user") return null;
   return messages;
 }
 
@@ -69,7 +69,7 @@ export async function handleChat(request: Request, environment: ChatEnvironment 
     const knowledgeResponse = await fetch(new URL("/chat-knowledge.json", parsedOrigin), { signal: controller.signal });
     if (!knowledgeResponse.ok) throw new Error("Knowledge snapshot unavailable");
     const knowledge = await knowledgeResponse.json() as Record<string, unknown>;
-    const currentQuestion = messages.at(-1)!.content.toLocaleLowerCase();
+    const currentQuestion = messages[messages.length - 1]!.content.toLocaleLowerCase();
     const keywords = currentQuestion.match(/[\p{L}\p{N}]{3,}/gu)?.filter(word => !["the", "and", "for", "what", "how", "where", "when", "who", "does", "can", "you", "about", "with", "are", "our", "this", "that"].includes(word)) ?? [];
     const sections = ["events", "speakers", "team", "story", "partners", "gallery"];
     const selected: Record<string, unknown> = { chapter: knowledge.chapter, pages: knowledge.pages };
@@ -98,7 +98,7 @@ export async function handleChat(request: Request, environment: ChatEnvironment 
           })),
           {
             role: "user",
-            parts: [{ text: JSON.stringify({ question: messages.at(-1)!.content, untrustedWebsiteKnowledge: groundedData }) }],
+            parts: [{ text: JSON.stringify({ question: messages[messages.length - 1]!.content, untrustedWebsiteKnowledge: groundedData }) }],
           },
         ],
         generationConfig: { maxOutputTokens: 450 },
