@@ -7,7 +7,11 @@ type FormSubmitEvent = Parameters<NonNullable<ComponentProps<"form">["onSubmit"]
 const starters = ["What does the community do?", "How can I join?", "Where can I find events?"];
 
 function renderInlineMarkdown(text: string): ReactNode[] {
-  return text.split(/(\*\*[^*]+\*\*|\*[^*\n]+\*|`[^`]+`)/g).map((part, index) => {
+  return text.split(/(\[[^\]\n]+\]\((?:https:\/\/|\/)[^)]+\)|\*\*[^*]+\*\*|\*[^*\n]+\*|`[^`]+`)/g).map((part, index) => {
+    const link = part.match(/^\[([^\]\n]+)\]\(((?:https:\/\/|\/)[^)]+)\)$/);
+    if (link) {
+      return <a key={index} href={link[2]} target={link[2].startsWith("https://") ? "_blank" : undefined} rel={link[2].startsWith("https://") ? "noopener noreferrer" : undefined}>{link[1]}</a>;
+    }
     if (part.startsWith("**") && part.endsWith("**")) return <strong key={index}>{part.slice(2, -2)}</strong>;
     if (part.startsWith("*") && part.endsWith("*")) return <em key={index}>{part.slice(1, -1)}</em>;
     if (part.startsWith("`") && part.endsWith("`")) return <code key={index}>{part.slice(1, -1)}</code>;
