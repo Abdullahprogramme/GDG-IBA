@@ -3,9 +3,11 @@ import tailwindcss from '@tailwindcss/vite'
 
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
+import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
+  adapter: vercel(),
   site: process.env.SITE_URL || 'http://localhost:4321',
   build: { inlineStylesheets: 'always' },
   integrations: [react(), sitemap({ filter: (page) => !new URL(page).pathname.startsWith('/dev/') && !/^\/404(?:\.|\/|$)/.test(new URL(page).pathname) })],

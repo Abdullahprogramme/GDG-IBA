@@ -5,6 +5,7 @@ import { ClientRouter } from "astro:transitions";
 import { SmoothScroll, ScrollProgress } from "../components/motion";
 import { site, navigationHref } from "../data/site";
 import { canonicalUrl, organizationSchema, serializeSchema } from '../lib/seo';
+import { ChatWidget } from '../components/chat/ChatWidget';
 
 interface Props {
 	title?: string;
@@ -72,5 +73,6 @@ const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
 		<SmoothScroll client:load transition:persist="smooth-scroll" />
 		<ScrollProgress client:load transition:persist="scroll-progress" />
 		<slot />
+		<ChatWidget client:load transition:persist="site-chat" />
 	</body>
 </html>

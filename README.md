@@ -70,6 +70,8 @@ The development server normally runs at `http://localhost:4321`. The dev script 
 | `SITE_URL` | Production HTTPS origin used for canonical URLs and the sitemap; required by `build:deploy` |
 | `SITE_INDEXING` | Keep `false` while sample content remains; set `true` when ready for search indexing |
 | `PUBLIC_WEB3FORMS_ACCESS_KEY` | Web3Forms public access key for the confirmed receiving email; leave unset until configured |
+| `GEMINI_API_KEY` | Private Google Gemini API secret for the chapter chatbot; configure in Vercel, never as a `PUBLIC_` variable |
+| `GEMINI_CHAT_MODEL` | Optional server-side Gemini model override; defaults to `gemini-flash-latest` |
 
 `SITE_URL` must contain only the HTTPS origin, with no additional path, query, or fragment. The development default is `http://localhost:4321`.
 
@@ -97,6 +99,8 @@ Connect the GitHub repository to a Vercel project and use:
 | Output directory | `dist` |
 
 Set `ENABLE_EXPERIMENTAL_COREPACK=1` in Vercel along with the environment variables above. Use the actual assigned production domain for `SITE_URL`. Keep indexing disabled while dummy content is published. No Vercel adapter is needed for this static build.
+
+The global chapter guide uses the Astro `/api/chat` server endpoint and a public, curated `/chat-knowledge.json` snapshot generated from the Astro content collections and chapter data. Add `GEMINI_API_KEY` in Vercel Project Settings → Environment Variables for Production and Preview. Keep it server-only and redeploy after changing it. The `GEMINI_API_KEY` entry in `.env.example` is intentionally blank. The endpoint also works in the normal `astro dev` server at port 4321 after it is restarted. The function limits message/history size, checks request origin, throttles per function instance, and times out API calls; configure Vercel Firewall or another durable rate limit if you need a shared limit across instances.
 
 Netlify configuration has been removed. There is currently no `vercel.json`; platform-specific rules, including blocking `/dev/*`, are not configured. After deployment, check navigation, mobile layouts, dialogs, unknown-path handling, and contact delivery when enabled.
 
