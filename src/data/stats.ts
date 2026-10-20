@@ -3,4 +3,4 @@ export const stats: readonly ChapterStat[] = [
   { label: "Members", value: 80, suffix: "+" }, { label: "Events hosted", value: 5, suffix: "+" },
   { label: "Speakers", value: 12, suffix: "+" }, { label: "Workshops and hackathons", value: 5, suffix: "+" },
 ];
-export const establishedYear: number | null = null;
+export const establishedYear: number | null = 2019;
