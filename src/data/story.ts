@@ -4,4 +4,4 @@ export interface ChapterOrigin {
   history: string | null;
   photo: { src: string; alt: string } | null;
 }
-export const chapterOrigin: ChapterOrigin = { foundedYear: 2019, history: "GDG on Campus IBA was founded in 2019 with the goal of bringing together developers and technology enthusiasts in the IBA community.", photo: { src: "/public/images/orientation2026B.jpg", alt: "GDG on Campus IBA orientation in 2026" } };
+export const chapterOrigin: ChapterOrigin = { foundedYear: 2019, history: "GDG on Campus IBA was founded in 2019 with the goal of bringing together developers and technology enthusiasts in the IBA community.", photo: { src: "/images/orientation2026B.jpg", alt: "GDG on Campus IBA orientation in 2026" } };
