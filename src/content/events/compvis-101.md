@@ -19,4 +19,5 @@ agenda:
     speaker: "Alina Afghan — Tech Lead, GDGoC IBA"
 gallery: [/images/compvis-101.png]
 ---
+
 CompVis 101 gave learners a practical starting point for building computer vision applications, led by Alina Afghan.

@@ -12,12 +12,35 @@ description: "Hosted by Google Developer Groups on Campus IBA and the IBA Data S
 location: "Institute of Business Administration, Karachi"
 mode: onsite
 tags: [Hackfest, Datathon, Hackathon, Data Science, AI]
-speakers: [jehan-ara, sophia-hasnain, imran-khan, imran-azhar, arbab-hussain-siddiqui, anmol-zehra, rabeea-atif-rana, abdul-rehman-abbasi, dania-ahmed, laiba-masood, muhammad-danial-gauhar, saqib-waheed, muzaffar-narejo]
+speakers:
+  [
+    jehan-ara,
+    sophia-hasnain,
+    imran-khan,
+    imran-azhar,
+    arbab-hussain-siddiqui,
+    anmol-zehra,
+    rabeea-atif-rana,
+    abdul-rehman-abbasi,
+    dania-ahmed,
+    laiba-masood,
+    muhammad-danial-gauhar,
+    saqib-waheed,
+    muzaffar-narejo,
+  ]
 agenda:
   - time: "Morning"
     title: "Hackfest and Datathon collaboration"
   - time: "Throughout the day"
     title: "Pitches, judging, and community learning"
-gallery: [/images/hackfestxdatathon.png, /images/hackfestx-datathon1.webp, /images/hackfestx-datathon2.webp, /images/hackfestx-datathon3.webp, /images/hackfestx-datathon4.webp]
+gallery:
+  [
+    /images/hackfestxdatathon.png,
+    /images/hackfestx-datathon1.webp,
+    /images/hackfestx-datathon2.webp,
+    /images/hackfestx-datathon3.webp,
+    /images/hackfestx-datathon4.webp,
+  ]
 ---
+
 Hackfest x Datathon brought together participants, judges, speakers, and panelists for a day focused on practical ideas, technology, and execution.

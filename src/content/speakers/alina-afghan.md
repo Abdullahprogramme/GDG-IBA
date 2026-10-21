@@ -10,4 +10,5 @@ bio: "Tech Lead at GDGoC IBA and facilitator of the CompVis 101 computer vision 
 category: "Student speaker"
 events: [compvis-101]
 ---
+
 Alina Afghan led the CompVis 101 computer vision bootcamp as Tech Lead at GDGoC IBA.

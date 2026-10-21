@@ -92,12 +92,7 @@
   height: 650px;
   top: -140px;
   right: -80px;
-  background: radial-gradient(
-    ellipse,
-    #ff7daf66 0,
-    #ffd42766 40%,
-    transparent 70%
-  );
+  background: radial-gradient(ellipse, #ff7daf66 0, #ffd42766 40%, transparent 70%);
   pointer-events: none;
 }
 .hero-grid {

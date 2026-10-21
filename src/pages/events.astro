@@ -10,20 +10,76 @@ import { EventRecap } from "../components/events/EventRecap";
 import EventsContactCTA from "../components/events/EventsContactCTA.astro";
 import { discoverPublicGalleryImages, prepareGalleryImage } from "../lib/gallery-images";
 import "../components/events/events.css";
-import { eventSchema } from '../lib/seo';
-const events=preferConfirmed((await getCollection("events")).map(({id,data})=>({...data,id,date:data.date.toISOString(),endDate:data.endDate?.toISOString()})));
-const initialNow=Date.now();
-const next=nextUpcoming(events,initialNow)??events.find(event=>event.sample&&event.status==="upcoming");
-const speakers=(await getCollection("speakers")).map(({id,data})=>({id,...data}));
-const photos=await Promise.all([...((await getCollection("gallery")).map(({id,data})=>({id,...data,date:data.date.toISOString()}))),...discoverPublicGalleryImages()].map(prepareGalleryImage));
-const latestPast=events.filter(event=>event.status==="past").sort((a,b)=>Date.parse(b.date)-Date.parse(a.date))[0];
-const recapPhotos=eventPhotos(latestPast,photos);
-const structuredData=events.map(event=>eventSchema(event,(Astro.site ?? Astro.url).origin)).filter(Boolean);
+import { eventSchema } from "../lib/seo";
+const eventEntries = await getCollection("events");
+const events = preferConfirmed(
+  eventEntries.map(({ id, data }) => ({
+    ...data,
+    id,
+    date: data.date.toISOString(),
+    endDate: data.endDate?.toISOString(),
+  })),
+);
+const initialNow = Date.now();
+const next =
+  nextUpcoming(events, initialNow) ??
+  events.find((event) => event.sample && event.status === "upcoming");
+const speakers = (await getCollection("speakers")).map(({ id, data }) => ({ id, ...data }));
+const galleryEntries = await getCollection("gallery");
+const photos = await Promise.all(
+  [
+    ...galleryEntries.map(({ id, data }) => ({
+      id,
+      ...data,
+      date: data.date.toISOString(),
+    })),
+    ...discoverPublicGalleryImages([
+      ...galleryEntries.map(({ data }) => data.src),
+      ...eventEntries.flatMap(({ data }) => [data.cover, ...data.gallery]),
+    ]),
+  ].map(prepareGalleryImage),
+);
+const latestPast = events
+  .filter((event) => event.status === "past")
+  .sort((a, b) => Date.parse(b.date) - Date.parse(a.date))[0];
+const recapPhotos = eventPhotos(latestPast, photos);
+const structuredData = events
+  .map((event) => eventSchema(event, (Astro.site ?? Astro.url).origin))
+  .filter(Boolean);
 ---
-<PageLayout title="Events | GDG on Campus IBA" description="Explore GDG on Campus IBA workshops, hackathons, study jams and talks. Find upcoming sessions and revisit past events." theme="blue" structuredData={structuredData}>
- <PageHero slot="hero" title="Events" emphasis="Events" theme="blue" label="Moments in motion" subtitle="Show up curious. Learn something new. Build something together." shapes={["globe","slashes","triple-circle"]}/>
- <EventCatalog client:load events={events} speakers={speakers} photos={photos} featured={next} initialNow={initialNow}/>
- <section id="event-agenda" class="events-section events-agenda" aria-labelledby="agenda-title"><div class="site-container"><EventAgenda client:visible event={next}/></div></section>
- <section id="event-recap" class="events-section events-recap" aria-labelledby="recap-title"><div class="site-container"><EventRecap client:visible event={latestPast} photos={recapPhotos}/></div></section>
- <EventsContactCTA/>
+
+<PageLayout
+  title="Events | GDG on Campus IBA"
+  description="Explore GDG on Campus IBA workshops, hackathons, study jams and talks. Find upcoming sessions and revisit past events."
+  theme="blue"
+  structuredData={structuredData}
+>
+  <PageHero
+    slot="hero"
+    title="Events"
+    emphasis="Events"
+    theme="blue"
+    label="Moments in motion"
+    subtitle="Show up curious. Learn something new. Build something together."
+    shapes={["globe", "slashes", "triple-circle"]}
+  />
+  <EventCatalog
+    client:load
+    events={events}
+    speakers={speakers}
+    photos={photos}
+    featured={next}
+    initialNow={initialNow}
+  />
+  <section id="event-agenda" class="events-section events-agenda" aria-labelledby="agenda-title">
+    <div class="site-container">
+      <EventAgenda client:visible event={next} />
+    </div>
+  </section>
+  <section id="event-recap" class="events-section events-recap" aria-labelledby="recap-title">
+    <div class="site-container">
+      <EventRecap client:visible event={latestPast} photos={recapPhotos} />
+    </div>
+  </section>
+  <EventsContactCTA />
 </PageLayout>

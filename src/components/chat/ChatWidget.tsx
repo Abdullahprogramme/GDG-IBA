@@ -1,4 +1,12 @@
-import { useEffect, useRef, useState, type ComponentProps, type KeyboardEvent, type ReactNode, type WheelEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ComponentProps,
+  type KeyboardEvent,
+  type ReactNode,
+  type WheelEvent,
+} from "react";
 import { MessageCircle, Send, X } from "lucide-react";
 import "./chat.css";
 
@@ -7,16 +15,30 @@ type FormSubmitEvent = Parameters<NonNullable<ComponentProps<"form">["onSubmit"]
 const starters = ["What does the community do?", "How can I join?", "Where can I find events?"];
 
 function renderInlineMarkdown(text: string): ReactNode[] {
-  return text.split(/(\[[^\]\n]+\]\((?:https:\/\/|\/)[^)]+\)|\*\*[^*]+\*\*|\*[^*\n]+\*|`[^`]+`)/g).map((part, index) => {
-    const link = part.match(/^\[([^\]\n]+)\]\(((?:https:\/\/|\/)[^)]+)\)$/);
-    if (link) {
-      return <a key={index} href={link[2]} target={link[2].startsWith("https://") ? "_blank" : undefined} rel={link[2].startsWith("https://") ? "noopener noreferrer" : undefined}>{link[1]}</a>;
-    }
-    if (part.startsWith("**") && part.endsWith("**")) return <strong key={index}>{part.slice(2, -2)}</strong>;
-    if (part.startsWith("*") && part.endsWith("*")) return <em key={index}>{part.slice(1, -1)}</em>;
-    if (part.startsWith("`") && part.endsWith("`")) return <code key={index}>{part.slice(1, -1)}</code>;
-    return <span key={index}>{part}</span>;
-  });
+  return text
+    .split(/(\[[^\]\n]+\]\((?:https:\/\/|\/)[^)]+\)|\*\*[^*]+\*\*|\*[^*\n]+\*|`[^`]+`)/g)
+    .map((part, index) => {
+      const link = part.match(/^\[([^\]\n]+)\]\(((?:https:\/\/|\/)[^)]+)\)$/);
+      if (link) {
+        return (
+          <a
+            key={index}
+            href={link[2]}
+            target={link[2].startsWith("https://") ? "_blank" : undefined}
+            rel={link[2].startsWith("https://") ? "noopener noreferrer" : undefined}
+          >
+            {link[1]}
+          </a>
+        );
+      }
+      if (part.startsWith("**") && part.endsWith("**"))
+        return <strong key={index}>{part.slice(2, -2)}</strong>;
+      if (part.startsWith("*") && part.endsWith("*"))
+        return <em key={index}>{part.slice(1, -1)}</em>;
+      if (part.startsWith("`") && part.endsWith("`"))
+        return <code key={index}>{part.slice(1, -1)}</code>;
+      return <span key={index}>{part}</span>;
+    });
 }
 
 function renderMessage(content: string): ReactNode {
@@ -25,13 +47,28 @@ function renderMessage(content: string): ReactNode {
   let list: string[] = [];
   const flushParagraph = () => {
     if (paragraph.length) {
-      nodes.push(<p key={`paragraph-${nodes.length}`}>{paragraph.map((line, index) => <span key={index}>{index > 0 && <br />}{renderInlineMarkdown(line)}</span>)}</p>);
+      nodes.push(
+        <p key={`paragraph-${nodes.length}`}>
+          {paragraph.map((line, index) => (
+            <span key={index}>
+              {index > 0 && <br />}
+              {renderInlineMarkdown(line)}
+            </span>
+          ))}
+        </p>,
+      );
       paragraph = [];
     }
   };
   const flushList = () => {
     if (list.length) {
-      nodes.push(<ul key={`list-${nodes.length}`}>{list.map((line, index) => <li key={index}>{renderInlineMarkdown(line)}</li>)}</ul>);
+      nodes.push(
+        <ul key={`list-${nodes.length}`}>
+          {list.map((line, index) => (
+            <li key={index}>{renderInlineMarkdown(line)}</li>
+          ))}
+        </ul>,
+      );
       list = [];
     }
   };
@@ -95,12 +132,18 @@ export function ChatWidget() {
       });
       const contentType = response.headers.get("content-type") ?? "";
       const result = contentType.includes("application/json")
-        ? await response.json() as { answer?: unknown; error?: unknown }
+        ? ((await response.json()) as { answer?: unknown; error?: unknown })
         : null;
       if (!response.ok || typeof result?.answer !== "string") {
-        throw new Error(typeof result?.error === "string" ? result.error : "Chat is unavailable locally. Run it with Vercel dev or use the deployed site.");
+        throw new Error(
+          typeof result?.error === "string"
+            ? result.error
+            : "Chat is unavailable locally. Run it with Vercel dev or use the deployed site.",
+        );
       }
-      setMessages(current => [...current, { role: "assistant" as const, content: result.answer as string }].slice(-8));
+      setMessages((current) =>
+        [...current, { role: "assistant" as const, content: result.answer as string }].slice(-8),
+      );
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "I couldn’t send that. Please try again.");
     } finally {
@@ -130,47 +173,117 @@ export function ChatWidget() {
   return (
     <div className="chapter-chat" data-open={open}>
       {open && (
-        <section id="chapter-chat-panel" className="chapter-chat__panel" role="dialog" aria-modal="false" aria-labelledby="chapter-chat-title">
+        <section
+          id="chapter-chat-panel"
+          className="chapter-chat__panel"
+          role="dialog"
+          aria-modal="false"
+          aria-labelledby="chapter-chat-title"
+        >
           <header className="chapter-chat__header">
-            <span className="chapter-chat__mark" aria-hidden="true"><MessageCircle size={19} strokeWidth={2.3} /></span>
+            <span className="chapter-chat__mark" aria-hidden="true">
+              <MessageCircle size={19} strokeWidth={2.3} />
+            </span>
             <div className="chapter-chat__heading">
               <h2 id="chapter-chat-title">Ask GDG on Campus IBA</h2>
               <p>Chapter guide</p>
             </div>
-            <button className="chapter-chat__close" type="button" aria-label="Close chapter guide" onClick={() => setOpen(false)}><X size={20} /></button>
+            <button
+              className="chapter-chat__close"
+              type="button"
+              aria-label="Close chapter guide"
+              onClick={() => setOpen(false)}
+            >
+              <X size={20} />
+            </button>
           </header>
 
-          <div className="chapter-chat__transcript" ref={transcript} onWheel={onTranscriptWheel} aria-live="polite" aria-label="Conversation">
+          <div
+            className="chapter-chat__transcript"
+            ref={transcript}
+            onWheel={onTranscriptWheel}
+            aria-live="polite"
+            aria-label="Conversation"
+          >
             {messages.length === 0 && (
               <div className="chapter-chat__welcome">
                 <span className="chapter-chat__eyebrow">LEARN · BUILD · BELONG</span>
                 <p>Hi! I can help you explore the chapter, its events, and how to get involved.</p>
-                <span className="chapter-chat__source-note">I answer from the information published on this site.</span>
+                <span className="chapter-chat__source-note">
+                  I answer from the information published on this site.
+                </span>
                 <div className="chapter-chat__starters" aria-label="Suggested questions">
-                  {starters.map(question => <button type="button" key={question} onClick={() => void sendMessage(question)}>{question}</button>)}
+                  {starters.map((question) => (
+                    <button type="button" key={question} onClick={() => void sendMessage(question)}>
+                      {question}
+                    </button>
+                  ))}
                 </div>
               </div>
             )}
             {messages.map((message, index) => (
-              <div className={`chapter-chat__message chapter-chat__message--${message.role}`} key={`${index}-${message.role}`}>
-                {message.role === "assistant" ? renderMessage(message.content) : <p>{message.content}</p>}
+              <div
+                className={`chapter-chat__message chapter-chat__message--${message.role}`}
+                key={`${index}-${message.role}`}
+              >
+                {message.role === "assistant" ? (
+                  renderMessage(message.content)
+                ) : (
+                  <p>{message.content}</p>
+                )}
               </div>
             ))}
-            {busy && <div className="chapter-chat__message chapter-chat__message--assistant chapter-chat__typing" role="status">Looking through the chapter info…</div>}
-            {error && <p className="chapter-chat__error" role="alert">{error}</p>}
+            {busy && (
+              <div
+                className="chapter-chat__message chapter-chat__message--assistant chapter-chat__typing"
+                role="status"
+              >
+                Looking through the chapter info…
+              </div>
+            )}
+            {error && (
+              <p className="chapter-chat__error" role="alert">
+                {error}
+              </p>
+            )}
           </div>
 
           <form className="chapter-chat__form" onSubmit={submit}>
-            <label className="sr-only" htmlFor="chapter-chat-input">Ask a question about GDG on Campus IBA</label>
-            <input ref={input} id="chapter-chat-input" value={draft} maxLength={800} onChange={event => setDraft(event.target.value)} onKeyDown={onInputKeyDown} placeholder="Ask about the chapter…" autoComplete="off" disabled={busy} />
-            <button type="submit" aria-label="Send message" disabled={busy || !draft.trim()}><Send size={18} /></button>
+            <label className="sr-only" htmlFor="chapter-chat-input">
+              Ask a question about GDG on Campus IBA
+            </label>
+            <input
+              ref={input}
+              id="chapter-chat-input"
+              value={draft}
+              maxLength={800}
+              onChange={(event) => setDraft(event.target.value)}
+              onKeyDown={onInputKeyDown}
+              placeholder="Ask about the chapter…"
+              autoComplete="off"
+              disabled={busy}
+            />
+            <button type="submit" aria-label="Send message" disabled={busy || !draft.trim()}>
+              <Send size={18} />
+            </button>
           </form>
-          <div className="chapter-chat__footer"><a href="/contact">Still have questions? Contact us</a><span>AI answers can be imperfect.</span></div>
+          <div className="chapter-chat__footer">
+            <a href="/contact">Still have questions? Contact us</a>
+            <span>AI answers can be imperfect.</span>
+          </div>
         </section>
       )}
 
-      <button className="chapter-chat__launcher" type="button" aria-expanded={open} aria-controls="chapter-chat-panel" onClick={() => setOpen(value => !value)}>
-        <span className="chapter-chat__launcher-icon"><MessageCircle size={21} strokeWidth={2.2} /></span>
+      <button
+        className="chapter-chat__launcher"
+        type="button"
+        aria-expanded={open}
+        aria-controls="chapter-chat-panel"
+        onClick={() => setOpen((value) => !value)}
+      >
+        <span className="chapter-chat__launcher-icon">
+          <MessageCircle size={21} strokeWidth={2.2} />
+        </span>
         <span>{open ? "Close" : "Ask GDG"}</span>
       </button>
     </div>

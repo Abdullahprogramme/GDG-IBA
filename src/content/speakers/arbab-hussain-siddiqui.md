@@ -10,5 +10,5 @@ bio: "Senior Software Engineer at Folio3, a public speaker, and someone who’s 
 category: "Speaker"
 events: [hackfestxdatathon]
 links:
-    linkedin: https://www.linkedin.com/in/muhammad-arbab-hussain-siddiqui
+  linkedin: https://www.linkedin.com/in/muhammad-arbab-hussain-siddiqui
 ---

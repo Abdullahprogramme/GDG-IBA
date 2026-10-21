@@ -6,4 +6,5 @@ body: "A milestone for learning, building, and bringing our community together t
 image: "/images/Hackfest_x_Datathon_2025.webp"
 theme: green
 ---
+
 Hackfest x Datathon marked another step in the chapter's journey.

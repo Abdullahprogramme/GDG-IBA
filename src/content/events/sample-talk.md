@@ -13,4 +13,5 @@ mode: online
 tags: [Sample, Community]
 speakers: [sample-alumni-speaker]
 ---
+
 Sample recap content. No real chapter event or speaker is represented.

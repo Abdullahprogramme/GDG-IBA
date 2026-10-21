@@ -14,4 +14,5 @@ tags: [AI, Artificial Intelligence, Seminar, Community]
 speakers: [adeen-atif]
 gallery: [/images/ai-seekho.png]
 ---
+
 AI Seekho brought together GDGoC communities for an accessible introduction to artificial intelligence and a shared learning experience.

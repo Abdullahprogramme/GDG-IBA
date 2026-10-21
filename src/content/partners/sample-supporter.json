@@ -1,1 +1,6 @@
-{ "sample": true, "name": "Sample Supporter", "logo": "/images/sample-partner.svg", "tier": "Sample supporter" }
+{
+  "sample": true,
+  "name": "Sample Supporter",
+  "logo": "/images/sample-partner.svg",
+  "tier": "Sample supporter"
+}

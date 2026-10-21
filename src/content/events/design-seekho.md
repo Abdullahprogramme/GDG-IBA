@@ -18,4 +18,5 @@ agenda:
     speaker: "Faraz Sheikh — Tech Lead, GDGoC IBA"
 gallery: [/images/design-seekho.png]
 ---
+
 Design Seekho introduced participants to practical UI/UX thinking and the craft of building interfaces that work beautifully, led by Faraz Sheikh, Tech Lead at GDGoC IBA.

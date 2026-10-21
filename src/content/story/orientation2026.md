@@ -6,4 +6,5 @@ body: "A new group of students joined the community and began their journey of l
 image: "/images/orientation2026.jpg"
 theme: yellow
 ---
+
 Orientation 2026 welcomed new members into the GDG on Campus IBA community.

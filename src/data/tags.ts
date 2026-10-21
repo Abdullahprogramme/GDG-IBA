@@ -1,1 +1,17 @@
-export const tags = ["Mentorship", "Workshops", "Hackathons", "Study Jams", "UI/UX", "Android", "Flutter", "Firebase", "Cloud", "AI/ML", "Web", "Talks", "Networking", "Community", "#GDGOnCampus"] as const;
+export const tags = [
+  "Mentorship",
+  "Workshops",
+  "Hackathons",
+  "Study Jams",
+  "UI/UX",
+  "Android",
+  "Flutter",
+  "Firebase",
+  "Cloud",
+  "AI/ML",
+  "Web",
+  "Talks",
+  "Networking",
+  "Community",
+  "#GDGOnCampus",
+] as const;

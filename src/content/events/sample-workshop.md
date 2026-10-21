@@ -18,4 +18,5 @@ agenda:
     title: "Sample introduction"
 gallery: [/images/community-study.svg]
 ---
+
 Sample workshop content. Replace with chapter-approved event details before publishing.

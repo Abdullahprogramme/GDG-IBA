@@ -16,7 +16,8 @@ import "../components/contact/contact.css";
   title="Contact | GDG on Campus IBA"
   description="Get in touch with GDG on Campus IBA. Ask a question, share a speaker idea, explore a partnership, or find out how to join the community."
   theme="yellow"
-  ><PageHero
+>
+  <PageHero
     slot="hero"
     title="Say Hello"
     emphasis="Hello"
@@ -24,41 +25,35 @@ import "../components/contact/contact.css";
     label="Good things start with a hello"
     subtitle="Bring a question. Share an idea. Let’s see what we can build together."
     shapes={["brace", "arrow", "slashes"]}
-  /><section
-    id="contact-message"
-    class="contact-section"
-    aria-label="Get in touch"
-  >
+  />
+  <section id="contact-message" class="contact-section" aria-label="Get in touch">
     <div class="site-container contact-columns">
-      <Reveal client:load direction="left"
-        ><ContactInfo
+      <Reveal client:load direction="left">
+        <ContactInfo
           client:load
           details={site.contact}
           socials={site.socials}
           communityUrl={site.communityUrl}
-        /></Reveal
-      ><Reveal client:load direction="right"
-        ><ContactForm
+        />
+      </Reveal>
+      <Reveal client:load direction="right">
+        <ContactForm
           client:load
           accessKey={import.meta.env.WEB3FORMS_ACCESS_KEY}
           email={site.contact.email}
-        /></Reveal>
+        />
+      </Reveal>
     </div>
-  </section><MapEmbed
-    url={site.contact.mapEmbedUrl}
-    address={site.contact.address}
-  /><section
-    id="contact-questions"
-    class="contact-section"
-    aria-labelledby="contact-faq-title"
-  >
+  </section>
+  <MapEmbed url={site.contact.mapEmbedUrl} address={site.contact.address} />
+  <section id="contact-questions" class="contact-section" aria-labelledby="contact-faq-title">
     <div class="site-container">
-      <p class="contact-kicker">03 / A few things to know</p><h2
-        id="contact-faq-title"
-        class="contact-heading"
-      >
+      <p class="contact-kicker">03 / A few things to know</p>
+      <h2 id="contact-faq-title" class="contact-heading">
         Good <strong>questions.</strong>
-      </h2><ContactFAQ client:visible faqs={contactFaqs} />
+      </h2>
+      <ContactFAQ client:visible faqs={contactFaqs} />
     </div>
-  </section><ContactCTA /></PageLayout
->
+  </section>
+  <ContactCTA />
+</PageLayout>

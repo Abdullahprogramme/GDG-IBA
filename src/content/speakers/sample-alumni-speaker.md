@@ -10,4 +10,5 @@ bio: "Sample biography. No real alumni or speaker is represented."
 category: "Sample alumni"
 events: [sample-talk]
 ---
+
 Sample speaker content for the past-event relationship.

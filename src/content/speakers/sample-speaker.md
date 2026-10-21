@@ -10,4 +10,5 @@ bio: "Sample biography for development. This is not a real person."
 category: "Sample student speaker"
 events: [sample-workshop]
 ---
+
 Sample speaker content, awaiting confirmed chapter information and permission.

@@ -10,4 +10,5 @@ bio: "Tech Lead at GDGoC IBA and facilitator of the Design Seekho UI/UX workshop
 category: "Student speaker"
 events: [design-seekho]
 ---
+
 Faraz Sheikh led the Design Seekho UI/UX workshop as Tech Lead at GDGoC IBA.

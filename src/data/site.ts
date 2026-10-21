@@ -1,21 +1,42 @@
 import type { SocialLink } from "../components/shared/social-types";
-export interface NavItem { label: string; href: string; available: boolean }
+export interface NavItem {
+  label: string;
+  href: string;
+  available: boolean;
+}
 export const site = {
   name: "Google Developer Groups on Campus Institute of Business Administration",
   shortName: "GDG on Campus IBA",
   tagline: "Learn. Build. Belong.",
-  description: "A student-built community at IBA, Karachi, learning and building together through workshops, hackathons, study jams, and talks. All programmes and experience levels are welcome.",
+  description:
+    "A student-built community at IBA, Karachi, learning and building together through workshops, hackathons, study jams, and talks. All programmes and experience levels are welcome.",
   mission: "A place to learn, build, and belong at IBA.",
   hashtag: "#GDGOnCampus",
   // Replace nulls only with the chapter's confirmed details.
-  communityUrl: "https://gdg.community.dev/gdg-on-campus-institute-of-business-administration-karachi-pakistan/",
+  communityUrl:
+    "https://gdg.community.dev/gdg-on-campus-institute-of-business-administration-karachi-pakistan/",
   socials: [
     { platform: "facebook", label: "Facebook", href: "https://www.facebook.com/gdgociba/" },
     { platform: "instagram", label: "Instagram", href: "https://www.instagram.com/gdg.iba/" },
-    { platform: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/company/google-developer-group-iba/posts/?feedView=all" },
-    { platform: "community", label: "GDG on Campus IBA on Bevy", href: "https://gdg.community.dev/gdg-on-campus-institute-of-business-administration-karachi-pakistan/" },
+    {
+      platform: "linkedin",
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/company/google-developer-group-iba/posts/?feedView=all",
+    },
+    {
+      platform: "community",
+      label: "GDG on Campus IBA on Bevy",
+      href: "https://gdg.community.dev/gdg-on-campus-institute-of-business-administration-karachi-pakistan/",
+    },
   ] as SocialLink[],
-  contact: { email: "gdsc.iba@gmail.com" as string | null, address: "Institute of Business Administration, Karachi, Pakistan" as string | null, phone: null as string | null, hours: null as string | null, mapEmbedUrl: "https://maps.app.goo.gl/DBgQiaGvCnB5ZaA9A" as string | null, city: "Karachi" },
+  contact: {
+    email: "gdsc.iba@gmail.com" as string | null,
+    address: "Institute of Business Administration, Karachi, Pakistan" as string | null,
+    phone: null as string | null,
+    hours: null as string | null,
+    mapEmbedUrl: "https://maps.app.goo.gl/DBgQiaGvCnB5ZaA9A" as string | null,
+    city: "Karachi",
+  },
   nav: [
     { label: "Home", href: "/", available: true },
     { label: "About", href: "/#about", available: false },
@@ -31,16 +52,30 @@ export const site = {
 /** An external href must never become an executable or placeholder URL. */
 export function confirmedExternalUrl(value: string | null | undefined): string | undefined {
   if (!value) return undefined;
-  try { const url = new URL(value); return url.protocol === "https:" ? url.href : undefined; } catch { return undefined; }
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" ? url.href : undefined;
+  } catch {
+    return undefined;
+  }
 }
 export function activeNavHref(pathname: string, hash = ""): string | undefined {
   if (pathname === "/") return homeSectionRoutes[hash] ?? "/";
-  return site.nav.find(item => item.href !== "/" && !item.href.includes("#") && (pathname === item.href || pathname.startsWith(`${item.href}/`)))?.href;
+  return site.nav.find(
+    (item) =>
+      item.href !== "/" &&
+      !item.href.includes("#") &&
+      (pathname === item.href || pathname.startsWith(`${item.href}/`)),
+  )?.href;
 }
 
 export const homeSectionRoutes: Record<string, string> = {
-  "#about": "/#about", "#crew": "/team", "#events": "/events",
-  "#voices": "/speakers", "#gallery": "/gallery", "#join": "/contact",
+  "#about": "/#about",
+  "#crew": "/team",
+  "#events": "/events",
+  "#voices": "/speakers",
+  "#gallery": "/gallery",
+  "#join": "/contact",
 };
 /** Full inner routes take over automatically when their pages become available. */
 export function navigationHref(item: NavItem): string | undefined {
