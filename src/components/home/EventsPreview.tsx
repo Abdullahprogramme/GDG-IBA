@@ -3,7 +3,7 @@ import { Marquee, Reveal, Stagger, StaggerItem } from "../motion";
 import { featuredEvent, orderEvents, fillTrack, type EventPreview, type GalleryPhoto } from "../../lib/home";
 import { site } from "../../data/site";
 export function EventsPreview({ events, photos }: { events: EventPreview[]; photos: GalleryPhoto[] }) {
-  const featured = featuredEvent(events), rest = orderEvents(events).filter(event => event.id !== featured?.id).slice(0, 3);
+  const featured = featuredEvent(events), rest = orderEvents(events).filter(event => event.id !== featured?.id).slice(0, 1);
   const detailsAvailable = site.nav.some(item => item.href === "/events" && item.available);
   return <div>
     {featured ? <div className="events-preview-grid">

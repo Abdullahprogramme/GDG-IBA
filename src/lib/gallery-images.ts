@@ -1,9 +1,20 @@
 import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import type { GalleryRecord } from './gallery';
+import { readdirSync } from 'node:fs';
+import { basename, extname } from 'node:path';
 const images=import.meta.glob<{default:ImageMetadata}>('../assets/**/*.{png,jpg,jpeg,webp,avif}',{eager:true});
 const sizes='(min-width:1440px) 22vw, (min-width:1024px) 30vw, (min-width:768px) 44vw, 90vw';
 export const galleryImageSizes=sizes;
+const publicGalleryExtensions=new Set(['.jpg','.jpeg','.png','.webp','.avif']);
+const ignoredPublicImages=new Set(['orientation2026B.jpg']);
+export function discoverPublicGalleryImages():GalleryRecord[]{
+ const files=readdirSync(new URL('../../public/images/',import.meta.url),{withFileTypes:true});
+ return files.filter(file=>file.isFile()&&publicGalleryExtensions.has(extname(file.name).toLowerCase())&&!ignoredPublicImages.has(file.name)&&!file.name.startsWith('sample-')).map(file=>{
+  const name=basename(file.name,extname(file.name)).replace(/[-_]+/g,' ');
+  return {id:`public-${file.name}`,src:`/images/${file.name}`,alt:`GDG on Campus IBA community photo: ${name}`,album:'Community',date:'2025-01-01T00:00:00.000Z',width:800,height:600,sample:false};
+ });
+}
 /** Repository assets are optimized at build time. Public SVGs retain their vector quality. */
 export async function prepareGalleryImage(photo:GalleryRecord):Promise<GalleryRecord>{
  const key=photo.src.replace(/^\/src\//,'../');const image=images[key]?.default;

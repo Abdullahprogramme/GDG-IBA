@@ -11,6 +11,7 @@ description: "Design Seekho was a UI/UX workshop led by the GDGoC IBA tech lead,
 location: "MCC-14, Aman CED"
 mode: onsite
 tags: [UI/UX, Design, Workshop]
+speakers: [faraz-sheikh]
 agenda:
   - time: "1:00 PM onwards"
     title: "UI/UX workshop series"

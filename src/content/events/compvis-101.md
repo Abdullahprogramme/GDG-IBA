@@ -12,10 +12,11 @@ description: "CompVis 101 introduced participants to the foundations of computer
 location: "Online"
 mode: online
 tags: [Computer Vision, AI, Bootcamp]
+speakers: [alina-afghan]
 agenda:
   - time: "8:00 PM onwards"
     title: "Computer vision bootcamp"
-    speaker: "Alina Afghan"
+    speaker: "Alina Afghan — Tech Lead, GDGoC IBA"
 gallery: [/images/compvis-101.png]
 ---
 CompVis 101 gave learners a practical starting point for building computer vision applications, led by Alina Afghan.

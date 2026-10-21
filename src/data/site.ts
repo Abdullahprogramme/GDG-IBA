@@ -15,7 +15,7 @@ export const site = {
     { platform: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/company/google-developer-group-iba/posts/?feedView=all" },
     { platform: "community", label: "GDG on Campus IBA on Bevy", href: "https://gdg.community.dev/gdg-on-campus-institute-of-business-administration-karachi-pakistan/" },
   ] as SocialLink[],
-  contact: { email: "Gdsc.iba@gmail.com" as string | null, address: "Institute of Business Administration, Karachi, Pakistan" as string | null, phone: null as string | null, hours: null as string | null, mapEmbedUrl: "https://maps.app.goo.gl/DBgQiaGvCnB5ZaA9A" as string | null, city: "Karachi" },
+  contact: { email: "gdsc.iba@gmail.com" as string | null, address: "Institute of Business Administration, Karachi, Pakistan" as string | null, phone: null as string | null, hours: null as string | null, mapEmbedUrl: "https://maps.app.goo.gl/DBgQiaGvCnB5ZaA9A" as string | null, city: "Karachi" },
   nav: [
     { label: "Home", href: "/", available: true },
     { label: "About", href: "/#about", available: false },

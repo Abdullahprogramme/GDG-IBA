@@ -8,7 +8,7 @@ A static Astro website with a geometric chapter design, local Google Sans fonts,
 
 ## Current status
 
-All main pages are implemented. Content currently uses clearly labelled samples; confirmed chapter details, photos, links, contact settings, and environment values can be added later. Registration and contact delivery remain unavailable until configured.
+All main pages are implemented. Content currently uses clearly labelled samples; confirmed chapter details, photos, links, contact settings, and environment values can be added later. Registration remains unavailable until configured. Contact delivery is ready once the Web3Forms key is added.
 
 The latest local deployment build passed Astro checks and an audit of 248 links across eight public pages. Earlier responsive and accessibility audits are recorded in the local project report. Mobile Lighthouse performance scores were 83/83/85 for Home, Events, and Gallery; the performance target of 90 and LCP target below 2.5 seconds remain open.
 
@@ -83,7 +83,14 @@ $env:SITE_INDEXING = 'false'
 corepack pnpm build:deploy
 ```
 
-The Web3Forms key is intentionally browser-facing. Configure chapter contact details in `src/data/site.ts`, then verify real message receipt after adding the key. Mocked form tests do not verify email delivery. Restart development or redeploy after changing build-time values.
+The Web3Forms key is intentionally browser-facing. To connect the form to a personal inbox and receive messages in Gmail:
+
+1. Open [web3forms.com](https://web3forms.com) and enter the Google/personal email address that should receive chapter messages.
+2. Confirm the activation email from Web3Forms, then copy the access key shown for that form.
+3. Put the key in `.env` locally as `PUBLIC_WEB3FORMS_ACCESS_KEY=<your-access-key>`, or add the same variable in Vercel Project Settings → Environment Variables for Production and Preview.
+4. Restart the dev server or redeploy. Submit a real test message and confirm it arrives in the receiving inbox (check spam once).
+
+The form sends the visitor's email as `replyto`, so replying to the received message goes back to the visitor. Web3Forms handles delivery; no SMTP password, Google app password, or Google API key is required. Mocked form tests do not verify email delivery. Never commit `.env` or paste the access key into source files.
 
 ## Vercel deployment
 
@@ -124,6 +131,8 @@ Netlify configuration has been removed. There is currently no `vercel.json`; pla
 | `tests/` | Automated checks |
 
 Confirmed collection records replace sample entries. Keep dummy content labelled and avoid inventing chapter statistics, contact details, or affiliations. Obtain approval before publishing names, photos, and partner logos.
+
+Raster images placed directly in `public/images/` are also discovered automatically and included in the gallery; a separate JSON record is not required. They receive a generic community-photo caption and the `Community` album. Use a gallery JSON record instead when an image needs a custom caption, album, date, event link, dimensions, or accessibility text. The contact map uses a free OpenStreetMap embed for the saved IBA Google location; the link below it still opens the original Google Maps location.
 
 For optimized gallery photos, place raster files in `src/assets/gallery/` and reference them as `/src/assets/gallery/filename.jpg` in gallery records. Astro generates responsive image variants through Sharp. Public SVGs remain vector artwork; public and remote image URLs pass through without this local optimization.
 
