@@ -1,0 +1,32 @@
+---
+import SectionHeading from "../shared/SectionHeading.astro";
+import ScallopDivider from "../shared/ScallopDivider.astro";
+import { Quote } from "../shapes";
+import { alumniTestimonials } from "../../data/testimonials";
+const testimonialThemes = ["blue", "green", "yellow", "pink"] as const;
+---
+<section id="alumni-voices" class="home-section alumni-voices-section" data-theme="pink" aria-labelledby="alumni-voices-title">
+  <div class="site-container home-section__body">
+    <SectionHeading
+      id="alumni-voices-title"
+      title="Built by people who leave a mark."
+      emphasis="leave a mark."
+      number="06"
+      label="Alumni voices"
+      subtitle="The chapter keeps moving because every generation leaves behind something worth building on."
+    />
+    <div class="alumni-testimonials">
+      {alumniTestimonials.map((testimonial, index) => (
+        <article class="alumni-testimonial" data-theme={testimonialThemes[index % testimonialThemes.length]}>
+          <Quote theme={testimonialThemes[index % testimonialThemes.length]} variant="outline" width={48} height={48} />
+          <div>
+            <h3>{testimonial.name}</h3>
+            <p class="alumni-testimonial-role">{testimonial.role}</p>
+            <p>{testimonial.body}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+  <ScallopDivider from="pink" to="green" />
+</section>

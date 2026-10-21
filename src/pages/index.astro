@@ -9,6 +9,7 @@ import CrewPreview from "../components/home/CrewPreview.astro";
 import Events from "../components/home/Events.astro";
 import Voices from "../components/home/Voices.astro";
 import Gallery from "../components/home/Gallery.astro";
+import Testimonials from "../components/home/Testimonials.astro";
 import PartnersSection from "../components/home/PartnersSection.astro";
 import CommunityCTA from "../components/home/CommunityCTA.astro";
 import { HomeEffects } from "../components/home/HomeEffects";
@@ -63,6 +64,7 @@ const aboutPhoto = photos.find((photo) => !photo.sample);
     <CrewPreview people={people} />
     <Events events={events} photos={photos} />
     <Voices speakers={speakers} />
+    <Testimonials />
     <Gallery photos={photos} />
     <PartnersSection partners={partners} />
     <CommunityCTA />

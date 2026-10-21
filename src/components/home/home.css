@@ -78,6 +78,67 @@
 .home-section[data-theme] {
   background: var(--t-bg);
 }
+.alumni-voices-section {
+  background: var(--t-bg);
+}
+.alumni-testimonials {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 36px;
+}
+.alumni-testimonial {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 20px;
+  min-width: 0;
+  padding: 28px;
+  border: 2px solid #1e1e1e;
+  border-radius: 28px;
+  background: #f0f0f0;
+}
+.alumni-testimonial:nth-child(3) {
+  grid-column: 1 / -1;
+}
+.alumni-testimonial > svg {
+  flex-shrink: 0;
+}
+.alumni-testimonial h3 {
+  font-size: 22px;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+.alumni-testimonial-role {
+  font: 11px var(--font-mono);
+  margin-bottom: 18px;
+}
+.alumni-testimonial p:last-child {
+  font-size: 13px;
+  line-height: 1.75;
+}
+@media (max-width: 767px) {
+  .alumni-testimonials {
+    grid-template-columns: 1fr;
+  }
+  .alumni-testimonial:nth-child(3) {
+    grid-column: auto;
+  }
+  .alumni-testimonial {
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 14px;
+    padding: 20px;
+    border-radius: 22px;
+  }
+  .alumni-testimonial h3 {
+    font-size: 19px;
+  }
+  .alumni-testimonial-role {
+    margin-bottom: 14px;
+  }
+  .alumni-testimonial p:last-child {
+    font-size: 12px;
+  }
+}
 .home-hero {
   position: relative;
   min-height: 100svh;
