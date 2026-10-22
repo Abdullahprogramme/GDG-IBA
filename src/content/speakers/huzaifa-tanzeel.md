@@ -13,4 +13,5 @@ events: [hackfestxdatathon]
 links:
     linkedin: "https://linkedin.com/in/huzaifatanzeel"
     website: "https://medium.com/@hthuzaifatanzeel"
+    email: "hthuzaifatanzeel@gmail.com"
 ---
