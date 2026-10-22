@@ -7,6 +7,7 @@ import { galleryPhotos } from "../lib/gallery";
 import { discoverPublicGalleryImages, prepareGalleryImage } from "../lib/gallery-images";
 import "../components/gallery/gallery.css";
 const events = await getCollection("events");
+const speakers = await getCollection("speakers");
 const galleryEntries = await getCollection("gallery");
 const records = [
   ...galleryEntries.map(({ id, data }) => ({
@@ -16,10 +17,13 @@ const records = [
     eventTitle: events.find((e) => e.data.slug === data.event && e.data.sample === data.sample)
       ?.data.title,
   })),
-  ...discoverPublicGalleryImages([
-    ...galleryEntries.map(({ data }) => data.src),
-    ...events.flatMap(({ data }) => [data.cover, ...data.gallery]),
-  ]),
+  ...discoverPublicGalleryImages(
+    [
+      ...galleryEntries.map(({ data }) => data.src),
+      ...events.flatMap(({ data }) => [data.cover, ...data.gallery]),
+    ],
+    speakers.map(({ data }) => data.photo),
+  ),
 ];
 const photos = await Promise.all(galleryPhotos(records).map(prepareGalleryImage));
 ---

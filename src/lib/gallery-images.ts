@@ -14,8 +14,12 @@ const publicImages = import.meta.glob("../../public/images/*.{jpg,jpeg,png,webp,
   import: "default",
 }) as Record<string, string>;
 const ignoredPublicImages = new Set(["orientation2026B.jpg"]);
-export function discoverPublicGalleryImages(excludedSources: readonly string[] = []): GalleryRecord[] {
+export function discoverPublicGalleryImages(
+  excludedSources: readonly string[] = [],
+  speakerSources: readonly string[] = [],
+): GalleryRecord[] {
   const excluded = new Set(excludedSources);
+  const speakerImages = new Set(speakerSources);
   return Object.entries(publicImages)
     .filter(([key]) => {
       const file = basename(key);
@@ -28,7 +32,7 @@ export function discoverPublicGalleryImages(excludedSources: readonly string[] =
         id: `public-${file}`,
         src: src.startsWith("/") ? src : `/images/${file}`,
         alt: `GDG on Campus IBA community photo: ${name}`,
-        album: "Community",
+        album: speakerImages.has(`/images/${file}`) ? "Speakers" : "Community",
         date: "2025-01-01T00:00:00.000Z",
         width: 800,
         height: 600,

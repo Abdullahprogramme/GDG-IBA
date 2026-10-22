@@ -17,6 +17,7 @@ export interface GalleryRecord {
   fullSrc?: string;
 }
 export const galleryAlbums = [
+  { value: "speakers", label: "Speakers" },
   { value: "workshops", label: "Workshops" },
   { value: "hackathons", label: "Hackathons" },
   { value: "talks", label: "Talks" },

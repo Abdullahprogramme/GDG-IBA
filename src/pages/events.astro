@@ -36,7 +36,7 @@ const photos = await Promise.all(
     ...discoverPublicGalleryImages([
       ...galleryEntries.map(({ data }) => data.src),
       ...eventEntries.flatMap(({ data }) => [data.cover, ...data.gallery]),
-    ]),
+    ], speakers.map((speaker) => speaker.photo)),
   ].map(prepareGalleryImage),
 );
 const latestPast = events

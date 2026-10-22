@@ -41,7 +41,10 @@ const referencedGallerySources = [
 const photos = await Promise.all(
   preferConfirmed([
     ...galleryEntries.map(({ id, data }) => ({ id, ...data, date: data.date.toISOString() })),
-    ...discoverPublicGalleryImages(referencedGallerySources),
+    ...discoverPublicGalleryImages(
+      referencedGallerySources,
+      speakerEntries.map(({ data }) => data.photo),
+    ),
   ]).map(prepareGalleryImage),
 );
 const partners = preferConfirmed(partnerEntries.map(({ id, data }) => ({ id, ...data })));
