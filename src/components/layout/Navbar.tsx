@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import { MobileMenu } from "./MobileMenu";
-import { Menu } from "lucide-react";
+import { ArrowUpRight, Globe, Menu } from "lucide-react";
+import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { LogoLockup } from "../shared/LogoLockup";
 import { Sheet, SheetTrigger } from "../ui/sheet";
 import {
@@ -108,6 +109,12 @@ export function Navbar({ pathname, theme = "yellow" }: { pathname: string; theme
       Join Us
     </button>
   );
+  const socialIcon = (platform: (typeof site.socials)[number]["platform"]) => {
+    if (platform === "facebook") return <FaFacebookF aria-hidden="true" />;
+    if (platform === "instagram") return <FaInstagram aria-hidden="true" />;
+    if (platform === "linkedin") return <FaLinkedinIn aria-hidden="true" />;
+    return <Globe aria-hidden="true" />;
+  };
   const sectionThemes: Record<string, ThemeName> = {
     "#about": "blue",
     "#crew": "pink",
@@ -146,16 +153,36 @@ export function Navbar({ pathname, theme = "yellow" }: { pathname: string; theme
             <Menu size={22} />
           </SheetTrigger>
           <MobileMenu>
-            <nav aria-label="Mobile navigation">{links(true)}</nav>
-            {site.socials.map(
-              (link) =>
-                confirmedExternalUrl(link.href) && (
-                  <a key={link.platform} href={link.href} target="_blank" rel="noopener noreferrer">
-                    {link.platform}
-                  </a>
-                ),
-            )}
-            {joinButton}
+            <div className="mobile-menu__intro">
+              <span className="mono-label">GDG ON CAMPUS IBA</span>
+              <span className="mobile-menu__mark">01</span>
+            </div>
+            <nav className="mobile-menu__nav" aria-label="Mobile navigation">
+              {links(true)}
+            </nav>
+            <div className="mobile-menu__social">
+              <span className="mono-label">Stay connected</span>
+              <div className="mobile-social-grid">
+                {site.socials.map((link) => {
+                  const href = confirmedExternalUrl(link.href);
+                  return href ? (
+                    <a
+                      key={link.platform}
+                      className="mobile-social-link"
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${link.label} (opens in a new tab)`}
+                    >
+                      {socialIcon(link.platform)}
+                      <span>{link.label}</span>
+                      <ArrowUpRight size={15} aria-hidden="true" />
+                    </a>
+                  ) : null;
+                })}
+              </div>
+            </div>
+            <div className="mobile-menu__cta">{joinButton}</div>
           </MobileMenu>
         </Sheet>
       </div>

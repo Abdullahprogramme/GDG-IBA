@@ -22,7 +22,7 @@ export const alumniTestimonials: AlumniTestimonial[] = [
   },
   {
     name: "Abdul Rehman Abbasi",
-    role: "Associate Software Engineer @ Dubizzle Group",
+    role: "Software Engineer @ Rewaa",
     body: "As GDG on Campus IBA Lead for 2022–2023, Abdul Rehman led a year defined by large-scale technical events and ecosystem collaborations, including Flutter Flash at IBA, Flutter Forward Extended Karachi, Hackfest '22, the SadaPay Test-Driven Development workshop, and multiple community sessions in React, App Development, Blockchain/Web3, and Cybersecurity. He also represented IBA at the 2022 GDSC Lead Summit in Lahore with 70+ universities and 25+ speakers, while strengthening GDG IBA's reach through collaborations with Flutter Karachi, GDG Kolachi, Folio3, SadaPay, SMCS, and other GDG chapters across Karachi.",
   },
   {
