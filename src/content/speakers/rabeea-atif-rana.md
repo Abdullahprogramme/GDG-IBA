@@ -7,7 +7,7 @@ company: "Independent"
 photo: /images/sample-avatar-yellow.svg
 talkTitle: "Building a real data career"
 bio: "Rabeea Atif Rana brings industry experience in analytics across Careem, Daraz (Alibaba Group), and Swvl, with practical insights on data careers and industry expectations."
-category: "Panelist"
+category: ["Industry", "Panelists"]
 events: [hackfestxdatathon]
 links: {}
 ---

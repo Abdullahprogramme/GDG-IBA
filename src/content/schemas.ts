@@ -52,7 +52,7 @@ export const speakerSchema = z.object({
   talkTitle: text,
   talkAbstract: text.optional(),
   bio: text,
-  category: text,
+  category: z.array(text),
   events: z.array(slug).default([]),
   links,
 });

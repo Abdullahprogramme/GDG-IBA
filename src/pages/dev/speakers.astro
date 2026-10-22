@@ -7,11 +7,10 @@ import type { EventRecord } from "../../lib/events";
 import "../../components/speakers/speakers.css";
 const categories = [
   "Industry",
-  "Alumni",
-  "Google Developer Experts",
+  "Other Speakers",
   "Student Speakers",
   "Industry",
-  "Alumni",
+  "Judges",
 ];
 const speakers: SpeakerRecord[] = categories.map((category, index) => ({
   id: `fixture-person-${index}`,
@@ -23,7 +22,7 @@ const speakers: SpeakerRecord[] = categories.map((category, index) => ({
   talkTitle: `Fixture talk ${index + 1}: a practical idea to share`,
   bio: "Development fixture biography only. This is not a real speaker.",
   sample: false,
-  category,
+  category: [category],
   events: index < 3 ? ["fixture-session"] : [],
   talkAbstract: index === 0 ? "Fixture abstract for testing the full talk section." : undefined,
   links:

@@ -2,14 +2,14 @@
 sample: false
 name: "Laiba Masood"
 slug: laiba-masood
-role: "SAP Consultant"
-company: "Independent"
-photo: /images/sample-avatar-blue.svg
+role: "SAP Consultant and Co-founder"
+company: "Get-Go Rides"
+photo: /images/laiba_masood.jpeg
 talkTitle: "Turning strategy into working systems"
+talkAbstract: "Sharing honest insights, career lessons, and what he wish he knew during undergraduate."
 bio: "Laiba Masood works across SAP SD, CX, CRM, and Logistics, helping organisations improve processes, operations, integrations, and digital transformation."
-category: "Panelist"
+category: ["Industry", "Panelists", "Alumni"]
 events: [hackfestxdatathon]
-links: {}
+links:
+    linkedin: "https://www.linkedin.com/in/laiba-masood-iba"
 ---
-
-Temporary profile image. Replace it with an approved photograph before publishing.

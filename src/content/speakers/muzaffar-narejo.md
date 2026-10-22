@@ -7,7 +7,7 @@ company: "BusCaro"
 photo: /images/sample-avatar-yellow.svg
 talkTitle: "Clarity, discipline, and real-world viability"
 bio: "Muzaffar Narejo is Chief of Staff at BusCaro, with experience in operations, scaling, performance, quality, mobility businesses, and unit economics."
-category: "Industry judge"
+category: ["Industry", "Judges"]
 events: [hackfestxdatathon]
 links: {}
 ---

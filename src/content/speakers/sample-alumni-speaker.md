@@ -7,7 +7,7 @@ company: "Sample organisation"
 photo: /images/sample-avatar-yellow.svg
 talkTitle: "Sample: learning together"
 bio: "Sample biography. No real alumni or speaker is represented."
-category: "Sample alumni"
+category: ["Other Speakers"]
 events: [sample-talk]
 ---
 

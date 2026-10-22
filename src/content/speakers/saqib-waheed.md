@@ -7,7 +7,7 @@ company: "Nibl Foods"
 photo: /images/sample-avatar-blue.svg
 talkTitle: "Evaluating execution, feasibility, and impact"
 bio: "Saqib Waheed is Co-Founder of Nibl Foods and brings experience from Procter & Gamble across operations, safety, and scaling processes."
-category: "Industry judge"
+category: ["Industry", "Judges"]
 events: [hackfestxdatathon]
 links: {}
 ---

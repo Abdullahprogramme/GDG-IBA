@@ -7,7 +7,7 @@ company: "AzCorp Entertainment"
 photo: /images/sample-avatar-yellow.svg
 talkTitle: "Building and evaluating creative ventures"
 bio: "Imran Azhar is the founder and CEO of AzCorp Entertainment."
-category: "Industry judge"
+category: ["Industry", "Judges"]
 events: [hackfestxdatathon]
 links: {}
 ---

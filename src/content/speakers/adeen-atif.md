@@ -7,7 +7,7 @@ company: "Independent"
 photo: /images/sample-avatar-blue.svg
 talkTitle: "Unleash your AI potential with Gemini and Vertex AI"
 bio: "Adeen Atif shared an introduction to Gemini and Vertex AI as part of AI Seekho Session 2."
-category: "Industry speaker"
+category: ["Industry"]
 events: [ai-seekho]
 links: {}
 ---

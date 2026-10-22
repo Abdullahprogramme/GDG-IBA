@@ -29,9 +29,17 @@ export function SpeakerModal({
   const sessions = speakerEvents(speaker, events);
   const socials = speaker.sample
     ? []
-    : (["linkedin", "x"] as const)
-        .map((platform) => ({ platform, href: confirmedExternalUrl(speaker.links[platform]) }))
-        .filter((link) => link.href);
+    : [
+        { platform: "linkedin", label: "LinkedIn", href: confirmedExternalUrl(speaker.links.linkedin) },
+        { platform: "x", label: "X", href: confirmedExternalUrl(speaker.links.x) },
+        { platform: "github", label: "GitHub", href: confirmedExternalUrl(speaker.links.github) },
+        { platform: "website", label: "Website", href: confirmedExternalUrl(speaker.links.website) },
+        {
+          platform: "email",
+          label: "Email",
+          href: speaker.links.email ? `mailto:${speaker.links.email}` : undefined,
+        },
+      ].filter((link) => link.href);
   const onBodyWheel = (event: WheelEvent<HTMLDivElement>) => {
     const element = event.currentTarget;
     if (element.scrollHeight <= element.clientHeight) return;
@@ -112,9 +120,9 @@ export function SpeakerModal({
           </section>
           {socials.length > 0 && (
             <nav className="speaker-socials" aria-label={`${speaker.name} social profiles`}>
-              {socials.map(({ platform, href }) => (
+              {socials.map(({ platform, label, href }) => (
                 <a key={platform} href={href} target="_blank" rel="noopener noreferrer">
-                  {platform === "linkedin" ? "LinkedIn" : "X"}
+                  {label}
                   <span aria-hidden="true">↗</span>
                 </a>
               ))}

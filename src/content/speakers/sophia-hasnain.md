@@ -7,7 +7,7 @@ company: "Katalyst Labs"
 photo: /images/sample-avatar-yellow.svg
 talkTitle: "Building and scaling technology ventures"
 bio: "Sophia Hasnain is the founder and CEO of Katalyst Labs, working to support innovation, technology, and entrepreneurship."
-category: "Industry judge"
+category: ["Industry", "Judges"]
 events: [hackfestxdatathon]
 links: {}
 ---

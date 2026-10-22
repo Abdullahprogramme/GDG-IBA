@@ -7,7 +7,7 @@ company: "Sample organisation"
 photo: /images/sample-avatar-blue.svg
 talkTitle: "Sample: build a first web project"
 bio: "Sample biography for development. This is not a real person."
-category: "Sample student speaker"
+category: ["Student Speakers"]
 events: [sample-workshop]
 ---
 
