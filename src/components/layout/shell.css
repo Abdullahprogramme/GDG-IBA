@@ -17,6 +17,9 @@
   padding: 8px 14px;
   color: #1e1e1e;
 }
+.has-announcement .site-navbar {
+  top: 62px;
+}
 .navbar-logo {
   flex-shrink: 0;
 }
@@ -40,6 +43,13 @@
   font-size: 12px;
   white-space: nowrap;
   isolation: isolate;
+}
+.nav-link:has(svg),
+.mobile-link:has(svg) {
+  justify-content: center;
+}
+.nav-link:has(svg) {
+  width: 36px;
 }
 .nav-active {
   position: absolute;
@@ -332,6 +342,9 @@
   .navbar-logo .chapter-logo {
     gap: 6px;
     font-size: 11px;
+  }
+  .has-announcement .site-navbar {
+    top: 62px;
   }
   .join-button {
     padding: 8px 9px;

@@ -1,0 +1,74 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "../layouts/PageLayout.astro";
+import PageHero from "../components/shared/PageHero.astro";
+import { announcementImage, currentAnnouncement, sortAnnouncements } from "../lib/announcements";
+import "../components/announcements/announcements.css";
+
+const entries = sortAnnouncements(await getCollection("announcements"));
+const now = new Date();
+const current = currentAnnouncement(entries, now);
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat("en-PK", { dateStyle: "medium", timeZone: "Asia/Karachi" }).format(date);
+---
+
+<PageLayout
+  title="Announcements | GDG on Campus IBA"
+  description="The latest announcements and updates from GDG on Campus IBA."
+  theme="yellow"
+>
+  <PageHero
+    slot="hero"
+    title="Announcements"
+    emphasis="Announcements"
+    theme="yellow"
+    label="Stay in the loop"
+    subtitle="The latest chapter updates, opportunities, and things worth knowing."
+    shapes={["asterisk", "arrow", "slashes"]}
+  />
+  <section class="announcements-section" aria-labelledby="announcements-heading">
+    <div class="site-container">
+      <header class="section-heading">
+        <p class="mono-label">Updates / {entries.length.toString().padStart(2, "0")}</p>
+        <h2 id="announcements-heading">What’s <b>new</b></h2>
+      </header>
+      {entries.length ? (
+        <div class="announcements-list">
+          {entries.map((entry) => {
+            const isCurrent = current?.id === entry.id;
+            return (
+              <article class:list={["announcement-card", !isCurrent && "announcement-card--past"]}>
+                <div class="announcement-card__visual">
+                  <img src={announcementImage(entry.data.image)} alt="" loading="lazy" />
+                </div>
+                <div class="announcement-card__body">
+                  <span class="announcement-card__status">{isCurrent ? "Current" : "Past update"}</span>
+                  <h2>{entry.data.title}</h2>
+                  <p>{entry.data.description}</p>
+                  <p class="mono-label">
+                    {formatDate(entry.data.timeframe.start)}
+                    {entry.data.timeframe.end && ` — ${formatDate(entry.data.timeframe.end)}`}
+                  </p>
+                  {entry.data.tags.length > 0 && (
+                    <div class="announcement-card__meta" aria-label="Tags">
+                      {entry.data.tags.map((tag) => <span class="announcement-card__tag">#{tag}</span>)}
+                    </div>
+                  )}
+                  {entry.data.links.length > 0 && (
+                    <div class="announcement-card__links">
+                      {entry.data.links.map((link) => (
+                        <a href={link.url} target="_blank" rel="noopener noreferrer">{link.label} ↗</a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      ) : (
+        <p class="announcements-empty">There are no announcements right now. Check back soon.</p>
+      )}
+    </div>
+  </section>
+</PageLayout>

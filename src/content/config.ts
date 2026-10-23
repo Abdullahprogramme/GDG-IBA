@@ -7,6 +7,7 @@ import {
   gallerySchema,
   storySchema,
   partnerSchema,
+  announcementSchema,
 } from "./schemas";
 
 export const collections = {
@@ -33,5 +34,9 @@ export const collections = {
   partners: defineCollection({
     loader: glob({ pattern: "**/*.json", base: "./src/content/partners" }),
     schema: partnerSchema,
+  }),
+  announcements: defineCollection({
+    loader: glob({ pattern: "**/*.md", base: "./src/content/announcements" }),
+    schema: announcementSchema,
   }),
 };

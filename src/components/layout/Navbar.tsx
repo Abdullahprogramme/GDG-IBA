@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import { MobileMenu } from "./MobileMenu";
-import { ArrowUpRight, Globe, Menu } from "lucide-react";
+import { ArrowUpRight, BellRing, Globe, Menu } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { LogoLockup } from "../shared/LogoLockup";
 import { Sheet, SheetTrigger } from "../ui/sheet";
@@ -76,6 +76,8 @@ export function Navbar({ pathname, theme = "yellow" }: { pathname: string; theme
             <a
               className={mobile ? `mobile-link palette-${i % 4}` : "nav-link"}
               href={href}
+              aria-label={item.href === "/announcements" ? item.label : undefined}
+              title={item.href === "/announcements" ? item.label : undefined}
               aria-current={active === item.href ? "page" : undefined}
               onClick={() => setOpen(false)}
             >
@@ -86,7 +88,11 @@ export function Navbar({ pathname, theme = "yellow" }: { pathname: string; theme
                   transition={{ type: "spring", stiffness: 260, damping: 24 }}
                 />
               )}
-              {item.label}
+              {item.href === "/announcements" ? (
+                <BellRing size={mobile ? 21 : 18} aria-hidden="true" />
+              ) : (
+                item.label
+              )}
             </a>
           ) : (
             <span
@@ -94,7 +100,11 @@ export function Navbar({ pathname, theme = "yellow" }: { pathname: string; theme
               aria-disabled="true"
               title="Coming soon"
             >
-              {item.label}
+              {item.href === "/announcements" ? (
+                <BellRing size={21} aria-hidden="true" />
+              ) : (
+                item.label
+              )}
             </span>
           )}
         </motion.div>

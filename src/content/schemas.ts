@@ -98,3 +98,25 @@ export const partnerSchema = z.object({
   url: external.optional(),
   tier: text.optional(),
 });
+export const announcementSchema = z.object({
+  ...sample,
+  title: text,
+  description: text,
+  image: z.preprocess(
+    (value) => (value === null || (typeof value === "string" && value.trim() === "") ? undefined : value),
+    asset.optional(),
+  ),
+  links: z
+    .array(
+      z.object({
+        label: text,
+        url: external,
+      }),
+    )
+    .default([]),
+  tags: z.array(text).default([]),
+  timeframe: z.object({
+    start: z.coerce.date(),
+    end: z.coerce.date().optional(),
+  }),
+});

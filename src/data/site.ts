@@ -46,6 +46,7 @@ export const site = {
     { label: "Speakers", href: "/speakers", available: true },
     { label: "Our Story", href: "/our-story", available: true },
     { label: "Contact", href: "/contact", available: true },
+    { label: "Announcements", href: "/announcements", available: true },
   ] satisfies NavItem[],
 } as const;
 

@@ -6,6 +6,9 @@ import { SmoothScroll, ScrollProgress } from "../components/motion";
 import { site, navigationHref } from "../data/site";
 import { canonicalUrl, organizationSchema, serializeSchema } from "../lib/seo";
 import { ChatWidget } from "../components/chat/ChatWidget";
+import { getCollection } from "astro:content";
+import AnnouncementBanner from "../components/layout/AnnouncementBanner.astro";
+import { currentAnnouncement } from "../lib/announcements";
 
 interface Props {
   title?: string;
@@ -29,6 +32,7 @@ const pageRobots =
   robots ?? (process.env.SITE_INDEXING === "true" ? "index, follow" : "noindex, follow");
 const canonical = canonicalUrl(Astro.url.pathname, origin);
 const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
+const announcement = currentAnnouncement(await getCollection("announcements"));
 ---
 
 <html lang="en">
@@ -79,7 +83,7 @@ const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
     <title>{title}</title>
     <ClientRouter fallback="swap" />
   </head>
-  <body>
+  <body class:list={{ "has-announcement": announcement }}>
     <a class="skip-link" href={`#${mainId}`}>
       Skip to content
     </a>
@@ -94,6 +98,7 @@ const socialImage = new URL(image, Astro.site ?? Astro.url.origin);
     </noscript>
     <SmoothScroll client:load transition:persist="smooth-scroll" />
     <ScrollProgress client:load transition:persist="scroll-progress" />
+    {announcement && <AnnouncementBanner announcement={announcement} />}
     <slot />
     <ChatWidget client:load transition:persist="site-chat" />
   </body>

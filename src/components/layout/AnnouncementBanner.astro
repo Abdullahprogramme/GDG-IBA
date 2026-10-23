@@ -1,0 +1,144 @@
+---
+import { announcementImage, type Announcement } from "../../lib/announcements";
+const { announcement } = Astro.props as { announcement: Announcement };
+const image = announcementImage(announcement.data.image);
+---
+
+<aside class="announcement-banner" data-announcement-banner={announcement.id}>
+  <a href="/announcements" class="announcement-banner__link">
+    <img src={image} alt="" aria-hidden="true" />
+    <span class="announcement-banner__copy">
+      <span class="announcement-banner__eyebrow">Latest announcement</span>
+      <strong>{announcement.data.title}</strong>
+    </span>
+    <span class="announcement-banner__action">View update <span aria-hidden="true">↗</span></span>
+  </a>
+  <button class="announcement-banner__close" type="button" aria-label="Dismiss announcement">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  </button>
+</aside>
+
+<script>
+  const setupAnnouncementBanner = () => {
+    document.querySelectorAll<HTMLElement>("[data-announcement-banner]").forEach((banner) => {
+      const id = banner.dataset.announcementBanner;
+      if (!id || localStorage.getItem(`dismissed-announcement:${id}`) === "true") {
+        banner.hidden = true;
+        document.body.classList.remove("has-announcement");
+        return;
+      }
+      document.body.classList.add("has-announcement");
+      banner.querySelector("button")?.addEventListener("click", () => {
+        localStorage.setItem(`dismissed-announcement:${id}`, "true");
+        banner.hidden = true;
+        document.body.classList.remove("has-announcement");
+      });
+    });
+  };
+  setupAnnouncementBanner();
+  document.addEventListener("astro:page-load", setupAnnouncementBanner);
+</script>
+
+<style>
+  .announcement-banner {
+    position: relative;
+    z-index: 45;
+    min-height: 46px;
+    border-bottom: 2px solid #1e1e1e;
+    background: #ffd427;
+  }
+  .announcement-banner[hidden] {
+    display: none;
+  }
+  .announcement-banner__link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 46px;
+    padding: 6px 0 6px max(20px, calc((100vw - 1280px) / 2));
+    margin-right: 56px;
+    min-width
+  }
+  .announcement-banner img {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #1e1e1e;
+    border-radius: 5px;
+    object-fit: cover;
+  }
+  .announcement-banner__copy {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+  }
+  .announcement-banner__copy strong {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+  }
+  .announcement-banner__eyebrow {
+    font: 10px var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .announcement-banner strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+  }
+  .announcement-banner__action {
+    margin-left: auto;
+    margin-right: 42px;
+    font: 11px var(--font-mono);
+    white-space: nowrap;
+  }
+  .announcement-banner__close {
+    position: absolute;
+    top: 50%;
+    right: max(20px, calc((100vw - 1280px) / 2));
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid #1e1e1e;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  .announcement-banner__close svg {
+    width: 15px;
+    height: 15px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-width: 2;
+  }
+  .announcement-banner__close:hover {
+    background: #f0f0f0;
+  }
+  @media (max-width: 639px) {
+    .announcement-banner__link {
+      padding-left: 14px;
+      margin-right: 48px;
+    }
+
+    .announcement-banner__close {
+      right: 10px;
+    }
+
+    .announcement-banner__eyebrow,
+    .announcement-banner__action {
+      display: none;
+    }
+  }
+</style>
