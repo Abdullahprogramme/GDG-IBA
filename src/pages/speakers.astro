@@ -2,15 +2,14 @@
 import PageLayout from "../layouts/PageLayout.astro";
 import PageHero from "../components/shared/PageHero.astro";
 import { getCollection } from "astro:content";
-import { preferConfirmed } from "../lib/home";
 import { SpeakerGrid } from "../components/speakers/SpeakerGrid";
 import SampleNotice from "../components/home/SampleNotice.astro";
 import { PastSpeakers } from "../components/speakers/PastSpeakers";
 import CallForSpeakers from "../components/speakers/CallForSpeakers.astro";
 import "../components/speakers/speakers.css";
-const speakers = preferConfirmed(
-  (await getCollection("speakers")).map(({ id, data }) => ({ id, ...data })),
-);
+const speakers = (await getCollection("speakers"))
+  .map(({ id, data }) => ({ id, ...data }))
+  .filter((speaker) => !speaker.sample);
 const events = (await getCollection("events")).map(({ id, data }) => ({
   id,
   ...data,
