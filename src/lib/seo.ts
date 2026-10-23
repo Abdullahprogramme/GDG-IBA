@@ -7,6 +7,7 @@ export const publicRoutes = [
   "/speakers",
   "/team",
   "/gallery",
+  "/announcements",
   "/our-story",
   "/contact",
 ] as const;
