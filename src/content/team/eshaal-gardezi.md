@@ -7,5 +7,5 @@ photoPending: true
 order: 5
 bio: "A Computer Science junior who loves art, sketching, discovering new art styles, and music."
 links:
-  linkedin: "#"
+  linkedin: "https://www.linkedin.com/in/example"
 ---

@@ -81,7 +81,7 @@ export function SpeakerModal({
             <div className="speaker-modal-photo" data-theme={theme}>
               <PhotoFrame
                 theme={theme}
-                src={speaker.photo}
+                src={"/src/assets/speakers" + speaker.photo}
                 alt={
                   speaker.sample
                     ? `Sample avatar for ${speaker.name}; not a real speaker portrait`

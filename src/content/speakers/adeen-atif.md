@@ -2,14 +2,15 @@
 sample: false
 name: "Adeen Atif"
 slug: adeen-atif
-role: "AI Speaker"
-company: "Independent"
-photo: /sample-avatar-blue.svg
-talkTitle: "Unleash your AI potential with Gemini and Vertex AI"
-bio: "Adeen Atif shared an introduction to Gemini and Vertex AI as part of AI Seekho Session 2."
-category: ["Industry"]
-events: [ai-seekho]
-links: {}
+role: "AI & Product Lead"
+company: "Ticket Wala"
+photo: /adeen-atif.png
+talkTitle: "Navigating Careers and Grad School"
+talkAbstract: "Explore how to secure top internships, plan your Computer Science academics, and prepare for a Master’s degree abroad. Get practical insights to navigate your journey and make informed decisions about your future."
+bio: "Adeen Atif, previously a lead of GDG at IBA, now a AI & Product lead at Ticket Wala. Worked with 45+ startup and team on AI applications."
+category: ["Industry", "Student Speakers", "Panelists"]
+events: [ai-seekho, navigating-grad]
+links: {
+    linkedin: https://www.linkedin.com/in/adeen-atif/
+}
 ---
-
-Temporary profile image. Replace it with an approved photograph before publishing.
