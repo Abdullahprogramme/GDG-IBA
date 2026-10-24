@@ -10,6 +10,7 @@ import {
   type EventSpeaker,
 } from "../../lib/events";
 import { useMotionPreference } from "../motion/useMotionPreference";
+import { resolveLocalAsset } from "../../lib/local-assets";
 import "./event-dialog.css";
 export function EventDialog({
   event,
@@ -115,7 +116,7 @@ export function EventDialog({
                 {presenters.map((speaker) => (
                   <li key={speaker.id}>
                     <img
-                      src={"/src/assets/speakers" + speaker.photo}
+                      src={resolveLocalAsset("speakers", speaker.photo)}
                       alt={
                         speaker.sample
                           ? `Sample avatar for ${speaker.name}; not a real speaker portrait`
