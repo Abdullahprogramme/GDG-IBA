@@ -16,7 +16,11 @@ export function TeamCard({
     <article className={`team-card ${spotlight ? "team-card--spotlight" : ""}`} data-theme={theme}>
       <div className="team-card-photo">
         <AvatarFrame
-          src={person.photo}
+          src={
+            person.photo.startsWith("/sample")
+              ? `/images/${person.photo}`
+              : `/src/assets/team/${person.photo}`
+          }
           alt={
             person.photoPending
               ? `Portrait pending for ${person.name}`

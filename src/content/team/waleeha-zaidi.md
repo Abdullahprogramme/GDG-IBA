@@ -2,7 +2,7 @@
 name: "Waleeha Zaidi"
 role: "Core Team"
 department: "Media & Marketing"
-photo: /images/sample-avatar-blue.svg
+photo: /sample-avatar-blue.svg
 photoPending: true
 order: 6
 bio: "A BBA junior who is excited to collaborate with the team."
