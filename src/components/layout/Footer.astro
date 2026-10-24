@@ -73,19 +73,41 @@ const join = confirmedExternalUrl(site.communityUrl);
       </a>
     </div>
   </div>
-  <div class="site-container footer-bottom">
+  <div class="site-container footer-bottom">    
     <div class="footer-credit">
       <p>
         &copy; {new Date().getFullYear()} {site.name}.
       </p>
-      <p>
-        Built with{" "}
-        <span class="footer-heart" aria-label="love">
-          &hearts;
-        </span>{" "}
-        by our community.
+
+      <p class="footer-author">
+        <span>Built by</span>
+        <a
+          href="https://abdullahtariq2004.netlify.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Abdullah Tariq's website (opens in a new tab)"
+        >
+          Abdullah Tariq
+          <svg
+            class="footer-author-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M7 17 17 7" />
+            <path d="M7 7h10v10" />
+          </svg>
+        </a>
       </p>
     </div>
+
     <p class="footer-disclaimer">
       Google Developer Groups are community-run groups for developers interested in Google
       technologies. This chapter is not an official Google site.
