@@ -4,7 +4,7 @@ name: "Imran Azhar"
 slug: imran-azhar
 role: "Founder and CEO"
 company: "AzCorp Entertainment"
-photo: /images/sample-avatar-yellow.svg
+photo: /sample-avatar-yellow.svg
 talkTitle: "Building and evaluating creative ventures"
 bio: "Imran Azhar is the founder and CEO of AzCorp Entertainment."
 category: ["Industry", "Judges"]

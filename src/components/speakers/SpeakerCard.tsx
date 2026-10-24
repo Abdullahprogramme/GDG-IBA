@@ -20,7 +20,7 @@ export function SpeakerCard({
     <article className="speaker-card" data-theme={theme}>
       <div className="speaker-portrait">
         <PhotoFrame
-          src={speaker.photo}
+          src={"/src/assets/speakers" + speaker.photo}
           alt={
             speaker.sample
               ? `Sample avatar illustration for ${speaker.name}; not a real speaker portrait`

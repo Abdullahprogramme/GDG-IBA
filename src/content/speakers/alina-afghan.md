@@ -4,7 +4,7 @@ name: "Alina Afghan"
 slug: alina-afghan
 role: "Tech Lead, GDGoC IBA"
 company: "GDGoC IBA"
-photo: /images/alina-afghan.png
+photo: /alina-afghan.png
 talkTitle: "Computer vision bootcamp"
 talkAbstract: "Discover the fundamentals of computer vision and how machines interpret and understand visual data. This bootcamp introduces key concepts, practical techniques, and real-world applications to help participants get started with building intelligent vision-based systems."
 bio: "Tech Lead at GDGoC IBA and facilitator of the CompVis 101 computer vision bootcamp."

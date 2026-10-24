@@ -4,7 +4,7 @@ name: "Adeen Atif"
 slug: adeen-atif
 role: "AI Speaker"
 company: "Independent"
-photo: /images/sample-avatar-blue.svg
+photo: /sample-avatar-blue.svg
 talkTitle: "Unleash your AI potential with Gemini and Vertex AI"
 bio: "Adeen Atif shared an introduction to Gemini and Vertex AI as part of AI Seekho Session 2."
 category: ["Industry"]

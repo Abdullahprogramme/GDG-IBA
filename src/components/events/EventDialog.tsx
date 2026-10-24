@@ -115,7 +115,7 @@ export function EventDialog({
                 {presenters.map((speaker) => (
                   <li key={speaker.id}>
                     <img
-                      src={speaker.photo}
+                      src={"/src/assets/speakers" + speaker.photo}
                       alt={
                         speaker.sample
                           ? `Sample avatar for ${speaker.name}; not a real speaker portrait`

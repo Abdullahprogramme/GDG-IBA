@@ -4,7 +4,7 @@ name: "Sophia Hasnain"
 slug: sophia-hasnain
 role: "Founder and CEO"
 company: "Katalyst Labs"
-photo: /images/sample-avatar-yellow.svg
+photo: /sample-avatar-yellow.svg
 talkTitle: "Building and scaling technology ventures"
 bio: "Sophia Hasnain is the founder and CEO of Katalyst Labs, working to support innovation, technology, and entrepreneurship."
 category: ["Industry", "Judges"]

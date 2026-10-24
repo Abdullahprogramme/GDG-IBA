@@ -40,7 +40,7 @@ export function PastSpeakers({
                 <li key={speaker.slug}>
                   <a href={`/speakers?speaker=${encodeURIComponent(speaker.slug)}`}>
                     <img
-                      src={speaker.photo}
+                      src={"/src/assets/speakers" + speaker.photo}
                       alt={
                         speaker.sample
                           ? `Sample avatar for ${speaker.name}; not a real speaker portrait`
