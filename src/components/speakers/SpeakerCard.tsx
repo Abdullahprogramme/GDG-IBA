@@ -1,5 +1,6 @@
 import { Quote, PhotoFrame, type ThemeName } from "../shapes";
 import type { SpeakerProfile } from "../../lib/home";
+import { resolveLocalAsset } from "../../lib/local-assets";
 import "./speaker-card.css";
 export function SpeakerCard({
   speaker,
@@ -20,7 +21,7 @@ export function SpeakerCard({
     <article className="speaker-card" data-theme={theme}>
       <div className="speaker-portrait">
         <PhotoFrame
-          src={"/src/assets/speakers" + speaker.photo}
+          src={resolveLocalAsset("speakers", speaker.photo)}
           alt={
             speaker.sample
               ? `Sample avatar illustration for ${speaker.name}; not a real speaker portrait`

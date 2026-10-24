@@ -2,6 +2,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "..
 import { pastSpeakerGroups, type SpeakerRecord } from "../../lib/speakers";
 import type { EventRecord } from "../../lib/events";
 import { eventDate } from "../../lib/home";
+import { resolveLocalAsset } from "../../lib/local-assets";
 export function PastSpeakers({
   speakers,
   events,
@@ -40,7 +41,7 @@ export function PastSpeakers({
                 <li key={speaker.slug}>
                   <a href={`/speakers?speaker=${encodeURIComponent(speaker.slug)}`}>
                     <img
-                      src={"/src/assets/speakers" + speaker.photo}
+                      src={resolveLocalAsset("speakers", speaker.photo)}
                       alt={
                         speaker.sample
                           ? `Sample avatar for ${speaker.name}; not a real speaker portrait`

@@ -3,6 +3,7 @@ import { PhotoFrame, type ThemeName } from "../shapes";
 import { useMotionPreference } from "../motion/useMotionPreference";
 import { TeamSocials } from "./TeamSocials";
 import type { TeamRecord } from "../../lib/team";
+import { resolveLocalAsset } from "../../lib/local-assets";
 export function LeadSpotlight({
   people,
   advisor = false,
@@ -34,7 +35,7 @@ export function LeadSpotlight({
           >
             <PhotoFrame
               theme={(advisor ? "yellow" : index % 2 ? "pink" : "blue") as ThemeName}
-              src={person.photo}
+              src={resolveLocalAsset("team", person.photo)}
               alt={
                 person.photoPending
                   ? `Portrait pending for ${person.name}`

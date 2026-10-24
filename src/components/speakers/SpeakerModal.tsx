@@ -7,6 +7,7 @@ import { confirmedExternalUrl } from "../../data/site";
 import { speakerEvents, type SpeakerRecord } from "../../lib/speakers";
 import type { EventRecord } from "../../lib/events";
 import { eventDate } from "../../lib/home";
+import { resolveLocalAsset } from "../../lib/local-assets";
 export function SpeakerModal({
   speaker,
   events,
@@ -81,7 +82,7 @@ export function SpeakerModal({
             <div className="speaker-modal-photo" data-theme={theme}>
               <PhotoFrame
                 theme={theme}
-                src={"/src/assets/speakers" + speaker.photo}
+                src={resolveLocalAsset("speakers", speaker.photo)}
                 alt={
                   speaker.sample
                     ? `Sample avatar for ${speaker.name}; not a real speaker portrait`

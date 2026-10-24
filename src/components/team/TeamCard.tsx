@@ -1,6 +1,7 @@
 import { TeamSocials } from "./TeamSocials";
 import { AvatarFrame, Asterisk, type ThemeName } from "../shapes";
 import type { TeamProfile } from "../../lib/home";
+import { resolveLocalAsset } from "../../lib/local-assets";
 export function TeamCard({
   person,
   spotlight = false,
@@ -16,11 +17,7 @@ export function TeamCard({
     <article className={`team-card ${spotlight ? "team-card--spotlight" : ""}`} data-theme={theme}>
       <div className="team-card-photo">
         <AvatarFrame
-          src={
-            person.photo.startsWith("/sample")
-              ? `/images/${person.photo}`
-              : `/src/assets/team/${person.photo}`
-          }
+          src={resolveLocalAsset("team", person.photo)}
           alt={
             person.photoPending
               ? `Portrait pending for ${person.name}`

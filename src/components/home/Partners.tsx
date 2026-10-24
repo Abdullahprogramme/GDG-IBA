@@ -1,6 +1,7 @@
 import { Marquee } from "../motion";
 import { confirmedExternalUrl } from "../../data/site";
 import { fillTrack, type PartnerProfile } from "../../lib/home";
+import { resolveLocalAsset } from "../../lib/local-assets";
 export function Partners({ partners }: { partners: PartnerProfile[] }) {
   return (
     <Marquee
@@ -24,7 +25,7 @@ export function Partners({ partners }: { partners: PartnerProfile[] }) {
         const content = (
           <>
             <img
-              src={partner.logo}
+              src={resolveLocalAsset("partners", partner.logo)}
               width={220}
               height={100}
               alt={partner.name}
