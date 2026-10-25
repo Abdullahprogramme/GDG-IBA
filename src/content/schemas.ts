@@ -1,7 +1,10 @@
 import { z } from "astro/zod";
 const text = z.string().trim().min(1);
 const slug = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
-const external = z.url({ protocol: /^https$/ });
+const external = z.preprocess(
+  (value) => (value === "" ? undefined : value),
+  z.url({ protocol: /^https$/ }).optional(),
+);
 const asset = text.refine(
   (value) => value.startsWith("/") || value.startsWith("https://"),
   "Use a public asset path or HTTPS URL.",
@@ -94,7 +97,7 @@ export const storySchema = z.object({
 export const partnerSchema = z.object({
   ...sample,
   name: text,
-  logo: asset,
+  logo: asset.or(z.literal("")),
   url: external.optional(),
   tier: text.optional(),
 });

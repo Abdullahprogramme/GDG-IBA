@@ -1,52 +1,64 @@
 import { Marquee } from "../motion";
 import { confirmedExternalUrl } from "../../data/site";
-import { fillTrack, type PartnerProfile } from "../../lib/home";
+import type { PartnerProfile } from "../../lib/home";
 import { resolveLocalAsset } from "../../lib/local-assets";
+
+const PARTNER_ROW_COUNT = 3;
+
 export function Partners({ partners }: { partners: PartnerProfile[] }) {
+  const rows = Array.from({ length: PARTNER_ROW_COUNT }, (_, row) =>
+    partners.filter((_, index) => index % PARTNER_ROW_COUNT === row),
+  );
+
   return (
-    <Marquee
-      label="Community and partner logos"
-      speed={40}
-      interactive
-      className="partners-marquee"
-    >
-      <div className="partner-tile partner-tile--chapter">
-        <img
-          src="/brand/logo-horizontal-light.svg"
-          width={320}
-          height={65}
-          alt="Google Developer Groups on Campus Institute of Business Administration"
-          loading="lazy"
-        />
-        <span className="mono-label">OUR COMMUNITY NETWORK</span>
-      </div>
-      {fillTrack(partners, 7).map(({ item: partner, copy }, index) => {
-        const url = confirmedExternalUrl(partner.url);
-        const content = (
-          <>
-            <img
-              src={resolveLocalAsset("partners", partner.logo)}
-              width={220}
-              height={100}
-              alt={partner.name}
-              loading="lazy"
-              decoding="async"
-            />
-            {partner.sample && (
-              <span className="sample-badge">SAMPLE / NOT A CONFIRMED PARTNER</span>
-            )}
-          </>
-        );
-        return (
-          <div
-            key={`${partner.id}-${copy}`}
-            className="track-copy"
-            data-marquee-copy={copy > 0 ? "" : undefined}
-            aria-hidden={copy > 0 ? true : undefined}
-          >
-            {url ? (
+    <div className="partners-grid">
+      {rows.map((row, rowIndex) => (
+        <Marquee
+          key={rowIndex}
+          label={`Community and partner logos, row ${rowIndex + 1}`}
+          speed={30}
+          direction={rowIndex % 2 === 0 ? "left" : "right"}
+          interactive
+          className={`partners-marquee partners-marquee--${rowIndex % 2}`}
+        >
+          {row.map((partner, index) => {
+            const url = confirmedExternalUrl(partner.url);
+            const src = partner.logo ? resolveLocalAsset("partners", partner.logo) : "";
+            const content = (
+              <>
+                {src ? (
+                  <img
+                    src={src}
+                    width={220}
+                    height={100}
+                    alt={partner.name}
+                    loading="eager"
+                    decoding="async"
+                    onError={(event) => {
+                      event.currentTarget.hidden = true;
+                      event.currentTarget.nextElementSibling?.removeAttribute("hidden");
+                    }}
+                  />
+                ) : (
+                  <span className="partner-tile__wordmark" aria-label={partner.name}>
+                    {partner.name}
+                  </span>
+                )}
+                {src && (
+                  <span className="partner-tile__wordmark" hidden aria-label={partner.name}>
+                    {partner.name}
+                  </span>
+                )}
+                {partner.sample && (
+                  <span className="sample-badge">SAMPLE / NOT A CONFIRMED PARTNER</span>
+                )}
+              </>
+            );
+            const className = `partner-tile partner-tile--${(rowIndex * 2 + index) % 4}`;
+            return url ? (
               <a
-                className={`partner-tile partner-tile--${index % 4}`}
+                key={partner.id}
+                className={className}
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -55,11 +67,13 @@ export function Partners({ partners }: { partners: PartnerProfile[] }) {
                 {content}
               </a>
             ) : (
-              <div className={`partner-tile partner-tile--${index % 4}`}>{content}</div>
-            )}
-          </div>
-        );
-      })}
-    </Marquee>
+              <div key={partner.id} className={className}>
+                {content}
+              </div>
+            );
+          })}
+        </Marquee>
+      ))}
+    </div>
   );
 }

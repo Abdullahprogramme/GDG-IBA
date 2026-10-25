@@ -9,16 +9,35 @@ const localAssets = import.meta.glob<string>(
 
 /** Resolve an asset filename from one of the content-managed image folders. */
 export function resolveLocalAsset(directory: AssetDirectory, value: string): string {
-  const filename = value.split(/[\\/]/).filter(Boolean).at(-1);
+  const normalizedValue = value.replaceAll("\\", "/").trim();
+  const filename = normalizedValue.split("/").filter(Boolean).at(-1);
   if (filename) {
-    const match = Object.entries(localAssets).find(([path]) =>
-      path.endsWith(`/assets/${directory}/${filename}`),
+    const prefix = `assets/${directory}/`;
+    const normalizedFilename = filename.toLowerCase();
+    const entries = Object.entries(localAssets).map(([path, url]) => [
+      path.replaceAll("\\", "/").toLowerCase(),
+      url,
+    ] as const);
+    const exactMatch = entries.find(([path]) =>
+      path.endsWith(`${prefix}${normalizedFilename}`),
     );
-    if (match) return match[1];
+    if (exactMatch) return exactMatch[1];
+
+    // Some content records retain the old file extension or capitalization.
+    const filenameStem = normalizedFilename.replace(/\.[^.]+$/, "");
+    const sameStem = entries
+      .filter(([path]) => {
+        if (!path.includes(prefix)) return false;
+        const assetFilename = path.split("/").at(-1) ?? "";
+        return assetFilename.replace(/\.[^.]+$/, "") === filenameStem;
+      })
+      .sort(([a], [b]) => a.localeCompare(b));
+    if (sameStem[0]) return sameStem[0][1];
   }
 
+  if (!normalizedValue) return "";
   // Existing sample avatars live in public/images; some records include that
   // directory while others store only the filename.
-  if (value.startsWith("/sample-")) return `/images${value}`;
-  return value;
+  if (normalizedValue.startsWith("/sample-")) return `/images${normalizedValue}`;
+  return normalizedValue;
 }
