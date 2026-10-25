@@ -35,6 +35,7 @@ export function PhotoFrame({
   ...props
 }: PhotoFrameProps) {
   const Icon = { asterisk: Asterisk, "code-heart": CodeHeart, arrow: Arrow, globe: Globe }[icon];
+
   return (
     <div
       {...props}
