@@ -156,7 +156,18 @@
 }
 .team-grid .brand-avatar__image {
   border: 3px solid #1e1e1e;
+  object-fit: contain;
+  background: #fff;
   transition: border-color 0.25s;
+}
+.team-grid .brand-avatar__top,
+.team-grid .brand-avatar__dots {
+  display: none;
+}
+.team-grid .brand-avatar__bottom {
+  width: 34%;
+  left: 33%;
+  padding: 3% 7%;
 }
 .team-grid .team-card-sticker {
   position: absolute;

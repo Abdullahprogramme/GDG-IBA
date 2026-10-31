@@ -2,8 +2,7 @@
 name: "Ali Shah"
 role: "Core Team"
 department: "Advisory"
-photo: /sample-avatar-yellow.svg
-photoPending: true
+photo: /ali.jpg
 order: 9
 bio: "A former IBA student, tech enthusiast, and teaching fan who enjoys solving Rubik's cubes."
 links:

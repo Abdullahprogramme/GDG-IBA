@@ -845,7 +845,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  width: 230px;
+  width: 250px;
   min-height: 340px;
   border: 1.5px solid #1e1e1e;
   border-radius: 28px;
@@ -870,7 +870,18 @@
 }
 .team-card .brand-avatar__image {
   border: 3px solid #1e1e1e;
+  object-fit: contain;
+  background: #fff;
   transition: border-color 0.2s;
+}
+.team-card .brand-avatar__top,
+.team-card .brand-avatar__dots {
+  display: none;
+}
+.team-card .brand-avatar__bottom {
+  width: 34%;
+  left: 33%;
+  padding: 3% 7%;
 }
 .team-card-sticker {
   position: absolute;
@@ -884,7 +895,7 @@
 }
 .team-card h3 {
   font-weight: 700;
-  font-size: 22px;
+  font-size: 24px;
   margin-block: 10px;
 }
 .team-role {
@@ -902,7 +913,7 @@
   font-size: 12px;
 }
 .team-department {
-  font-size: 11px;
+  font-size: 13px;
   margin-top: 12px;
   opacity: 0.8;
 }
@@ -1023,7 +1034,7 @@
     font-size: 8px;
   }
   .team-card {
-    width: 190px;
+    width: 205px;
     min-height: 310px;
   }
   .team-card--spotlight {
@@ -1033,7 +1044,7 @@
     width: 130px;
   }
   .team-card h3 {
-    font-size: 19px;
+    font-size: 20px;
   }
 }
 .events-preview-grid {

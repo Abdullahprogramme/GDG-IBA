@@ -2,8 +2,7 @@
 name: "Tooba Kamal"
 role: "Core Team"
 department: "Media & Marketing"
-photo: /sample-avatar-yellow.svg
-photoPending: true
+photo: /tooba.jpg
 order: 7
 bio: "A second-year Business Analytics student who enjoys cooking, reading, and travelling."
 links:

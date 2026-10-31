@@ -2,8 +2,7 @@
 name: "Abdullah Tariq"
 role: "Core Team"
 department: "Operations"
-photo: /sample-avatar-blue.svg
-photoPending: true
+photo: /abdullah.jpg
 order: 2
 bio: "A Computer Science junior with a strong interest in quantum topics. You may find him near the table-tennis tables."
 links:

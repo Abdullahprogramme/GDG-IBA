@@ -2,8 +2,7 @@
 name: "Ayesha Tariq"
 role: "Core Team"
 department: "Operations"
-photo: /sample-avatar-yellow.svg
-photoPending: true
+photo: /ayesha-tariq.jpg
 order: 3
 bio: "A Computer Science sophomore who enjoys films and movies."
 links:
